@@ -10,8 +10,12 @@ all: install-dep test
 install-dep:
 	@echo ">> install dependency"
 	$(GO) get -u gopkg.in/alecthomas/gometalinter.v2 ;\
-	$(GOMETA) --install ;\
-	glide install  --strip-vendor
+	$(GOMETA) --install
+
+build:
+	@echo ">> build all package"
+	$(GO) build github.com/nexucis/grafana-go-client/http/...
+	$(GO) build github.com/spoof/go-grafana/api/...
 
 .PHONY: verify
 verify: checkformat checkstyle
