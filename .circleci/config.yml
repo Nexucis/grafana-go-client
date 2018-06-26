@@ -14,8 +14,18 @@ jobs:
     working_directory: /go/src/github.com/nexucis/grafana-go-client
     steps:
       - checkout
+      - restore_cache:
+          keys:
+          - dependency-cache-{{ checksum "./Gopkg.toml" }}
+          - dependency-cache-
+      - run: curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
       - run: make install-dep
       - run: make build
+
+      - save_cache:
+          key: dependency-cache-{{ checksum "./Gopkg.toml" }}
+          paths:
+            - ./vendor
 
   test:
     docker:
@@ -24,7 +34,18 @@ jobs:
     working_directory: /go/src/github.com/nexucis/grafana-go-client
     steps:
       - checkout
+      - restore_cache:
+          keys:
+          - dependency-cache-{{ checksum "./Gopkg.toml" }}
+          - dependency-cache-
+      - run: curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
+      - run: make install-dep
       - run: .circleci/go-test-ci.sh
+
+      - save_cache:
+          key: dependency-cache-{{ checksum "./Gopkg.toml" }}
+          paths:
+            - ./vendor
 
   checkformat:
     docker:
@@ -33,7 +54,6 @@ jobs:
     working_directory: /go/src/github.com/nexucis/grafana-go-client
     steps:
       - checkout
-      - run: make install-dep
       - run: make checkformat
 
   checkstyle:
@@ -43,8 +63,18 @@ jobs:
     working_directory: /go/src/github.com/nexucis/grafana-go-client
     steps:
       - checkout
+      - restore_cache:
+          keys:
+          - dependency-cache-{{ checksum "./Gopkg.toml" }}
+          - dependency-cache-
+      - run: curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
       - run: make install-dep
       - run: make checkstyle
+
+      - save_cache:
+          key: dependency-cache-{{ checksum "./Gopkg.toml" }}
+          paths:
+            - ./vendor
 
 workflows:
   version: 2
