@@ -11,7 +11,7 @@ jobs:
     #### expecting it in the form of
     ####   /go/src/github.com/circleci/go-tool
     ####   /go/src/bitbucket.org/circleci/go-tool
-    working_directory: /go/src/github.com/{{ORG_NAME}}/{{REPO_NAME}}
+    working_directory: /go/src/github.com/nexucis/grafana-go-client
     steps:
       - checkout
       - run: make install-dep
@@ -21,17 +21,16 @@ jobs:
     docker:
       - image: circleci/golang:1.10
 
-    working_directory: /go/src/github.com/{{ORG_NAME}}/{{REPO_NAME}}
+    working_directory: /go/src/github.com/nexucis/grafana-go-client
     steps:
       - checkout
-      - run: make install-dep
-      - run: make test
+      - run: .circleci/go-test-ci.sh
 
   checkformat:
     docker:
       - image: circleci/golang:1.10
 
-    working_directory: /go/src/github.com/{{ORG_NAME}}/{{REPO_NAME}}
+    working_directory: /go/src/github.com/nexucis/grafana-go-client
     steps:
       - checkout
       - run: make install-dep
@@ -41,7 +40,7 @@ jobs:
     docker:
       - image: circleci/golang:1.10
 
-    working_directory: /go/src/github.com/{{ORG_NAME}}/{{REPO_NAME}}
+    working_directory: /go/src/github.com/nexucis/grafana-go-client
     steps:
       - checkout
       - run: make install-dep
