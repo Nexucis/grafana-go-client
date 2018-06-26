@@ -1,4 +1,5 @@
 GO                         ?= go
+GOMETA                     ?= gometalinter.v2
 GOFMT                      ?= $(GO)fmt
 pkgs                        = $$($(GO) list ./... | grep -v vendor)
 
