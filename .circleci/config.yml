@@ -18,7 +18,6 @@ jobs:
           keys:
           - dependency-cache-{{ checksum "./Gopkg.toml" }}
           - dependency-cache-
-      - run: curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
       - run: make install-dep
       - run: make build
 
@@ -38,7 +37,6 @@ jobs:
           keys:
           - dependency-cache-{{ checksum "./Gopkg.toml" }}
           - dependency-cache-
-      - run: curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
       - run: make install-dep
       - run: .circleci/go-test-ci.sh
 
@@ -67,8 +65,8 @@ jobs:
           keys:
           - dependency-cache-{{ checksum "./Gopkg.toml" }}
           - dependency-cache-
-      - run: curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
-      - run: make install-dep
+      - run: go get -u gopkg.in/alecthomas/gometalinter.v2
+      - run: gometalinter.v2 --install
       - run: make checkstyle
 
       - save_cache:

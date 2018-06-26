@@ -1,5 +1,4 @@
 GO                         ?= go
-GOMETA                     ?= gometalinter.v2
 GOFMT                      ?= $(GO)fmt
 pkgs                        = $$($(GO) list ./... | grep -v vendor)
 
@@ -9,8 +8,6 @@ all: install-dep test
 .PHONY: install-dep
 install-dep:
 	@echo ">> install dependency"
-	$(GO) get -u gopkg.in/alecthomas/gometalinter.v2 ;\
-	$(GOMETA) --install ;\
 	dep ensure
 
 build:
