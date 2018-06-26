@@ -21,6 +21,8 @@ import (
 	"bytes"
 	"net/http"
 	"fmt"
+	"regexp"
+	"strings"
 )
 
 // Client is an interface for testing a request object.
@@ -177,5 +179,54 @@ func (r *Request) prepareRequest() (*http.Request, error) {
 }
 
 func (r *Request) url() (string, error) {
-	return "", nil
+	subPath, err := r.buildSubpath()
+
+	if err != nil {
+		return "", nil
+	}
+
+	finalURL := &url.URL{}
+	if r.baseURL != nil {
+		finalURL = r.baseURL
+	}
+	finalURL.Path = r.pathPrefix + subPath
+
+	if r.queryParam == nil {
+		finalURL.RawQuery = r.queryParam.Encode()
+	}
+
+	return finalURL.String(), nil
+}
+
+func (r *Request) buildSubpath() (string, error) {
+	subPath := r.subpath
+	if len(subPath) < 0 {
+		return "", nil
+	}
+
+	// a subpath exist, try to figure if we had to replace some path parameter
+	pathParamRegexp := regexp.MustCompile(`/:(?P<PathParam>[[:alpha:]]+)*`)
+
+	if !pathParamRegexp.Match([]byte(subPath)) {
+		return subPath, nil
+	}
+
+	// the regexp match some pathParam, so we have to check if we have some pathParam
+	if r.pathParam == nil {
+		return "", fmt.Errorf("unable to replace the path parameter because it's empty")
+	}
+
+	matchGroups := pathParamRegexp.FindAllStringSubmatch(subPath, -1)
+
+	for _, matchGroup := range matchGroups {
+		if len(matchGroup) == 2 {
+			pathParam := matchGroup[1]
+			paramValue, hasParam := r.pathParam[pathParam]
+			if !hasParam {
+				return "", fmt.Errorf("unable to find the value of the path parameter %s", pathParam)
+			}
+			subPath = strings.Replace(subPath, ":"+pathParam, paramValue, 1)
+		}
+	}
+	return subPath, nil
 }
