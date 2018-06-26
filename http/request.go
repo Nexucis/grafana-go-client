@@ -200,7 +200,7 @@ func (r *Request) url() (string, error) {
 
 func (r *Request) buildSubpath() (string, error) {
 	subPath := r.subpath
-	if len(subPath) < 0 {
+	if len(subPath) <= 0 {
 		return "", nil
 	}
 
