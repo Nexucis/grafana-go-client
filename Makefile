@@ -10,7 +10,8 @@ all: install-dep test
 install-dep:
 	@echo ">> install dependency"
 	$(GO) get -u gopkg.in/alecthomas/gometalinter.v2 ;\
-	$(GOMETA) --install
+	$(GOMETA) --install ;\
+	$(GO) dep ensure
 
 build:
 	@echo ">> build all package"
