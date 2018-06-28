@@ -31,3 +31,47 @@ func TestRequest_BuildSubPath(t *testing.T) {
 		}
 	}
 }
+
+func TestRequest_AddQueryParam(t *testing.T) {
+	queryParams := map[string][]string{"tags": {"tag1", "tag2"}, "limit": {"100"}}
+
+	request := Request{}
+
+	for queryName, v := range queryParams {
+		for _, queryValue := range v {
+			request.AddQueryParam(queryName, queryValue)
+		}
+	}
+
+	assert.Equal(t, queryParams, map[string][]string(request.queryParam))
+}
+
+func TestRequest_SetPathParam(t *testing.T) {
+	testSuites := []struct {
+		pathParams map[string][]string
+		expected   map[string]string
+	}{
+		{map[string][]string{"id": {"1"}, "dasboardID": {"45"}},
+			map[string]string{"id": "1", "dasboardID": "45"}},
+		{map[string][]string{"id": {"1"}, "dasboardID": {"45", "46", "47"}},
+			map[string]string{"id": "1", "dasboardID": "47"}},
+	}
+
+	for _, testSuite := range testSuites {
+		request := Request{}
+		for pathName, v := range testSuite.pathParams {
+			for _, pathValue := range v {
+				request.SetPathParam(pathName, pathValue)
+			}
+		}
+
+		assert.Equal(t, testSuite.expected, request.pathParam)
+	}
+}
+
+func TestRequest_SetSubPath(t *testing.T) {
+	subPath := "/:id/metrics"
+	request := Request{}
+	request.SetSubPath(subPath)
+	assert.Equal(t, subPath, request.subpath)
+}
