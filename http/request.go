@@ -23,6 +23,9 @@ import (
 	"fmt"
 	"regexp"
 	"strings"
+	"io/ioutil"
+	"strconv"
+	"github.com/prometheus/common/log"
 )
 
 // Client is an interface for testing a request object.
@@ -94,9 +97,9 @@ func (r *Request) Body(obj interface{}) *Request {
 	return r
 }
 
-func (r *Request) Do(objResponse interface{}) error {
+func (r *Request) Do() *Response {
 	if r.err != nil {
-		return r.err
+		return &Response{err: r.err}
 	}
 
 	httpClient := r.client
@@ -107,7 +110,7 @@ func (r *Request) Do(objResponse interface{}) error {
 	httpRequest, err := r.prepareRequest()
 
 	if err != nil {
-		return err
+		return &Response{err: r.err}
 	}
 
 	resp, err := httpClient.Do(httpRequest)
@@ -117,33 +120,25 @@ func (r *Request) Do(objResponse interface{}) error {
 		if ctx != nil {
 			select {
 			case <-ctx.Done():
-				return ctx.Err()
+				return &Response{err: ctx.Err()}
 			default:
 			}
 		}
 
-		return err
+		return &Response{err: r.err}
 	}
 
 	defer func() {
 		resp.Body.Close()
 	}()
 
-	// check code result
-	if resp.StatusCode < http.StatusOK || resp.StatusCode > http.StatusPartialContent {
-		return fmt.Errorf("grafana respond with the status code %d for the request %s", resp.StatusCode, resp.Request.URL.String())
-	}
-
 	// Deserialize the json response
-	err = json.NewDecoder(resp.Body).Decode(objResponse)
-	if err != nil {
-		if err == io.EOF {
-			err = nil // ignore EOF errors caused by empty response body
-		}
-		return err
+	if resp.Body != nil {
+		data, err := ioutil.ReadAll(resp.Body)
+		return &Response{body: data, err: err, statusCode: resp.StatusCode}
 	}
 
-	return nil
+	return &Response{}
 }
 
 func (r *Request) prepareRequest() (*http.Request, error) {
@@ -229,4 +224,77 @@ func (r *Request) buildSubpath() (string, error) {
 		}
 	}
 	return subPath, nil
+}
+
+type GrafanaErrorResponse struct {
+	Message string `json:"message,omitempty"`
+	Status  string `json:"status,omitempty"`
+}
+
+type RequestError struct {
+	Message    string
+	StatusCode int
+	Err        error
+}
+
+func (re *RequestError) Error() string {
+	err := "something wrong happened with the request to Grafana."
+
+	if re.Err != nil {
+		err = err + " Error: " + re.Err.Error()
+	}
+	if len(re.Message) > 0 {
+		err = err + " Message: " + re.Message
+	}
+
+	if re.StatusCode > 0 {
+		err = err + " StatusCode: " + strconv.Itoa(re.StatusCode)
+	}
+
+	return err
+}
+
+type Response struct {
+	body       []byte
+	err        error
+	statusCode int
+}
+
+func (r *Response) Error() error {
+
+	e := &RequestError{Err: r.err}
+	// check code result
+	if r.statusCode < http.StatusOK || r.statusCode > http.StatusPartialContent {
+		if r.body != nil {
+			g := &GrafanaErrorResponse{}
+			err := json.Unmarshal(r.body, g)
+			if err != nil {
+				log.Error(err)
+			}
+			e.Message = g.Message
+		}
+		e.StatusCode = r.statusCode
+	}
+
+	if e.Err != nil || e.StatusCode > 0 || len(e.Message) > 0 {
+		return e
+	}
+
+	return nil
+}
+
+func (r *Response) StoreBody(respObj interface{}) error {
+	err := r.Error()
+
+	if err != nil {
+		return err
+	}
+
+	if r.body != nil {
+		err = json.Unmarshal(r.body, respObj)
+		if err != nil {
+			return fmt.Errorf("unable to decode the response body. Error %s", err)
+		}
+	}
+	return nil
 }
