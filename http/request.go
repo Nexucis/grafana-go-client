@@ -14,18 +14,18 @@
 package http
 
 import (
-	"context"
-	"net/url"
-	"io"
-	"encoding/json"
 	"bytes"
-	"net/http"
+	"context"
+	"encoding/json"
 	"fmt"
-	"regexp"
-	"strings"
+	"github.com/golang/glog"
+	"io"
 	"io/ioutil"
+	"net/http"
+	"net/url"
+	"regexp"
 	"strconv"
-	"github.com/prometheus/common/log"
+	"strings"
 )
 
 // Client is an interface for testing a request object.
@@ -269,7 +269,7 @@ func (r *Response) Error() error {
 			g := &GrafanaErrorResponse{}
 			err := json.Unmarshal(r.body, g)
 			if err != nil {
-				log.Error(err)
+				glog.Error(err)
 			}
 			e.Message = g.Message
 		}

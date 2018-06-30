@@ -1,8 +1,8 @@
 package http
 
 import (
-	"testing"
 	"github.com/stretchr/testify/assert"
+	"testing"
 )
 
 func TestRequest_BuildSubPath(t *testing.T) {

@@ -16,5 +16,4 @@ package v1
 const annotationAPI = "/api/annotations"
 
 type Annotations interface {
-
 }
