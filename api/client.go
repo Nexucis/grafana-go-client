@@ -16,5 +16,5 @@ package api
 import "github.com/nexucis/grafana-go-client/api/v1"
 
 type Client interface {
-	V1() v1.API
+	V1() v1.APIInterface
 }

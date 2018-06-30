@@ -78,7 +78,7 @@ func (c *annotation) Delete(id int64) error {
 		Error()
 }
 
-func (c *annotation) MassiveDelete(annotations DeleteAnnotations) error {
+func (c *annotation) MassiveDelete(annotations *DeleteAnnotations) error {
 	return c.client.Post(annotationAPI).
 		SetSubPath("/mass-delete").
 		Body(annotations).
