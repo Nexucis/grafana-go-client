@@ -283,7 +283,7 @@ func (r *Response) Error() error {
 	return nil
 }
 
-func (r *Response) StoreBody(respObj interface{}) error {
+func (r *Response) SaveAsObj(respObj interface{}) error {
 	err := r.Error()
 
 	if err != nil {

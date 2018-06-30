@@ -24,7 +24,7 @@ type RESTClient struct {
 	// base is the root URL for all invocations of the client
 	baseURL *url.URL
 	// Set specific behavior of the client.  If not set http.DefaultClient will be used.
-	Client *http.Client
+	client *http.Client
 }
 
 func (c *RESTClient) Get(pathPrefix string) *Request {
@@ -44,5 +44,5 @@ func (c *RESTClient) Delete(pathPrefix string) *Request {
 }
 
 func (c *RESTClient) newRequest(method string, pathPrefix string) *Request {
-	return NewRequest(c.Client, method, c.baseURL, pathPrefix, c.token)
+	return NewRequest(c.client, method, c.baseURL, pathPrefix, c.token)
 }

@@ -13,10 +13,12 @@
 
 package v1
 
-type API interface {
+import "github.com/nexucis/grafana-go-client/http"
+
+type APIInterface interface {
 	Admin()
 	Alerts()
-	Annotations()
+	Annotations() AnnotationInterface
 	Dashboards()
 	Datasources()
 	Folders()
@@ -27,4 +29,13 @@ type API interface {
 	Snapshots()
 	Teams()
 	Users()
+}
+
+type api struct {
+	APIInterface
+	client *http.RESTClient
+}
+
+func (a *api) Annotations() AnnotationInterface {
+	return newAnnotation(a.client)
 }
