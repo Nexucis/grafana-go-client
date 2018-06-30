@@ -154,7 +154,7 @@ func (r *Request) prepareRequest() (*http.Request, error) {
 
 	// set the context if exists
 	if r.ctx != nil {
-		httpRequest.WithContext(r.ctx)
+		httpRequest = httpRequest.WithContext(r.ctx)
 	}
 
 	// set the default content type
