@@ -111,6 +111,11 @@ func (query *QueryParamAnnotation) To(to int64) *QueryParamAnnotation {
 	return query
 }
 
+func (query *QueryParamAnnotation) AlertID(alertID int64) *QueryParamAnnotation {
+	query.alertId = alertID
+	return query
+}
+
 func (query *QueryParamAnnotation) UserID(userID int64) *QueryParamAnnotation {
 	query.userId = userID
 	return query
