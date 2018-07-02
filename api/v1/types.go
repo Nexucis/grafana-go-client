@@ -362,3 +362,19 @@ type PauseAllAlertsResponse struct {
 	State         string `json:"state"`
 	Message       string `json:"message"`
 }
+
+type GetAPIKeyResponse struct {
+	Id   int64  `json:"id"`
+	Name string `json:"name"`
+	Role string `json:"role"`
+}
+
+type APIKeyForm struct {
+	Name string `json:"name" binding:"Required"`
+	Role string `json:"role" binding:"Required"`
+}
+
+type CreateAPIKeyResponse struct {
+	Name string `json:"name"`
+	Key  string `json:"key"`
+}

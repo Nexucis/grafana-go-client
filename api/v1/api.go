@@ -22,7 +22,7 @@ type APIInterface interface {
 	Dashboards()
 	Datasources()
 	Folders()
-	Keys()
+	Keys() KeyInterface
 	Organisation()
 	Preferences()
 	Search()
@@ -42,4 +42,8 @@ func (a *api) Admin() AdminInterface {
 
 func (a *api) Annotations() AnnotationInterface {
 	return newAnnotation(a.client)
+}
+
+func (a *api) Keys() KeyInterface {
+	return newKey(a.client)
 }
