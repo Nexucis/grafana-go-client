@@ -145,3 +145,220 @@ func (query *QueryParamAnnotation) Limit(limit int64) *QueryParamAnnotation {
 	query.limit = limit
 	return query
 }
+
+type AdminSettings struct {
+	AppMode        string                  `json:"app_mode"`
+	Analytics      *AnalyticsSettings      `json:"analytics"`
+	AuthAnonymous  *AuthAnonymousSettings  `json:"auth.anonymous"`
+	AuthBasic      *AuthBasicSettings      `json:"auth.basic"`
+	AuthGithub     *AuthGithubSettings     `json:"auth.github"`
+	AuthGoogle     *AuthGoogleSettings     `json:"auth.google"`
+	AuthLdap       *AuthLdapSettings       `json:"auth.ldap"`
+	AuthProxy      *AuthProxySettings      `json:"auth.proxy"`
+	DashboardsJSON *DashboardsJSONSettings `json:"dashboards.json"`
+	Database       *DatabaseSettings       `json:"database"`
+	Emails         *EmailsSettings         `json:"emails"`
+	Log            *LogSettings            `json:"log"`
+	LogConsole     *LogConsoleSettings     `json:"log.console"`
+	LogFile        *LogFileSettings        `json:"log.file"`
+	Paths          *PathsSettings          `json:"paths"`
+	Security       *SecuritySettings       `json:"security"`
+	Server         *ServerSettings         `json:"server"`
+	Session        *SessionSettings        `json:"session"`
+	SMTP           *SMTPSettings           `json:"smtp"`
+	Users          *UsersSettings          `json:"users"`
+}
+
+type AnalyticsSettings struct {
+	GoogleAnalyticsUAID string `json:"google_analytics_ua_id"`
+	ReportingEnabled    bool   `json:"reporting_enabled"`
+}
+
+type AuthAnonymousSettings struct {
+	Enabled string `json:"enabled"`
+	OrgName string `json:"org_name"`
+	OrgRole string `json:"org_role"`
+}
+
+type AuthBasicSettings struct {
+	Enabled string `json:"enabled"`
+}
+
+type AuthGithubSettings struct {
+	AllowSignUp          string `json:"allow_sign_up"`
+	AllowedDomains       string `json:"allowed_domains"`
+	AllowedOrganizations string `json:"allowed_organizations"`
+	APIURL               string `json:"api_url"`
+	AuthURL              string `json:"auth_url"`
+	ClientID             string `json:"client_id"`
+	ClientSecret         string `json:"client_secret"`
+	Enabled              string `json:"enabled"`
+	Scopes               string `json:"scopes"`
+	TeamIds              string `json:"team_ids"`
+	TokenURL             string `json:"token_url"`
+}
+type AuthGoogleSettings struct {
+	AllowSignUp    string `json:"allow_sign_up"`
+	AllowedDomains string `json:"allowed_domains"`
+	APIURL         string `json:"api_url"`
+	AuthURL        string `json:"auth_url"`
+	ClientID       string `json:"client_id"`
+	ClientSecret   string `json:"client_secret"`
+	Enabled        string `json:"enabled"`
+	Scopes         string `json:"scopes"`
+	TokenURL       string `json:"token_url"`
+}
+type AuthLdapSettings struct {
+	ConfigFile string `json:"config_file"`
+	Enabled    string `json:"enabled"`
+}
+type AuthProxySettings struct {
+	AutoSignUp     string `json:"auto_sign_up"`
+	Enabled        string `json:"enabled"`
+	HeaderName     string `json:"header_name"`
+	HeaderProperty string `json:"header_property"`
+}
+type DashboardsJSONSettings struct {
+	Enabled string `json:"enabled"`
+	Path    string `json:"path"`
+}
+type DatabaseSettings struct {
+	Host     string `json:"host"`
+	Name     string `json:"name"`
+	Password string `json:"password"`
+	Path     string `json:"path"`
+	SslMode  string `json:"ssl_mode"`
+	Type     string `json:"type"`
+	User     string `json:"user"`
+}
+type EmailsSettings struct {
+	TemplatesPattern     string `json:"templates_pattern"`
+	WelcomeEmailOnSignUp string `json:"welcome_email_on_sign_up"`
+}
+type LogSettings struct {
+	BufferLen string `json:"buffer_len"`
+	Level     string `json:"level"`
+	Mode      string `json:"mode"`
+}
+type LogConsoleSettings struct {
+	Level string `json:"level"`
+}
+type LogFileSettings struct {
+	DailyRotate   string `json:"daily_rotate"`
+	FileName      string `json:"file_name"`
+	Level         string `json:"level"`
+	LogRotate     string `json:"log_rotate"`
+	MaxDays       string `json:"max_days"`
+	MaxLines      string `json:"max_lines"`
+	MaxLinesShift string `json:"max_lines_shift"`
+	MaxSizeShift  string `json:"max_size_shift"`
+}
+type PathsSettings struct {
+	Data string `json:"data"`
+	Logs string `json:"logs"`
+}
+type SecuritySettings struct {
+	AdminPassword      string `json:"admin_password"`
+	AdminUser          string `json:"admin_user"`
+	CookieRememberName string `json:"cookie_remember_name"`
+	CookieUsername     string `json:"cookie_username"`
+	DisableGravatar    string `json:"disable_gravatar"`
+	LoginRememberDays  string `json:"login_remember_days"`
+	SecretKey          string `json:"secret_key"`
+}
+type ServerSettings struct {
+	CertFile         string `json:"cert_file"`
+	CertKey          string `json:"cert_key"`
+	Domain           string `json:"domain"`
+	EnableGzip       string `json:"enable_gzip"`
+	EnforceDomain    string `json:"enforce_domain"`
+	HTTPAddr         string `json:"http_addr"`
+	HTTPPort         string `json:"http_port"`
+	Protocol         string `json:"protocol"`
+	RootURL          string `json:"root_url"`
+	RouterLogging    string `json:"router_logging"`
+	DataProxyLogging string `json:"data_proxy_logging"`
+	StaticRootPath   string `json:"static_root_path"`
+}
+type SessionSettings struct {
+	CookieName      string `json:"cookie_name"`
+	CookieSecure    string `json:"cookie_secure"`
+	GcIntervalTime  string `json:"gc_interval_time"`
+	Provider        string `json:"provider"`
+	ProviderConfig  string `json:"provider_config"`
+	SessionLifeTime string `json:"session_life_time"`
+}
+type SMTPSettings struct {
+	CertFile     string `json:"cert_file"`
+	Enabled      string `json:"enabled"`
+	FromAddress  string `json:"from_address"`
+	FromName     string `json:"from_name"`
+	EhloIdentity string `json:"ehlo_identity"`
+	Host         string `json:"host"`
+	KeyFile      string `json:"key_file"`
+	Password     string `json:"password"`
+	SkipVerify   string `json:"skip_verify"`
+	User         string `json:"user"`
+}
+type UsersSettings struct {
+	AllowOrgCreate    string `json:"allow_org_create"`
+	AllowSignUp       string `json:"allow_sign_up"`
+	AutoAssignOrg     string `json:"auto_assign_org"`
+	AutoAssignOrgRole string `json:"auto_assign_org_role"`
+}
+
+type AdminCreateUserForm struct {
+	Email    string `json:"email"`
+	Login    string `json:"login"`
+	Name     string `json:"name"`
+	Password string `json:"password" binding:"Required"`
+}
+
+type AdminCreateUserResponse struct {
+	ID      int64  `json:"id"`
+	Message string `json:"message"`
+}
+
+type AdminUpdateUserPasswordForm struct {
+	Password string `json:"password" binding:"Required"`
+}
+
+type AdminUpdateUserPermissionsForm struct {
+	IsGrafanaAdmin bool `json:"isGrafanaAdmin"`
+}
+
+type UserQuotaResponse struct {
+	UserId int64  `json:"user_id"`
+	Target string `json:"target"`
+	Limit  int64  `json:"limit"`
+	Used   int64  `json:"used"`
+}
+
+type UpdateUserQuotaForm struct {
+	Target string `json:"target"`
+	Limit  int64  `json:"limit"`
+	UserId int64  `json:"-"`
+}
+
+type AdminStats struct {
+	Users       int `json:"users"`
+	Orgs        int `json:"orgs"`
+	Dashboards  int `json:"dashboards"`
+	Snapshots   int `json:"snapshots"`
+	Tags        int `json:"tags"`
+	Datasources int `json:"datasources"`
+	Playlists   int `json:"playlists"`
+	Stars       int `json:"stars"`
+	Alerts      int `json:"alerts"`
+	ActiveUsers int `json:"activeUsers"`
+}
+
+type PauseAllAlertsForm struct {
+	Paused bool `json:"paused"`
+}
+
+type PauseAllAlertsResponse struct {
+	AlertAffected int64  `json:"alertAffected"`
+	State         string `json:"state"`
+	Message       string `json:"message"`
+}

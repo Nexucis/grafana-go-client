@@ -16,7 +16,7 @@ package v1
 import "github.com/nexucis/grafana-go-client/http"
 
 type APIInterface interface {
-	Admin()
+	Admin() AdminInterface
 	Alerts()
 	Annotations() AnnotationInterface
 	Dashboards()
@@ -34,6 +34,10 @@ type APIInterface interface {
 type api struct {
 	APIInterface
 	client *http.RESTClient
+}
+
+func (a *api) Admin() AdminInterface {
+	return newAdmin(a.client)
 }
 
 func (a *api) Annotations() AnnotationInterface {
