@@ -23,8 +23,8 @@ const adminAPI = "/api/admin"
 type AdminInterface interface {
 	GetSettings() (*map[string]*AdminSettings, error)
 	CreateUser(*AdminCreateUserForm) (*AdminCreateUserResponse, error)
-	UpdateUserPassword(int64, *AdminUpdateUserPasswordForm) error
-	UpdateUserPermissions(int64, *AdminUpdateUserPermissionsForm) error
+	UpdateUserPassword(int64, string) error
+	UpdateUserPermissions(int64, bool) error
 	DeleteUser(int64) error
 	GetUserQuotas(int64) (*UserQuotaResponse, error)
 	UpdateUserQuotas(int64, string, *UpdateUserQuotaForm) error
@@ -64,20 +64,22 @@ func (c *admin) CreateUser(user *AdminCreateUserForm) (*AdminCreateUserResponse,
 	return result, err
 }
 
-func (c *admin) UpdateUserPassword(id int64, password *AdminUpdateUserPasswordForm) error {
+func (c *admin) UpdateUserPassword(id int64, password string) error {
+	form := &AdminUpdateUserPasswordForm{Password: password}
 	return c.client.Put(adminAPI).
 		SetSubPath("/users/:id/password").
 		SetPathParam("id", strconv.FormatInt(id, 10)).
-		Body(password).
+		Body(form).
 		Do().
 		Error()
 }
 
-func (c *admin) UpdateUserPermissions(id int64, permission *AdminUpdateUserPermissionsForm) error {
+func (c *admin) UpdateUserPermissions(id int64, permission bool) error {
+	perm := &AdminUpdateUserPermissionsForm{permission}
 	return c.client.Put(adminAPI).
 		SetSubPath("/users/:id/permissions").
 		SetPathParam("id", strconv.FormatInt(id, 10)).
-		Body(permission).
+		Body(perm).
 		Do().
 		Error()
 }
