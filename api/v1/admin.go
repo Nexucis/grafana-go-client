@@ -21,7 +21,7 @@ import (
 const adminAPI = "/api/admin"
 
 type AdminInterface interface {
-	GetSettings() (*map[string]*AdminSettings, error)
+	GetSettings() (*AdminSettings, error)
 	CreateUser(*AdminCreateUserForm) (*AdminCreateUserResponse, error)
 	UpdateUserPassword(int64, string) error
 	UpdateUserPermissions(int64, bool) error
@@ -43,14 +43,14 @@ type admin struct {
 	client *http.RESTClient
 }
 
-func (c *admin) GetSettings() (*map[string]*AdminSettings, error) {
-	result := make(map[string]*AdminSettings)
+func (c *admin) GetSettings() (*AdminSettings, error) {
+	result := &AdminSettings{}
 	err := c.client.Get(adminAPI).
 		SetSubPath("/settings").
 		Do().
-		SaveAsObj(&result)
+		SaveAsObj(result)
 
-	return &result, err
+	return result, err
 }
 
 func (c *admin) CreateUser(user *AdminCreateUserForm) (*AdminCreateUserResponse, error) {
