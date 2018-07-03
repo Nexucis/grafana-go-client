@@ -38,3 +38,8 @@ fmt:
 test:
 	@echo ">> running all tests"
 	$(GO) test -v $(pkgs)
+
+.PHONY: integration-test
+integration-test:
+	@echo ">> running all tests"
+	$(GO) test ./api/v1 -integration

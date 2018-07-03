@@ -3,13 +3,19 @@
 set -e
 echo "" > coverage.txt
 
-for d in $(go list ./... | grep -v vendor); do
-    go test -race -coverprofile=profile.out -covermode=atomic $d
-    if [ -f profile.out ]; then
-        cat profile.out >> coverage.txt
-        rm profile.out
-    fi
-done
+go test -race -coverprofile=profile.out -covermode=atomic http/
+
+if [ -f profile.out ]; then
+   cat profile.out >> coverage.txt
+   rm profile.out
+fi
+
+go test -race -coverprofile=profile.out -covermode=atomic ./api/v1 -integration
+
+if [ -f profile.out ]; then
+   cat profile.out >> coverage.txt
+   rm profile.out
+fi
 
 echo "Publishing go code coverage"
 bash <(curl -s https://codecov.io/bash) -cF go

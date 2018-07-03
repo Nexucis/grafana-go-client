@@ -20,26 +20,71 @@ import (
 )
 
 func TestKey_CreateError(t *testing.T) {
-	httpClient, err := getRestClientWithBasicAuth()
-	assert.Nil(t, err)
+	if !*integration {
+		// test is ignored
+		t.Log("test is ignored")
+		return
+	}
 
-	key := newKey(httpClient)
+	key := initKeyTest(t)
 
-	_, err = key.Create(&APIKeyForm{"test_key", "admin"})
+	_, err := key.Create(&APIKeyForm{"test_key", "admin"})
 
 	assert.Equal(t, 400, err.(*http.RequestError).StatusCode)
 	assert.Equal(t, "JSON validation error: invalid role value: admin", err.(*http.RequestError).Message)
+	teardownKey(t)
 }
 
 func TestKey_Create(t *testing.T) {
-	httpClient, err := getRestClientWithBasicAuth()
-	assert.Nil(t, err)
+	if !*integration {
+		// test is ignored
+		t.Log("test is ignored")
+		return
+	}
 
-	key := newKey(httpClient)
+	key := initKeyTest(t)
 
 	response, err := key.Create(&APIKeyForm{"test_key", RoleAdmin})
 
 	assert.Nil(t, err)
 	assert.Equal(t, "test_key", response.Name)
 	assert.True(t, len(response.Key) > 0)
+
+	teardownKey(t)
+}
+
+func TestKey_Get(t *testing.T) {
+	if !*integration {
+		// test is ignored
+		t.Log("test is ignored")
+		return
+	}
+
+	key := initKeyTest(t)
+
+	_, err := key.Create(&APIKeyForm{"test_key", RoleAdmin})
+	assert.Nil(t, err)
+
+	response, err := key.Get()
+
+	assert.Nil(t, err)
+	assert.Equal(t, 1, len(response))
+	assert.Equal(t, "test_key", response[0].Name)
+	assert.Equal(t, RoleAdmin, response[0].Role)
+
+	teardownKey(t)
+}
+
+func initKeyTest(t *testing.T) KeyInterface {
+	httpClient, err := getRestClientWithBasicAuth()
+	assert.Nil(t, err)
+	return newKey(httpClient)
+}
+
+func teardownKey(t *testing.T) {
+	keyClient := initKeyTest(t)
+	keys, _ := keyClient.Get()
+	for _, key := range keys {
+		keyClient.Delete(key.Id)
+	}
 }
