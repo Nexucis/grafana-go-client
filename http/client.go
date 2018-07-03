@@ -27,6 +27,16 @@ type RESTClient struct {
 	client *http.Client
 }
 
+func NewWithUrl(rawURL string) (*RESTClient, error) {
+	u, err := url.Parse(rawURL)
+	if err != nil {
+		return nil, err
+	}
+	return &RESTClient{
+		baseURL: u,
+	}, nil
+}
+
 func (c *RESTClient) Get(pathPrefix string) *Request {
 	return c.newRequest(http.MethodGet, pathPrefix)
 }
