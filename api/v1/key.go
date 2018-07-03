@@ -45,9 +45,10 @@ func (c *key) Get() ([]*GetAPIKeyResponse, error) {
 	return result, err
 }
 
-func (c *key) Create(*APIKeyForm) (*CreateAPIKeyResponse, error) {
+func (c *key) Create(key *APIKeyForm) (*CreateAPIKeyResponse, error) {
 	result := &CreateAPIKeyResponse{}
 	err := c.client.Post(keyAPI).
+		Body(key).
 		Do().
 		SaveAsObj(result)
 	return result, err

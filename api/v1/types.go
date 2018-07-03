@@ -363,15 +363,23 @@ type PauseAllAlertsResponse struct {
 	Message       string `json:"message"`
 }
 
+type RoleType string
+
+const (
+	RoleViewer RoleType = "Viewer"
+	RoleEditor RoleType = "Editor"
+	RoleAdmin  RoleType = "Admin"
+)
+
 type GetAPIKeyResponse struct {
 	Id   int64  `json:"id"`
 	Name string `json:"name"`
-	Role string `json:"role"`
+	Role RoleType `json:"role"`
 }
 
 type APIKeyForm struct {
 	Name string `json:"name" binding:"Required"`
-	Role string `json:"role" binding:"Required"`
+	Role RoleType `json:"role" binding:"Required"`
 }
 
 type CreateAPIKeyResponse struct {

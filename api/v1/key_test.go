@@ -16,7 +16,20 @@ package v1
 import (
 	"testing"
 	"github.com/stretchr/testify/assert"
+	"github.com/nexucis/grafana-go-client/http"
 )
+
+func TestKey_CreateError(t *testing.T) {
+	httpClient, err := getRestClientWithBasicAuth()
+	assert.Nil(t, err)
+
+	key := newKey(httpClient)
+
+	_, err = key.Create(&APIKeyForm{"test_key", "admin"})
+
+	assert.Equal(t, 400, err.(*http.RequestError).StatusCode)
+	assert.Equal(t, "JSON validation error: invalid role value: admin", err.(*http.RequestError).Message)
+}
 
 func TestKey_Create(t *testing.T) {
 	httpClient, err := getRestClientWithBasicAuth()
@@ -24,7 +37,7 @@ func TestKey_Create(t *testing.T) {
 
 	key := newKey(httpClient)
 
-	response, err := key.Create(&APIKeyForm{"test_key", "admin"})
+	response, err := key.Create(&APIKeyForm{"test_key", RoleAdmin})
 
 	assert.Nil(t, err)
 	assert.Equal(t, "test_key", response.Name)

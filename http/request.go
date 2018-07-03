@@ -28,13 +28,8 @@ import (
 	"strings"
 )
 
-// Client is an interface for testing a request object.
-type Client interface {
-	Do(req *http.Request) (*http.Response, error)
-}
-
 type Request struct {
-	client Client
+	client *http.Client
 	method string
 	token  string
 	ctx    context.Context
@@ -50,7 +45,7 @@ type Request struct {
 	err  error
 }
 
-func NewRequest(client Client, method string, baseURL *url.URL, pathPrefix string, token string) *Request {
+func NewRequest(client *http.Client, method string, baseURL *url.URL, pathPrefix string, token string) *Request {
 	return &Request{
 		client:     client,
 		method:     method,
@@ -269,7 +264,26 @@ func (r *Response) Error() error {
 			g := &GrafanaErrorResponse{}
 			err := json.Unmarshal(r.body, g)
 			if err != nil {
-				glog.Error(err)
+				glog.V(2).Info(err)
+				//trying to find the message in a more generic struct
+				var genericMessage []map[string]interface{}
+				err2 := json.Unmarshal(r.body, &genericMessage)
+				if err2 != nil {
+					glog.Error(err2)
+				} else {
+					for _, j := range genericMessage {
+						for k, v := range j {
+							if k == "message" {
+								g.Message = v.(string)
+								break
+							}
+						}
+						if len(g.Message) > 0 {
+							break
+						}
+					}
+				}
+
 			}
 			e.Message = g.Message
 		}
