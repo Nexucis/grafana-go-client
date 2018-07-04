@@ -13,6 +13,8 @@
 
 package v1
 
+import "github.com/nexucis/grafana-go-client/api/v1/types"
+
 type QueryParamAnnotation struct {
 	// epoch datetime in milliseconds. Optional.
 	from int64
@@ -76,5 +78,59 @@ func (query *QueryParamAnnotation) Type(t string) *QueryParamAnnotation {
 
 func (query *QueryParamAnnotation) Limit(limit int64) *QueryParamAnnotation {
 	query.limit = limit
+	return query
+}
+
+type QueryParamAlert struct {
+	// Limit response to alert for a specified panel on a dashboard.
+	panelId int64
+	// Limit response to X number of alerts.
+	limit int64
+	// Limit response to alerts having a name like this value
+	query string
+	// Limit response to alerts having a dashboard name like this value.
+	dashboardQuery string
+	// Return alerts with one or more of the alert states. You can specify multiple state
+	states [] types.AlertState
+	// Limit response to alerts in specified dashboard(s). You can specify multiple dashboards
+	dashboardIds []int64
+	// Limit response to alerts of dashboards in specified folder(s).You can specify multiple folders
+	folderIds []int64
+	// Limit response to alerts of dashboards with specified tags. To do an “AND” filtering with multiple tags, specify the tags parameter multiple times.
+	dashboardTags []string
+}
+
+func (query *QueryParamAlert) Query(q string) *QueryParamAlert {
+	query.query = q
+	return query
+}
+
+func (query *QueryParamAlert) PanelID(panelID int64) *QueryParamAlert {
+	query.panelId = panelID
+	return query
+}
+
+func (query *QueryParamAlert) Limit(limit int64) *QueryParamAlert {
+	query.limit = limit
+	return query
+}
+
+func (query *QueryParamAlert) AddAlertState(state types.AlertState) *QueryParamAlert {
+	query.states = append(query.states, state)
+	return query
+}
+
+func (query *QueryParamAlert) AddDashboardTag(dashboardTag string) *QueryParamAlert {
+	query.dashboardTags = append(query.dashboardTags, dashboardTag)
+	return query
+}
+
+func (query *QueryParamAlert) AddDashboardID(dashboardID int64) *QueryParamAlert {
+	query.dashboardIds = append(query.dashboardIds, dashboardID)
+	return query
+}
+
+func (query *QueryParamAlert) AddFolderID(folderId int64) *QueryParamAlert {
+	query.folderIds = append(query.folderIds, folderId)
 	return query
 }
