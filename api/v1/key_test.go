@@ -17,6 +17,7 @@ import (
 	"testing"
 	"github.com/stretchr/testify/assert"
 	"github.com/nexucis/grafana-go-client/http"
+	"github.com/nexucis/grafana-go-client/api/v1/types"
 )
 
 func TestKey_CreateError(t *testing.T) {
@@ -28,7 +29,7 @@ func TestKey_CreateError(t *testing.T) {
 
 	key := initKeyTest(t)
 
-	_, err := key.Create(&APIKeyForm{"test_key", "admin"})
+	_, err := key.Create(&types.APIKeyForm{"test_key", "admin"})
 
 	assert.Equal(t, 400, err.(*http.RequestError).StatusCode)
 	assert.Equal(t, "JSON validation error: invalid role value: admin", err.(*http.RequestError).Message)
@@ -44,7 +45,7 @@ func TestKey_Create(t *testing.T) {
 
 	key := initKeyTest(t)
 
-	response, err := key.Create(&APIKeyForm{"test_key", RoleAdmin})
+	response, err := key.Create(&types.APIKeyForm{Name: "test_key", Role: types.RoleAdmin})
 
 	assert.Nil(t, err)
 	assert.Equal(t, "test_key", response.Name)
@@ -62,7 +63,7 @@ func TestKey_Get(t *testing.T) {
 
 	key := initKeyTest(t)
 
-	_, err := key.Create(&APIKeyForm{"test_key", RoleAdmin})
+	_, err := key.Create(&types.APIKeyForm{Name: "test_key", Role: types.RoleAdmin})
 	assert.Nil(t, err)
 
 	response, err := key.Get()
@@ -70,7 +71,7 @@ func TestKey_Get(t *testing.T) {
 	assert.Nil(t, err)
 	assert.Equal(t, 1, len(response))
 	assert.Equal(t, "test_key", response[0].Name)
-	assert.Equal(t, RoleAdmin, response[0].Role)
+	assert.Equal(t, types.RoleAdmin, response[0].Role)
 
 	teardownKey(t)
 }

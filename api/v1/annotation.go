@@ -16,17 +16,18 @@ package v1
 import (
 	"github.com/nexucis/grafana-go-client/http"
 	"strconv"
+	"github.com/nexucis/grafana-go-client/api/v1/types"
 )
 
 const annotationAPI = "/api/annotations"
 
 type AnnotationInterface interface {
-	Create(*PostAnnotations) (*ResponseCreateAnnotation, error)
-	CreateGraphite(*PostGraphiteAnnotations) (*ResponseCreateGraphiteAnnotation, error)
-	Update(*UpdateAnnotations) error
+	Create(*types.PostAnnotations) (*types.ResponseCreateAnnotation, error)
+	CreateGraphite(*types.PostGraphiteAnnotations) (*types.ResponseCreateGraphiteAnnotation, error)
+	Update(*types.UpdateAnnotations) error
 	Delete(id int64) error
-	MassiveDelete(*DeleteAnnotations) error
-	Get(query *QueryParamAnnotation) (*ResponseGetAnnotation, error)
+	MassiveDelete(*types.DeleteAnnotations) error
+	Get(query *QueryParamAnnotation) (*types.ResponseGetAnnotation, error)
 }
 
 func newAnnotation(client *http.RESTClient) AnnotationInterface {
@@ -40,8 +41,8 @@ type annotation struct {
 	client *http.RESTClient
 }
 
-func (c *annotation) Create(annotations *PostAnnotations) (*ResponseCreateAnnotation, error) {
-	response := &ResponseCreateAnnotation{}
+func (c *annotation) Create(annotations *types.PostAnnotations) (*types.ResponseCreateAnnotation, error) {
+	response := &types.ResponseCreateAnnotation{}
 	err := c.client.Post(annotationAPI).
 		Body(annotations).
 		Do().
@@ -50,8 +51,8 @@ func (c *annotation) Create(annotations *PostAnnotations) (*ResponseCreateAnnota
 	return response, err
 }
 
-func (c *annotation) CreateGraphite(annotations *PostGraphiteAnnotations) (*ResponseCreateGraphiteAnnotation, error) {
-	response := &ResponseCreateGraphiteAnnotation{}
+func (c *annotation) CreateGraphite(annotations *types.PostGraphiteAnnotations) (*types.ResponseCreateGraphiteAnnotation, error) {
+	response := &types.ResponseCreateGraphiteAnnotation{}
 	err := c.client.Post(annotationAPI).
 		Body(annotations).
 		SetSubPath("/graphite").
@@ -61,7 +62,7 @@ func (c *annotation) CreateGraphite(annotations *PostGraphiteAnnotations) (*Resp
 	return response, err
 }
 
-func (c *annotation) Update(annotations *UpdateAnnotations) error {
+func (c *annotation) Update(annotations *types.UpdateAnnotations) error {
 	return c.client.Put(annotationAPI).
 		SetSubPath("/:id").
 		SetPathParam("id", strconv.FormatInt(annotations.Id, 10)).
@@ -78,7 +79,7 @@ func (c *annotation) Delete(id int64) error {
 		Error()
 }
 
-func (c *annotation) MassiveDelete(annotations *DeleteAnnotations) error {
+func (c *annotation) MassiveDelete(annotations *types.DeleteAnnotations) error {
 	return c.client.Post(annotationAPI).
 		SetSubPath("/mass-delete").
 		Body(annotations).
@@ -86,8 +87,8 @@ func (c *annotation) MassiveDelete(annotations *DeleteAnnotations) error {
 		Error()
 }
 
-func (c *annotation) Get(queryParam *QueryParamAnnotation) (*ResponseGetAnnotation, error) {
-	response := &ResponseGetAnnotation{}
+func (c *annotation) Get(queryParam *QueryParamAnnotation) (*types.ResponseGetAnnotation, error) {
+	response := &types.ResponseGetAnnotation{}
 	request := c.client.Post(annotationAPI).
 		SetSubPath("/graphite")
 

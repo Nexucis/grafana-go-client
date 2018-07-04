@@ -16,20 +16,21 @@ package v1
 import (
 	"github.com/nexucis/grafana-go-client/http"
 	"strconv"
+	"github.com/nexucis/grafana-go-client/api/v1/types"
 )
 
 const adminAPI = "/api/admin"
 
 type AdminInterface interface {
-	GetSettings() (*AdminSettings, error)
-	CreateUser(*AdminCreateUserForm) (*AdminCreateUserResponse, error)
+	GetSettings() (*types.AdminSettings, error)
+	CreateUser(*types.AdminCreateUserForm) (*types.AdminCreateUserResponse, error)
 	UpdateUserPassword(int64, string) error
 	UpdateUserPermissions(int64, bool) error
 	DeleteUser(int64) error
-	GetUserQuotas(int64) (*UserQuotaResponse, error)
-	UpdateUserQuotas(int64, string, *UpdateUserQuotaForm) error
-	GetStats() (*AdminStats, error)
-	PauseAllAlerts(bool) (*PauseAllAlertsResponse, error)
+	GetUserQuotas(int64) (*types.UserQuotaResponse, error)
+	UpdateUserQuotas(int64, string, *types.UpdateUserQuotaForm) error
+	GetStats() (*types.AdminStats, error)
+	PauseAllAlerts(bool) (*types.PauseAllAlertsResponse, error)
 }
 
 func newAdmin(client *http.RESTClient) AdminInterface {
@@ -43,8 +44,8 @@ type admin struct {
 	client *http.RESTClient
 }
 
-func (c *admin) GetSettings() (*AdminSettings, error) {
-	result := &AdminSettings{}
+func (c *admin) GetSettings() (*types.AdminSettings, error) {
+	result := &types.AdminSettings{}
 	err := c.client.Get(adminAPI).
 		SetSubPath("/settings").
 		Do().
@@ -53,8 +54,8 @@ func (c *admin) GetSettings() (*AdminSettings, error) {
 	return result, err
 }
 
-func (c *admin) CreateUser(user *AdminCreateUserForm) (*AdminCreateUserResponse, error) {
-	result := &AdminCreateUserResponse{}
+func (c *admin) CreateUser(user *types.AdminCreateUserForm) (*types.AdminCreateUserResponse, error) {
+	result := &types.AdminCreateUserResponse{}
 	err := c.client.Post(adminAPI).
 		SetSubPath("/users").
 		Body(user).
@@ -65,7 +66,7 @@ func (c *admin) CreateUser(user *AdminCreateUserForm) (*AdminCreateUserResponse,
 }
 
 func (c *admin) UpdateUserPassword(id int64, password string) error {
-	form := &AdminUpdateUserPasswordForm{Password: password}
+	form := &types.AdminUpdateUserPasswordForm{Password: password}
 	return c.client.Put(adminAPI).
 		SetSubPath("/users/:id/password").
 		SetPathParam("id", strconv.FormatInt(id, 10)).
@@ -75,7 +76,7 @@ func (c *admin) UpdateUserPassword(id int64, password string) error {
 }
 
 func (c *admin) UpdateUserPermissions(id int64, permission bool) error {
-	perm := &AdminUpdateUserPermissionsForm{permission}
+	perm := &types.AdminUpdateUserPermissionsForm{permission}
 	return c.client.Put(adminAPI).
 		SetSubPath("/users/:id/permissions").
 		SetPathParam("id", strconv.FormatInt(id, 10)).
@@ -92,8 +93,8 @@ func (c *admin) DeleteUser(id int64) error {
 		Error()
 }
 
-func (c *admin) GetUserQuotas(id int64) (*UserQuotaResponse, error) {
-	result := &UserQuotaResponse{}
+func (c *admin) GetUserQuotas(id int64) (*types.UserQuotaResponse, error) {
+	result := &types.UserQuotaResponse{}
 	err := c.client.Get(adminAPI).
 		SetSubPath("/users/:id/quotas").
 		SetPathParam("id", strconv.FormatInt(id, 10)).
@@ -102,7 +103,7 @@ func (c *admin) GetUserQuotas(id int64) (*UserQuotaResponse, error) {
 	return result, err
 }
 
-func (c *admin) UpdateUserQuotas(id int64, target string, quotas *UpdateUserQuotaForm) error {
+func (c *admin) UpdateUserQuotas(id int64, target string, quotas *types.UpdateUserQuotaForm) error {
 	return c.client.Put(adminAPI).
 		SetSubPath("/users/:id/quotas/:target").
 		SetPathParam("id", strconv.FormatInt(id, 10)).
@@ -112,8 +113,8 @@ func (c *admin) UpdateUserQuotas(id int64, target string, quotas *UpdateUserQuot
 		Error()
 }
 
-func (c *admin) GetStats() (*AdminStats, error) {
-	result := &AdminStats{}
+func (c *admin) GetStats() (*types.AdminStats, error) {
+	result := &types.AdminStats{}
 	err := c.client.Get(adminAPI).
 		SetSubPath("/stats").
 		Do().
@@ -121,9 +122,9 @@ func (c *admin) GetStats() (*AdminStats, error) {
 	return result, err
 }
 
-func (c *admin) PauseAllAlerts(paused bool) (*PauseAllAlertsResponse, error) {
-	body := &PauseAllAlertsForm{Paused: paused}
-	result := &PauseAllAlertsResponse{}
+func (c *admin) PauseAllAlerts(paused bool) (*types.PauseAllAlertsResponse, error) {
+	body := &types.PauseAllAlertsForm{Paused: paused}
+	result := &types.PauseAllAlertsResponse{}
 	err := c.client.Post(adminAPI).
 		SetSubPath("/pause-all-alerts").
 		Body(body).

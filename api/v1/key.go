@@ -16,13 +16,14 @@ package v1
 import (
 	"github.com/nexucis/grafana-go-client/http"
 	"strconv"
+	"github.com/nexucis/grafana-go-client/api/v1/types"
 )
 
 const keyAPI = "/api/auth/keys"
 
 type KeyInterface interface {
-	Get() ([]*GetAPIKeyResponse, error)
-	Create(*APIKeyForm) (*CreateAPIKeyResponse, error)
+	Get() ([]*types.GetAPIKeyResponse, error)
+	Create(*types.APIKeyForm) (*types.CreateAPIKeyResponse, error)
 	Delete(int64) error
 }
 
@@ -37,16 +38,16 @@ type key struct {
 	client *http.RESTClient
 }
 
-func (c *key) Get() ([]*GetAPIKeyResponse, error) {
-	var result []*GetAPIKeyResponse
+func (c *key) Get() ([]*types.GetAPIKeyResponse, error) {
+	var result []*types.GetAPIKeyResponse
 	err := c.client.Get(keyAPI).
 		Do().
 		SaveAsObj(&result)
 	return result, err
 }
 
-func (c *key) Create(key *APIKeyForm) (*CreateAPIKeyResponse, error) {
-	result := &CreateAPIKeyResponse{}
+func (c *key) Create(key *types.APIKeyForm) (*types.CreateAPIKeyResponse, error) {
+	result := &types.CreateAPIKeyResponse{}
 	err := c.client.Post(keyAPI).
 		Body(key).
 		Do().
