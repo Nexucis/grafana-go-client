@@ -29,7 +29,7 @@ func TestKey_CreateError(t *testing.T) {
 
 	key := initKeyTest(t)
 
-	_, err := key.Create(&types.APIKeyForm{"test_key", "admin"})
+	_, err := key.Create(&types.APIKeyForm{Name: "test_key", Role: "admin"})
 
 	assert.Equal(t, 400, err.(*http.RequestError).StatusCode)
 	assert.Equal(t, "JSON validation error: invalid role value: admin", err.(*http.RequestError).Message)

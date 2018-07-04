@@ -16,6 +16,8 @@ package v1
 import (
 	"testing"
 	"github.com/stretchr/testify/assert"
+	"github.com/nexucis/grafana-go-client/api/v1/types"
+	"github.com/nexucis/grafana-go-client/http"
 )
 
 func TestAdmin_GetSettings(t *testing.T) {
@@ -32,6 +34,83 @@ func TestAdmin_GetSettings(t *testing.T) {
 	assert.NotNil(t, settings)
 	assert.NotNil(t, settings.Default)
 	assert.True(t, len(settings.Default.AppMode) > 0)
+}
+
+func TestAdmin_CreateUser(t *testing.T) {
+	if !*integration {
+		// test is ignored
+		t.Log("test is ignored")
+		return
+	}
+
+	admin := initAdminTest(t)
+	user := &types.AdminCreateUserForm{Email: "jdoe@compagny.com", Login: "jdoe", Password: "jdoe", Name: "John Doe"}
+	response, err := admin.CreateUser(user)
+
+	assert.Nil(t, err)
+	assert.NotNil(t, response)
+	assert.True(t, response.ID > 0)
+	assert.Equal(t, "User created", response.Message)
+
+	removeGlobalUser(t, response.ID)
+}
+
+func TestAdmin_CreateUserError(t *testing.T) {
+	if !*integration {
+		// test is ignored
+		t.Log("test is ignored")
+		return
+	}
+
+	admin := initAdminTest(t)
+	user := &types.AdminCreateUserForm{Email: "jdoe@compagny.com", Login: "jdoe", Password: "jdoe", Name: "John Doe"}
+	response, err := admin.CreateUser(user)
+
+	assert.Nil(t, err)
+	assert.NotNil(t, response)
+
+	// if we recreate the same user, it should return an error
+	_, err = admin.CreateUser(user)
+	assert.NotNil(t, err)
+	assert.Equal(t, 500, err.(*http.RequestError).StatusCode)
+	assert.Equal(t, "failed to create user", err.(*http.RequestError).Message)
+
+	removeGlobalUser(t, response.ID)
+}
+
+func TestAdmin_UpdateUserPassword(t *testing.T) {
+	if !*integration {
+		// test is ignored
+		t.Log("test is ignored")
+		return
+	}
+
+	admin := initAdminTest(t)
+	user := &types.AdminCreateUserForm{Email: "jdoe@compagny.com", Login: "jdoe", Password: "jdoe", Name: "John Doe"}
+	response, _ := admin.CreateUser(user)
+
+	// trying to update the password now
+	err := admin.UpdateUserPassword(response.ID, "anotherPassword")
+
+	assert.Nil(t, err)
+	removeGlobalUser(t, response.ID)
+}
+
+func TestAdmin_DeleteUser(t *testing.T) {
+	if !*integration {
+		// test is ignored
+		t.Log("test is ignored")
+		return
+	}
+
+	admin := initAdminTest(t)
+	user := &types.AdminCreateUserForm{Email: "jdoe@compagny.com", Login: "jdoe", Password: "jdoe", Name: "John Doe"}
+	response, _ := admin.CreateUser(user)
+
+	//trying to delete the user now
+	err := admin.DeleteUser(response.ID)
+
+	assert.Nil(t, err)
 }
 
 func TestAdmin_GetStats(t *testing.T) {
@@ -54,4 +133,11 @@ func initAdminTest(t *testing.T) AdminInterface {
 	httpClient, err := getRestClientWithBasicAuth()
 	assert.Nil(t, err)
 	return newAdmin(httpClient)
+}
+
+func removeGlobalUser(t *testing.T, ids ...int64) {
+	adminClient := initAdminTest(t)
+	for _, id := range ids {
+		adminClient.DeleteUser(id)
+	}
 }
