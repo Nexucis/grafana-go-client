@@ -89,8 +89,7 @@ func (c *annotation) MassiveDelete(annotations *types.DeleteAnnotations) error {
 
 func (c *annotation) Get(queryParam *QueryParamAnnotation) (*types.ResponseGetAnnotation, error) {
 	response := &types.ResponseGetAnnotation{}
-	request := c.client.Post(annotationAPI).
-		SetSubPath("/graphite")
+	request := c.client.Get(annotationAPI)
 
 	setQueryParamAnnotation(request, queryParam)
 
