@@ -30,6 +30,24 @@ func TestAdmin_GetSettings(t *testing.T) {
 
 	assert.Nil(t, err)
 	assert.NotNil(t, settings)
+	assert.NotNil(t, settings.Default)
+	assert.True(t, len(settings.Default.AppMode) > 0)
+}
+
+func TestAdmin_GetStats(t *testing.T) {
+	if !*integration {
+		// test is ignored
+		t.Log("test is ignored")
+		return
+	}
+
+	admin := initAdminTest(t)
+	stats, err := admin.GetStats()
+
+	assert.Nil(t, err)
+	assert.NotNil(t, stats)
+	assert.Equal(t, 1, stats.Users)
+	assert.Equal(t, 1, stats.Orgs)
 }
 
 func initAdminTest(t *testing.T) AdminInterface {
