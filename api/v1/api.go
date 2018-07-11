@@ -20,6 +20,7 @@ type APIInterface interface {
 	Alerts() AlertInterface
 	AlertNotifications() AlertNotificationInterface
 	Annotations() AnnotationInterface
+	CurrentUser() CurrentUserInterface
 	Dashboards()
 	Datasources()
 	Folders()
@@ -51,6 +52,10 @@ func (a *api) AlertNotifications() AlertNotificationInterface {
 
 func (a *api) Annotations() AnnotationInterface {
 	return newAnnotation(a.client)
+}
+
+func (a *api) CurrentUser() CurrentUserInterface {
+	return newCurrentUser(a.client)
 }
 
 func (a *api) Keys() KeyInterface {

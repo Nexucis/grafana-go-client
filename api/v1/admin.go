@@ -27,8 +27,8 @@ type AdminInterface interface {
 	UpdateUserPassword(int64, string) error
 	UpdateUserPermissions(int64, bool) error
 	DeleteUser(int64) error
-	GetUserQuotas(int64) (*types.UserQuotaResponse, error)
-	UpdateUserQuotas(int64, string, *types.UpdateUserQuotaForm) error
+	GetUserQuotas(int64) (*types.UserQuota, error)
+	UpdateUserQuotas(int64, string, *types.UpdateUserQuota) error
 	GetStats() (*types.AdminStats, error)
 	PauseAllAlerts(bool) (*types.PauseAllAlertsResponse, error)
 }
@@ -93,8 +93,8 @@ func (c *admin) DeleteUser(id int64) error {
 		Error()
 }
 
-func (c *admin) GetUserQuotas(id int64) (*types.UserQuotaResponse, error) {
-	result := &types.UserQuotaResponse{}
+func (c *admin) GetUserQuotas(id int64) (*types.UserQuota, error) {
+	result := &types.UserQuota{}
 	err := c.client.Get(adminAPI).
 		SetSubPath("/users/:id/quotas").
 		SetPathParam("id", strconv.FormatInt(id, 10)).
@@ -103,7 +103,7 @@ func (c *admin) GetUserQuotas(id int64) (*types.UserQuotaResponse, error) {
 	return result, err
 }
 
-func (c *admin) UpdateUserQuotas(id int64, target string, quotas *types.UpdateUserQuotaForm) error {
+func (c *admin) UpdateUserQuotas(id int64, target string, quotas *types.UpdateUserQuota) error {
 	return c.client.Put(adminAPI).
 		SetSubPath("/users/:id/quotas/:target").
 		SetPathParam("id", strconv.FormatInt(id, 10)).

@@ -448,19 +448,6 @@ type AdminUpdateUserPermissionsForm struct {
 	IsGrafanaAdmin bool `json:"isGrafanaAdmin"`
 }
 
-type UserQuotaResponse struct {
-	UserId int64  `json:"user_id"`
-	Target string `json:"target"`
-	Limit  int64  `json:"limit"`
-	Used   int64  `json:"used"`
-}
-
-type UpdateUserQuotaForm struct {
-	Target string `json:"target"`
-	Limit  int64  `json:"limit"`
-	UserId int64  `json:"-"`
-}
-
 type AdminStats struct {
 	Users       int `json:"users"`
 	Orgs        int `json:"orgs"`
