@@ -30,7 +30,7 @@ type APIInterface interface {
 	Search()
 	Snapshots()
 	Teams()
-	Users()
+	Users() UsersInterface
 }
 
 type api struct {
@@ -70,4 +70,8 @@ func (a *api) DataSources() DataSourceInterface {
 
 func (a *api) Keys() KeyInterface {
 	return newKey(a.client)
+}
+
+func (a *api) Users() UsersInterface {
+	return newUsers(a.client)
 }
