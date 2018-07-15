@@ -19,7 +19,6 @@ import (
 
 type ResponseAlertNotification struct {
 	Id        int64       `json:"id"`
-	OrgId     int64       `json:"-"`
 	Name      string      `json:"name"`
 	Type      string      `json:"type"`
 	IsDefault bool        `json:"isDefault"`
