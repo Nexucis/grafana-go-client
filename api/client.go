@@ -13,8 +13,25 @@
 
 package api
 
-import "github.com/nexucis/grafana-go-client/api/v1"
+import (
+	"github.com/nexucis/grafana-go-client/api/v1"
+	"github.com/nexucis/grafana-go-client/http"
+)
 
-type Client interface {
+type ClientInterface interface {
 	V1() v1.APIInterface
+}
+
+type client struct {
+	restClient *http.RESTClient
+}
+
+func NewWithClient(restClient *http.RESTClient) ClientInterface {
+	return &client{
+		restClient: restClient,
+	}
+}
+
+func (c *client) V1() v1.APIInterface {
+	return v1.NewWithClient(c.restClient)
 }

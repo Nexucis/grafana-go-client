@@ -38,6 +38,12 @@ type api struct {
 	client *http.RESTClient
 }
 
+func NewWithClient(client *http.RESTClient) APIInterface {
+	return &api{
+		client: client,
+	}
+}
+
 func (a *api) Admin() AdminInterface {
 	return newAdmin(a.client)
 }
