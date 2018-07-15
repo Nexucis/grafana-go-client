@@ -13,7 +13,7 @@ A go client for the [Grafana API](http://docs.grafana.org/http_api/)
 
 # Current Status
 
-:warning: this project is still under development. You can already use it, but you can encounter some bug or problem 
+:warning: this project is still under development. You can already use it, but you can encounter some bugs or problem s
 
 For the moment, the client only covers the Grafana API in the version 5. There is no guarantee that the client is compatible with previous Grafana version
 
@@ -44,8 +44,8 @@ Here is an overview of what is done and what is going to be done
 
 ### Retro compatibility
 
-[] Grafana v4
-[] Grafana v3 (maybe)
+- [ ] Grafana v4
+- [ ] Grafana v3 (maybe)
 
 # Installation
 If you use [dep](https://golang.github.io/dep/) as dependency manager, you fire the following command:
