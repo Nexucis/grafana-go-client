@@ -36,49 +36,49 @@ type QueryParamAnnotation struct {
 	limit int64
 }
 
-func (query *QueryParamAnnotation) From(from int64) *QueryParamAnnotation {
-	query.from = from
-	return query
+func (q *QueryParamAnnotation) From(from int64) *QueryParamAnnotation {
+	q.from = from
+	return q
 }
 
-func (query *QueryParamAnnotation) To(to int64) *QueryParamAnnotation {
-	query.to = to
-	return query
+func (q *QueryParamAnnotation) To(to int64) *QueryParamAnnotation {
+	q.to = to
+	return q
 }
 
-func (query *QueryParamAnnotation) AlertID(alertID int64) *QueryParamAnnotation {
-	query.alertId = alertID
-	return query
+func (q *QueryParamAnnotation) AlertID(alertID int64) *QueryParamAnnotation {
+	q.alertId = alertID
+	return q
 }
 
-func (query *QueryParamAnnotation) UserID(userID int64) *QueryParamAnnotation {
-	query.userId = userID
-	return query
+func (q *QueryParamAnnotation) UserID(userID int64) *QueryParamAnnotation {
+	q.userId = userID
+	return q
 }
 
-func (query *QueryParamAnnotation) DashboardID(dashboardID int64) *QueryParamAnnotation {
-	query.dashboardId = dashboardID
-	return query
+func (q *QueryParamAnnotation) DashboardID(dashboardID int64) *QueryParamAnnotation {
+	q.dashboardId = dashboardID
+	return q
 }
 
-func (query *QueryParamAnnotation) PanelID(panelID int64) *QueryParamAnnotation {
-	query.panelId = panelID
-	return query
+func (q *QueryParamAnnotation) PanelID(panelID int64) *QueryParamAnnotation {
+	q.panelId = panelID
+	return q
 }
 
-func (query *QueryParamAnnotation) AddTag(tag string) *QueryParamAnnotation {
-	query.tags = append(query.tags, tag)
-	return query
+func (q *QueryParamAnnotation) AddTag(tag string) *QueryParamAnnotation {
+	q.tags = append(q.tags, tag)
+	return q
 }
 
-func (query *QueryParamAnnotation) Type(t string) *QueryParamAnnotation {
-	query._type = t
-	return query
+func (q *QueryParamAnnotation) Type(t string) *QueryParamAnnotation {
+	q._type = t
+	return q
 }
 
-func (query *QueryParamAnnotation) Limit(limit int64) *QueryParamAnnotation {
-	query.limit = limit
-	return query
+func (q *QueryParamAnnotation) Limit(limit int64) *QueryParamAnnotation {
+	q.limit = limit
+	return q
 }
 
 type QueryParamAlert struct {
@@ -100,39 +100,39 @@ type QueryParamAlert struct {
 	dashboardTags []string
 }
 
-func (query *QueryParamAlert) Query(q string) *QueryParamAlert {
-	query.query = q
-	return query
+func (q *QueryParamAlert) Query(query string) *QueryParamAlert {
+	q.query = query
+	return q
 }
 
-func (query *QueryParamAlert) PanelID(panelID int64) *QueryParamAlert {
-	query.panelId = panelID
-	return query
+func (q *QueryParamAlert) PanelID(panelID int64) *QueryParamAlert {
+	q.panelId = panelID
+	return q
 }
 
-func (query *QueryParamAlert) Limit(limit int64) *QueryParamAlert {
-	query.limit = limit
-	return query
+func (q *QueryParamAlert) Limit(limit int64) *QueryParamAlert {
+	q.limit = limit
+	return q
 }
 
-func (query *QueryParamAlert) AddAlertState(state types.AlertState) *QueryParamAlert {
-	query.states = append(query.states, state)
-	return query
+func (q *QueryParamAlert) AddAlertState(state types.AlertState) *QueryParamAlert {
+	q.states = append(q.states, state)
+	return q
 }
 
-func (query *QueryParamAlert) AddDashboardTag(dashboardTag string) *QueryParamAlert {
-	query.dashboardTags = append(query.dashboardTags, dashboardTag)
-	return query
+func (q *QueryParamAlert) AddDashboardTag(dashboardTag string) *QueryParamAlert {
+	q.dashboardTags = append(q.dashboardTags, dashboardTag)
+	return q
 }
 
-func (query *QueryParamAlert) AddDashboardID(dashboardID int64) *QueryParamAlert {
-	query.dashboardIds = append(query.dashboardIds, dashboardID)
-	return query
+func (q *QueryParamAlert) AddDashboardID(dashboardID int64) *QueryParamAlert {
+	q.dashboardIds = append(q.dashboardIds, dashboardID)
+	return q
 }
 
-func (query *QueryParamAlert) AddFolderID(folderId int64) *QueryParamAlert {
-	query.folderIds = append(query.folderIds, folderId)
-	return query
+func (q *QueryParamAlert) AddFolderID(folderId int64) *QueryParamAlert {
+	q.folderIds = append(q.folderIds, folderId)
+	return q
 }
 
 type QueryParameterUsers struct {
@@ -155,6 +155,33 @@ func (q *QueryParameterUsers) PerPage(perPage int64) *QueryParameterUsers {
 }
 
 func (q *QueryParameterUsers) Page(page int64) *QueryParameterUsers {
+	q.page = page
+	return q
+}
+
+type QueryParameterTeams struct {
+	perPage int64
+	page    int64
+	query   string
+	name    string
+}
+
+func (q *QueryParameterTeams) Query(query string) *QueryParameterTeams {
+	q.query = query
+	return q
+}
+
+func (q *QueryParameterTeams) Name(name string) *QueryParameterTeams {
+	q.name = name
+	return q
+}
+
+func (q *QueryParameterTeams) PerPage(perPage int64) *QueryParameterTeams {
+	q.perPage = perPage
+	return q
+}
+
+func (q *QueryParameterTeams) Page(page int64) *QueryParameterTeams {
 	q.page = page
 	return q
 }

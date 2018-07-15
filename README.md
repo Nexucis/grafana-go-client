@@ -34,13 +34,14 @@ Here is an overview of what is done and what is going to be done
 - [ ] Snapshot
 - [x] Annotations
 - [x] Alerting
-- [ ] User
+- [x] User
    - [x] Current User
    - [x] Manipulate User as admin
-- [ ] Team
+- [x] Team
 - [x] Admin
 - [ ] Preferences
 - [ ] Plugin
+- [ ] Playlist
 
 ### Retro compatibility
 

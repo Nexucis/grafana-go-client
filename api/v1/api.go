@@ -29,7 +29,7 @@ type APIInterface interface {
 	Preferences()
 	Search()
 	Snapshots()
-	Teams()
+	Teams() TeamInterface
 	Users() UsersInterface
 }
 
@@ -70,6 +70,10 @@ func (a *api) DataSources() DataSourceInterface {
 
 func (a *api) Keys() KeyInterface {
 	return newKey(a.client)
+}
+
+func (a *api) Team() TeamInterface {
+	return newTeam(a.client)
 }
 
 func (a *api) Users() UsersInterface {
