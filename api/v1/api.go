@@ -72,7 +72,7 @@ func (a *api) Keys() KeyInterface {
 	return newKey(a.client)
 }
 
-func (a *api) Team() TeamInterface {
+func (a *api) Teams() TeamInterface {
 	return newTeam(a.client)
 }
 
