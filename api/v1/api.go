@@ -22,7 +22,7 @@ type APIInterface interface {
 	Annotations() AnnotationInterface
 	CurrentUser() CurrentUserInterface
 	Dashboards()
-	Datasources()
+	DataSources() DataSourceInterface
 	Folders()
 	Keys() KeyInterface
 	Organisation()
@@ -62,6 +62,10 @@ func (a *api) Annotations() AnnotationInterface {
 
 func (a *api) CurrentUser() CurrentUserInterface {
 	return newCurrentUser(a.client)
+}
+
+func (a *api) DataSources() DataSourceInterface {
+	return newDataSource(a.client)
 }
 
 func (a *api) Keys() KeyInterface {

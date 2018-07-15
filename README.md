@@ -29,7 +29,7 @@ Here is an overview of what is done and what is going to be done
 - [ ] Folder
    - [ ] Folder Permissions
 - [ ] Folder/dashboard search
-- [ ] Data Source
+- [x] Data Source
 - [ ] Organisation
 - [ ] Snapshot
 - [x] Annotations
@@ -37,10 +37,10 @@ Here is an overview of what is done and what is going to be done
 - [ ] User
    - [x] Current User
    - [ ] Manipulate User as admin
-- [ ] Team API
-- [x] Admin API
-- [ ] Preferences API
-- [ ] Other API
+- [ ] Team
+- [x] Admin
+- [ ] Preferences
+- [ ] Plugin
 
 ### Retro compatibility
 
