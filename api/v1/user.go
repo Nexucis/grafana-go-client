@@ -25,7 +25,7 @@ type CurrentUserInterface interface {
 	Get() (*types.UserProfile, error)
 	Update(*types.UpdateCurrentUser) error
 	ChangeActiveOrganization(int64) error
-	GetOrg() (*types.UserOrg, error)
+	GetOrg() (*types.UserOrgList, error)
 	StarDashboard(int64) error
 	UnstarDashboard(int64) error
 	UpdatePassword(string, string) error
@@ -70,8 +70,8 @@ func (c *currentUser) ChangeActiveOrganization(organisationID int64) error {
 		Error()
 }
 
-func (c *currentUser) GetOrg() (*types.UserOrg, error) {
-	result := &types.UserOrg{}
+func (c *currentUser) GetOrg() (*types.UserOrgList, error) {
+	result := &types.UserOrgList{}
 	err := c.client.Get(currentUserAPI).
 		SetSubPath("/orgs").
 		Do().

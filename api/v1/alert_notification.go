@@ -25,7 +25,7 @@ type AlertNotificationInterface interface {
 	Create(*types.CreateAlertNotification) (*types.ResponseAlertNotification, error)
 	CreateTest(*types.CreateTestAlertNotification) error
 	Update(int64, *types.UpdateAlertNotification) (*types.ResponseAlertNotification, error)
-	Get() ([]types.ResponseAlertNotification, error)
+	Get() ([]*types.ResponseAlertNotification, error)
 	GetByID(int64) (*types.ResponseAlertNotification, error)
 	Delete(int64) error
 }
@@ -69,8 +69,8 @@ func (c *alertNotification) Update(notificationId int64, body *types.UpdateAlert
 	return response, err
 }
 
-func (c *alertNotification) Get() ([]types.ResponseAlertNotification, error) {
-	var result []types.ResponseAlertNotification
+func (c *alertNotification) Get() ([]*types.ResponseAlertNotification, error) {
+	var result []*types.ResponseAlertNotification
 	err := c.client.Get(alertNotificationAPI).
 		Do().
 		SaveAsObj(&result)

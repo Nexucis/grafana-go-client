@@ -134,3 +134,27 @@ func (query *QueryParamAlert) AddFolderID(folderId int64) *QueryParamAlert {
 	query.folderIds = append(query.folderIds, folderId)
 	return query
 }
+
+type QueryParameterUsers struct {
+	// The number of user per page
+	perPage int64
+	// The number of the page querying
+	page int64
+	// Limit response to user having a similar name, login or email like this value.
+	query string
+}
+
+func (q *QueryParameterUsers) Query(query string) *QueryParameterUsers {
+	q.query = query
+	return q
+}
+
+func (q *QueryParameterUsers) PerPage(perPage int64) *QueryParameterUsers {
+	q.perPage = perPage
+	return q
+}
+
+func (q *QueryParameterUsers) Page(page int64) *QueryParameterUsers {
+	q.page = page
+	return q
+}

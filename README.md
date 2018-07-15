@@ -36,7 +36,7 @@ Here is an overview of what is done and what is going to be done
 - [x] Alerting
 - [ ] User
    - [x] Current User
-   - [ ] Manipulate User as admin
+   - [x] Manipulate User as admin
 - [ ] Team
 - [x] Admin
 - [ ] Preferences

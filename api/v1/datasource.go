@@ -22,7 +22,7 @@ import (
 const datasourceAPI = "/api/datasources"
 
 type DataSourceInterface interface {
-	Get() ([]types.DataSource, error)
+	Get() ([]*types.DataSource, error)
 	Create(*types.AddDataSource) (*types.WriteDataSourceResponse, error)
 	Update(int64, types.UpdateDataSource) (*types.WriteDataSourceResponse, error)
 	Delete(int64) error
@@ -43,8 +43,8 @@ type dataSource struct {
 	client *http.RESTClient
 }
 
-func (c *dataSource) Get() ([]types.DataSource, error) {
-	var result []types.DataSource
+func (c *dataSource) Get() ([]*types.DataSource, error) {
+	var result []*types.DataSource
 	err := c.client.Get(datasourceAPI).
 		Do().
 		SaveAsObj(&result)
@@ -65,6 +65,7 @@ func (c *dataSource) Update(sourceID int64, source types.UpdateDataSource) (*typ
 	err := c.client.Put(datasourceAPI).
 		SetSubPath("/:id").
 		SetPathParam("id", strconv.FormatInt(sourceID, 10)).
+		Body(source).
 		Do().
 		SaveAsObj(result)
 	return result, err

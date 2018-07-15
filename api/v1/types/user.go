@@ -13,6 +13,8 @@
 
 package types
 
+import "time"
+
 type UserProfile struct {
 	Id             int64  `json:"id"`
 	Email          string `json:"email"`
@@ -21,6 +23,24 @@ type UserProfile struct {
 	Theme          string `json:"theme"`
 	OrgId          int64  `json:"orgId"`
 	IsGrafanaAdmin bool   `json:"isGrafanaAdmin"`
+}
+
+type UserSearchHit struct {
+	Id            int64     `json:"id"`
+	Name          string    `json:"name"`
+	Login         string    `json:"login"`
+	Email         string    `json:"email"`
+	AvatarUrl     string    `json:"avatarUrl"`
+	IsAdmin       bool      `json:"isAdmin"`
+	LastSeenAt    time.Time `json:"lastSeenAt"`
+	LastSeenAtAge string    `json:"lastSeenAtAge"`
+}
+
+type UserSearchWithPaging struct {
+	TotalCount int64
+	Page       int64
+	PerPage    int64
+	Users      []*UserSearchHit
 }
 
 type UpdateCurrentUser struct {
@@ -53,6 +73,11 @@ type UserOrg struct {
 	OrgId int64    `json:"orgId"`
 	Name  string   `json:"name"`
 	Role  RoleType `json:"role"`
+}
+
+type UserOrgList struct {
+	UserId int64
+	Result []*UserOrg
 }
 
 type UpdatePassword struct {
