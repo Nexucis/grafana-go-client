@@ -21,11 +21,12 @@ type APIInterface interface {
 	AlertNotifications() AlertNotificationInterface
 	Annotations() AnnotationInterface
 	CurrentUser() CurrentUserInterface
+	CurrentOrganisation() CurrentOrgInterface
 	Dashboards()
 	DataSources() DataSourceInterface
 	Folders()
 	Keys() KeyInterface
-	Organisation()
+	Organisations()
 	Preferences()
 	Search()
 	Snapshots()
@@ -62,6 +63,10 @@ func (a *api) Annotations() AnnotationInterface {
 
 func (a *api) CurrentUser() CurrentUserInterface {
 	return newCurrentUser(a.client)
+}
+
+func (a *api) CurrentOrganisation() CurrentOrgInterface {
+	return newCurrentOrg(a.client)
 }
 
 func (a *api) DataSources() DataSourceInterface {

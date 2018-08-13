@@ -22,6 +22,8 @@ Here is an overview of what is done and what is going to be done
 
 ### API
 
+*currently not tested*
+
 - [x] Authentication (key API)
 - [ ] Dashboard
    - [ ] Dashboard Versions
@@ -31,6 +33,8 @@ Here is an overview of what is done and what is going to be done
 - [ ] Folder/dashboard search
 - [x] Data Source
 - [ ] Organisation
+   - [x] Current Org
+   - [ ] Manipulate Org as admin
 - [ ] Snapshot
 - [x] Annotations
 - [x] Alerting
