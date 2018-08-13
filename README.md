@@ -34,7 +34,7 @@ Here is an overview of what is done and what is going to be done
 - [x] Data Source
 - [ ] Organisation
    - [x] Current Org
-   - [ ] Manipulate Org as admin
+   - [x] Manipulate Org as admin
 - [ ] Snapshot
 - [x] Annotations
 - [x] Alerting

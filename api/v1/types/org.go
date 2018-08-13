@@ -30,6 +30,11 @@ type Org struct {
 	Address Address `json:"address"`
 }
 
+type SimpleOrg struct {
+	Id   int64  `json:"id"`
+	Name string `json:"name"`
+}
+
 type OrgQuota struct {
 	OrgId  int64  `json:"org_id"`
 	Target string `json:"target"`

@@ -26,7 +26,7 @@ type APIInterface interface {
 	DataSources() DataSourceInterface
 	Folders()
 	Keys() KeyInterface
-	Organisations()
+	Organisations() OrganisationsInterface
 	Preferences()
 	Search()
 	Snapshots()
@@ -75,6 +75,10 @@ func (a *api) DataSources() DataSourceInterface {
 
 func (a *api) Keys() KeyInterface {
 	return newKey(a.client)
+}
+
+func (a *api) Organisations() OrganisationsInterface {
+	return newOrgs(a.client)
 }
 
 func (a *api) Teams() TeamInterface {

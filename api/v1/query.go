@@ -185,3 +185,18 @@ func (q *QueryParameterTeams) Page(page int64) *QueryParameterTeams {
 	q.page = page
 	return q
 }
+
+type QueryParameterOrgs struct {
+	name  string
+	query string
+}
+
+func (q *QueryParameterOrgs) Query(query string) *QueryParameterOrgs {
+	q.query = query
+	return q
+}
+
+func (q *QueryParameterOrgs) Name(name string) *QueryParameterOrgs {
+	q.name = name
+	return q
+}
