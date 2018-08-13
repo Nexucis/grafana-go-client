@@ -49,6 +49,10 @@ func (c *RESTClient) Put(pathPrefix string) *Request {
 	return c.newRequest(http.MethodPut, pathPrefix)
 }
 
+func (c *RESTClient) Patch(pathPrefix string) *Request {
+	return c.newRequest(http.MethodPatch, pathPrefix)
+}
+
 func (c *RESTClient) Delete(pathPrefix string) *Request {
 	return c.newRequest(http.MethodDelete, pathPrefix)
 }
