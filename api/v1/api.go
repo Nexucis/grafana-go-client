@@ -27,7 +27,8 @@ type APIInterface interface {
 	Folders()
 	Keys() KeyInterface
 	Organisations() OrganisationsInterface
-	Preferences()
+	Plugin()
+	Playlist()
 	Search()
 	Snapshots()
 	Teams() TeamInterface

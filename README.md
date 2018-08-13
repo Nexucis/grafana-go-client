@@ -24,28 +24,27 @@ Here is an overview of what is done and what is going to be done
 
 *currently not tested*
 
+- [x] Alerting
+- [x] Admin
+- [x] Annotations
 - [x] Authentication (key API)
 - [ ] Dashboard
    - [ ] Dashboard Versions
    - [ ] Dashboard Permissions
+- [x] Data Source
 - [ ] Folder
    - [ ] Folder Permissions
 - [ ] Folder/dashboard search
-- [x] Data Source
-- [ ] Organisation
+- [x] Organisation
    - [x] Current Org
    - [x] Manipulate Org as admin
+- [ ] Plugin
+- [ ] Playlist
 - [ ] Snapshot
-- [x] Annotations
-- [x] Alerting
 - [x] User
    - [x] Current User
    - [x] Manipulate User as admin
 - [x] Team
-- [x] Admin
-- [ ] Preferences
-- [ ] Plugin
-- [ ] Playlist
 
 ### Retro compatibility
 
