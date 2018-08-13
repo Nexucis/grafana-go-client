@@ -133,7 +133,7 @@ func (r *Request) Do() *Response {
 		return &Response{body: data, err: err, statusCode: resp.StatusCode}
 	}
 
-	return &Response{}
+	return &Response{statusCode: resp.StatusCode}
 }
 
 func (r *Request) prepareRequest() (*http.Request, error) {
