@@ -200,3 +200,18 @@ func (q *QueryParameterOrgs) Name(name string) *QueryParameterOrgs {
 	q.name = name
 	return q
 }
+
+type QueryParameterPlaylist struct {
+	limit int64
+	query string
+}
+
+func (q *QueryParameterPlaylist) Query(query string) *QueryParameterPlaylist {
+	q.query = query
+	return q
+}
+
+func (q *QueryParameterPlaylist) Limit(limit int64) *QueryParameterPlaylist {
+	q.limit = limit
+	return q
+}

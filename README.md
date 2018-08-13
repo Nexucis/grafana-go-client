@@ -39,7 +39,7 @@ Here is an overview of what is done and what is going to be done
    - [x] Current Org
    - [x] Manipulate Org as admin
 - [ ] Plugin
-- [ ] Playlist
+- [x] Playlist
 - [ ] Snapshot
 - [x] User
    - [x] Current User

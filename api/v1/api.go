@@ -28,7 +28,7 @@ type APIInterface interface {
 	Keys() KeyInterface
 	Organisations() OrganisationsInterface
 	Plugin()
-	Playlist()
+	Playlist() PlaylistInterface
 	Search()
 	Snapshots()
 	Teams() TeamInterface
@@ -76,6 +76,10 @@ func (a *api) DataSources() DataSourceInterface {
 
 func (a *api) Keys() KeyInterface {
 	return newKey(a.client)
+}
+
+func (a *api) Playlist() PlaylistInterface {
+	return newPlaylist(a.client)
 }
 
 func (a *api) Organisations() OrganisationsInterface {
