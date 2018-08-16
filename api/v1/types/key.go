@@ -13,14 +13,6 @@
 
 package types
 
-type RoleType string
-
-const (
-	RoleViewer RoleType = "Viewer"
-	RoleEditor RoleType = "Editor"
-	RoleAdmin  RoleType = "Admin"
-)
-
 type GetAPIKeyResponse struct {
 	Id   int64    `json:"id"`
 	Name string   `json:"name"`

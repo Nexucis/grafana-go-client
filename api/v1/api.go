@@ -24,7 +24,7 @@ type APIInterface interface {
 	CurrentOrganisation() CurrentOrgInterface
 	Dashboards()
 	DataSources() DataSourceInterface
-	Folders()
+	Folders() FolderInterface
 	Keys() KeyInterface
 	Organisations() OrganisationsInterface
 	Plugin()
@@ -72,6 +72,10 @@ func (a *api) CurrentOrganisation() CurrentOrgInterface {
 
 func (a *api) DataSources() DataSourceInterface {
 	return newDataSource(a.client)
+}
+
+func (a *api) Folders() FolderInterface {
+	return newFolder(a.client)
 }
 
 func (a *api) Keys() KeyInterface {

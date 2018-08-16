@@ -32,8 +32,8 @@ Here is an overview of what is done and what is going to be done
    - [ ] Dashboard Versions
    - [ ] Dashboard Permissions
 - [x] Data Source
-- [ ] Folder
-   - [ ] Folder Permissions
+- [x] Folder
+   - [x] Folder Permissions
 - [ ] Folder/dashboard search
 - [x] Organisation
    - [x] Current Org
