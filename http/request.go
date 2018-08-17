@@ -18,7 +18,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/golang/glog"
 	"io"
 	"io/ioutil"
 	"net/http"
@@ -260,16 +259,18 @@ func (r *Response) Error() error {
 	e := &RequestError{Err: r.err}
 	// check code result
 	if r.statusCode < http.StatusOK || r.statusCode > http.StatusPartialContent {
+		// check error message contains in the body
 		if r.body != nil {
 			g := &GrafanaErrorResponse{}
 			err := json.Unmarshal(r.body, g)
+
 			if err != nil {
-				glog.V(2).Info(err)
 				//trying to find the message in a more generic struct
 				var genericMessage []map[string]interface{}
 				err2 := json.Unmarshal(r.body, &genericMessage)
 				if err2 != nil {
-					glog.Error(err2)
+					// in this case something horrible append on client side
+					e.Err = fmt.Errorf("initial error : %s. Something horrible append when the client tryed to decode the error message: %s", r.err, err2)
 				} else {
 					for _, j := range genericMessage {
 						for k, v := range j {

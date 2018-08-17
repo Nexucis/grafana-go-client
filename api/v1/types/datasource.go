@@ -13,8 +13,6 @@
 
 package types
 
-import "github.com/grafana/grafana/pkg/components/simplejson"
-
 type DataSource struct {
 	Id          int64       `json:"id"`
 	OrgId       int64       `json:"orgId"`
@@ -72,7 +70,7 @@ type UpdateDataSource struct {
 	BasicAuthPassword string            `json:"basicAuthPassword"`
 	WithCredentials   bool              `json:"withCredentials"`
 	IsDefault         bool              `json:"isDefault"`
-	JsonData          *simplejson.Json  `json:"jsonData"`
+	JsonData          interface{}  `json:"jsonData"`
 	SecureJsonData    map[string]string `json:"secureJsonData"`
 	Version           int               `json:"version"`
 	ReadOnly          bool              `json:"readOnly"`
