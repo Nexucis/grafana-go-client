@@ -28,9 +28,9 @@ Here is an overview of what is done and what is going to be done
 - [x] Admin
 - [x] Annotations
 - [x] Authentication (key API)
-- [ ] Dashboard
-   - [ ] Dashboard Versions
-   - [ ] Dashboard Permissions
+- [ ] Dashboard ( not yet fully implemented, need to specify the dashboard struct)
+   - [x] Dashboard Versions
+   - [x] Dashboard Permissions
 - [x] Data Source
 - [x] Folder
    - [x] Folder Permissions
