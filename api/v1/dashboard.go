@@ -37,7 +37,7 @@ type DashboardInterface interface {
 	GetVersionByID(int64, int) (*types.DashboardVersionMeta, error)
 	RestoreVersion(int64, int) (*types.SimpleDashboard, error)
 	GetPermissions(int64) ([]*types.FolderOrDashboardPermission, error)
-	UpdatePermissions(int64, items []*types.DashboardAclUpdateItem) error
+	UpdatePermissions(int64, []*types.DashboardAclUpdateItem) error
 }
 
 func newDashboard(client *http.RESTClient) DashboardInterface {
