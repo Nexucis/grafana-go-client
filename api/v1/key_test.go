@@ -15,9 +15,10 @@ package v1
 
 import (
 	"testing"
-	"github.com/stretchr/testify/assert"
-	"github.com/nexucis/grafana-go-client/http"
+
 	"github.com/nexucis/grafana-go-client/api/v1/types"
+	"github.com/nexucis/grafana-go-client/http"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestKey_CreateError(t *testing.T) {

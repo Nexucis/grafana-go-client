@@ -14,9 +14,10 @@
 package v1
 
 import (
-	"github.com/nexucis/grafana-go-client/http"
 	"strconv"
+
 	"github.com/nexucis/grafana-go-client/api/v1/types"
+	"github.com/nexucis/grafana-go-client/http"
 )
 
 const keyAPI = "/api/auth/keys"

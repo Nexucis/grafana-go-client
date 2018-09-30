@@ -14,10 +14,11 @@
 package v1
 
 import (
-	"github.com/nexucis/grafana-go-client/http"
 	"flag"
-	"testing"
 	"os"
+	"testing"
+
+	"github.com/nexucis/grafana-go-client/http"
 )
 
 var (

@@ -70,7 +70,7 @@ type UpdateDataSource struct {
 	BasicAuthPassword string            `json:"basicAuthPassword"`
 	WithCredentials   bool              `json:"withCredentials"`
 	IsDefault         bool              `json:"isDefault"`
-	JsonData          interface{}  `json:"jsonData"`
+	JsonData          interface{}       `json:"jsonData"`
 	SecureJsonData    map[string]string `json:"secureJsonData"`
 	Version           int               `json:"version"`
 	ReadOnly          bool              `json:"readOnly"`
