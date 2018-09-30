@@ -13,6 +13,13 @@
 
 package types
 
+type AnnotationQueryType string
+
+const (
+	AnnSearchByAnnotation AnnotationQueryType = "annotation"
+	AnnSearchByAlert      AnnotationQueryType = "alert"
+)
+
 type PostAnnotations struct {
 	DashboardId int64       `json:"dashboardId"`
 	PanelId     int64       `json:"panelId"`

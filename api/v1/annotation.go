@@ -129,8 +129,8 @@ func setQueryParamAnnotation(request *http.Request, query *QueryParamAnnotation)
 		request.AddQueryParam("limit", strconv.FormatInt(query.limit, 10))
 	}
 
-	if len(query._type) > 0 {
-		request.AddQueryParam("type", query._type)
+	if len(query.annotationType) > 0 {
+		request.AddQueryParam("type", string(query.annotationType))
 	}
 
 	if query.tags != nil {
