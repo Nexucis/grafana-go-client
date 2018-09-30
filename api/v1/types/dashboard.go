@@ -34,6 +34,11 @@ type Dashboard struct {
 	Title   string `json:"title"`
 }
 
+type DashboardWithMeta struct {
+	Meta      DashboardMeta `json:"meta"`
+	Dashboard interface{}   `json:"dashboard"`
+}
+
 type DashboardTags struct {
 	Term  string `json:"term"`
 	Count int    `json:"count"`
@@ -54,4 +59,29 @@ type DashboardVersion struct {
 type DashboardVersionMeta struct {
 	DashboardVersion
 	CreatedBy string `json:"createdBy"`
+}
+
+type DashboardMeta struct {
+	IsStarred   bool      `json:"isStarred,omitempty"`
+	IsHome      bool      `json:"isHome,omitempty"`
+	IsSnapshot  bool      `json:"isSnapshot,omitempty"`
+	Type        string    `json:"type,omitempty"`
+	CanSave     bool      `json:"canSave"`
+	CanEdit     bool      `json:"canEdit"`
+	CanAdmin    bool      `json:"canAdmin"`
+	CanStar     bool      `json:"canStar"`
+	Slug        string    `json:"slug"`
+	Url         string    `json:"url"`
+	Expires     time.Time `json:"expires"`
+	Created     time.Time `json:"created"`
+	Updated     time.Time `json:"updated"`
+	UpdatedBy   string    `json:"updatedBy"`
+	CreatedBy   string    `json:"createdBy"`
+	Version     int       `json:"version"`
+	HasAcl      bool      `json:"hasAcl"`
+	IsFolder    bool      `json:"isFolder"`
+	FolderId    int64     `json:"folderId"`
+	FolderTitle string    `json:"folderTitle"`
+	FolderUrl   string    `json:"folderUrl"`
+	Provisioned bool      `json:"provisioned"`
 }

@@ -38,9 +38,8 @@ Here is an overview of what is done and what is going to be done
 - [x] Organisation
    - [x] Current Org
    - [x] Manipulate Org as admin
-- [ ] Plugin
 - [x] Playlist
-- [ ] Snapshot
+- [x] Snapshot
 - [x] User
    - [x] Current User
    - [x] Manipulate User as admin

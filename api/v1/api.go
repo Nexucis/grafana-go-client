@@ -27,10 +27,9 @@ type APIInterface interface {
 	Folders() FolderInterface
 	Keys() KeyInterface
 	Organisations() OrganisationsInterface
-	Plugin()
 	Playlist() PlaylistInterface
 	Search() SearchInterface
-	Snapshots()
+	Snapshots() SnapshotInterface
 	Teams() TeamInterface
 	Users() UsersInterface
 }
@@ -92,6 +91,10 @@ func (a *api) Playlist() PlaylistInterface {
 
 func (a *api) Search() SearchInterface {
 	return newSearch(a.client)
+}
+
+func (a *api) Snapshots() SnapshotInterface {
+	return newSnapshot(a.client)
 }
 
 func (a *api) Organisations() OrganisationsInterface {
