@@ -23,6 +23,13 @@ const (
 	RoleAdmin  RoleType = "Admin"
 )
 
+type PermissionTypeAsString string
+
+const (
+	PermmissionViewAsString = "View"
+	PermissionEditAsString  = "Edit"
+)
+
 type PermissionType int
 
 const (

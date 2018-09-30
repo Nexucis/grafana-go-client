@@ -31,7 +31,7 @@ type QueryParamAnnotation struct {
 	// string. Optional. Use this to filter global annotations. Global annotations are annotations from an annotation data source that are not connected specifically to a dashboard or panel
 	tags []string
 	// string. Optional. alert|annotation Return alerts or user created annotations
-	_type string
+	annotationType types.AnnotationQueryType
 	// number. Optional - default is 100. Max limit for results returned.
 	limit int64
 }
@@ -71,8 +71,8 @@ func (q *QueryParamAnnotation) AddTag(tag string) *QueryParamAnnotation {
 	return q
 }
 
-func (q *QueryParamAnnotation) Type(t string) *QueryParamAnnotation {
-	q._type = t
+func (q *QueryParamAnnotation) Type(queryType types.AnnotationQueryType) *QueryParamAnnotation {
+	q.annotationType = queryType
 	return q
 }
 
@@ -213,5 +213,62 @@ func (q *QueryParameterPlaylist) Query(query string) *QueryParameterPlaylist {
 
 func (q *QueryParameterPlaylist) Limit(limit int64) *QueryParameterPlaylist {
 	q.limit = limit
+	return q
+}
+
+type QueryParameterSearch struct {
+	// search by title
+	query string
+	// List of tags to search
+	tags []string
+	//  Type to search for, dash-folder or dash-db
+	searchType types.SearchType
+	// List of dashboard id’s to search
+	dashboardIds []int64
+	// List of folder id’s to search in for dashboards
+	folderIds []int64
+	// Flag indicating if only starred Dashboards should be returned
+	starred    bool
+	limit      int
+	permission types.PermissionTypeAsString
+}
+
+func (q *QueryParameterSearch) Query(query string) *QueryParameterSearch {
+	q.query = query
+	return q
+}
+
+func (q *QueryParameterSearch) Tag(tag string) *QueryParameterSearch {
+	q.tags = append(q.tags, tag)
+	return q
+}
+
+func (q *QueryParameterSearch) Type(queryType types.SearchType) *QueryParameterSearch {
+	q.searchType = queryType
+	return q
+}
+
+func (q *QueryParameterSearch) DashboardIDS(id int64) *QueryParameterSearch {
+	q.dashboardIds = append(q.dashboardIds, id)
+	return q
+}
+
+func (q *QueryParameterSearch) FolderIDS(id int64) *QueryParameterSearch {
+	q.folderIds = append(q.folderIds, id)
+	return q
+}
+
+func (q *QueryParameterSearch) Starred(starred bool) *QueryParameterSearch {
+	q.starred = starred
+	return q
+}
+
+func (q *QueryParameterSearch) Limit(limit int) *QueryParameterSearch {
+	q.limit = limit
+	return q
+}
+
+func (q *QueryParameterSearch) Permission(permission types.PermissionTypeAsString) *QueryParameterSearch {
+	q.permission = permission
 	return q
 }

@@ -34,7 +34,7 @@ Here is an overview of what is done and what is going to be done
 - [x] Data Source
 - [x] Folder
    - [x] Folder Permissions
-- [ ] Folder/dashboard search
+- [x] Folder/dashboard search
 - [x] Organisation
    - [x] Current Org
    - [x] Manipulate Org as admin

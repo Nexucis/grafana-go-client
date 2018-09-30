@@ -29,7 +29,7 @@ type APIInterface interface {
 	Organisations() OrganisationsInterface
 	Plugin()
 	Playlist() PlaylistInterface
-	Search()
+	Search() SearchInterface
 	Snapshots()
 	Teams() TeamInterface
 	Users() UsersInterface
@@ -88,6 +88,10 @@ func (a *api) Keys() KeyInterface {
 
 func (a *api) Playlist() PlaylistInterface {
 	return newPlaylist(a.client)
+}
+
+func (a *api) Search() SearchInterface {
+	return newSearch(a.client)
 }
 
 func (a *api) Organisations() OrganisationsInterface {
