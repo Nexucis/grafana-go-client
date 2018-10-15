@@ -104,7 +104,7 @@ func (r *Request) Do() *Response {
 	httpRequest, err := r.prepareRequest()
 
 	if err != nil {
-		return &Response{err: r.err}
+		return &Response{err: err}
 	}
 
 	resp, err := httpClient.Do(httpRequest)
@@ -119,7 +119,7 @@ func (r *Request) Do() *Response {
 			}
 		}
 
-		return &Response{err: r.err}
+		return &Response{err: err}
 	}
 
 	defer func() {
@@ -180,7 +180,7 @@ func (r *Request) url() (string, error) {
 	}
 	finalURL.Path = r.pathPrefix + subPath
 
-	if r.queryParam == nil {
+	if r.queryParam != nil {
 		finalURL.RawQuery = r.queryParam.Encode()
 	}
 
