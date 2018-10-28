@@ -27,16 +27,15 @@ func TestTeam_Create(t *testing.T) {
 		return
 	}
 
-	//clean test
-	var teamID int64
-	defer removeTeam(t, teamID)
-
 	team := initTeamTest(t)
 	teamToCreate := &types.CreateOrUpdateTeam{Name: "my_team", Email: "john.doe@my-company.com"}
 	teamID, err := team.Create(teamToCreate)
 
 	assert.Nil(t, err)
 	assert.True(t, teamID > 0)
+
+	//clean test
+	removeTeam(t, teamID)
 }
 
 func TestTeam_Update(t *testing.T) {
@@ -46,18 +45,17 @@ func TestTeam_Update(t *testing.T) {
 		return
 	}
 
-	//clean test
-	var teamID int64
-	defer removeTeam(t, teamID)
-
 	team := initTeamTest(t)
 	teamToCreate := &types.CreateOrUpdateTeam{Name: "my_team", Email: "john.doe@my-company.com"}
-	teamID, _ = team.Create(teamToCreate)
+	teamID, _ := team.Create(teamToCreate)
 
 	teamToUpdate := &types.CreateOrUpdateTeam{Name: "my_other_team", Email: "john.doe2@my-company.com"}
 
 	err := team.Update(teamID, teamToUpdate)
 	assert.Nil(t, err)
+
+	//clean test
+	removeTeam(t, teamID)
 }
 
 func TestTeam_Get(t *testing.T) {
@@ -68,12 +66,9 @@ func TestTeam_Get(t *testing.T) {
 	}
 
 	//clean test
-	var teamID int64
-	defer removeTeam(t, teamID)
-
 	team := initTeamTest(t)
 	teamToCreate := &types.CreateOrUpdateTeam{Name: "my_team", Email: "john.doe@my-company.com"}
-	teamID, _ = team.Create(teamToCreate)
+	teamID, _ := team.Create(teamToCreate)
 
 	//Get team
 	response, err := team.Get((&QueryParameterTeams{}).PerPage(int64(10)))
@@ -83,6 +78,9 @@ func TestTeam_Get(t *testing.T) {
 	assert.Equal(t, "my_team", response.Teams[0].Name)
 	assert.Equal(t, "john.doe@my-company.com", response.Teams[0].Email)
 	assert.Equal(t, int64(0), response.Teams[0].MemberCount)
+
+	//clean test
+	removeTeam(t, teamID)
 }
 
 func TestTeam_GetByID(t *testing.T) {
@@ -92,19 +90,18 @@ func TestTeam_GetByID(t *testing.T) {
 		return
 	}
 
-	//clean test
-	var teamID int64
-	defer removeTeam(t, teamID)
-
 	team := initTeamTest(t)
 	teamToCreate := &types.CreateOrUpdateTeam{Name: "my_team", Email: "john.doe@my-company.com"}
-	teamID, _ = team.Create(teamToCreate)
+	teamID, _ := team.Create(teamToCreate)
 
 	teamInfo, err := team.GetByID(teamID)
 	assert.Nil(t, err)
 	assert.Equal(t, "my_team", teamInfo.Name)
 	assert.Equal(t, teamID, teamInfo.Id)
 	assert.Equal(t, "john.doe@my-company.com", teamInfo.Email)
+
+	// clean test
+	removeTeam(t, teamID)
 }
 
 func TestTeam_Delete(t *testing.T) {
@@ -114,18 +111,18 @@ func TestTeam_Delete(t *testing.T) {
 		return
 	}
 
-	//clean test
-	var teamID int64
-	defer removeTeam(t, teamID)
+
 
 	team := initTeamTest(t)
 	teamToCreate := &types.CreateOrUpdateTeam{Name: "my_team", Email: "john.doe@my-company.com"}
-	teamID, _ = team.Create(teamToCreate)
+	teamID, _ := team.Create(teamToCreate)
 
 	//trying to delete the user now
 	err := team.Delete(teamID)
-
 	assert.Nil(t, err)
+
+	//clean test
+	removeTeam(t, teamID)
 }
 
 func TestTeam_AddMembers(t *testing.T) {
@@ -135,24 +132,23 @@ func TestTeam_AddMembers(t *testing.T) {
 		return
 	}
 
-	//clean test
-	var userID, teamID int64
-	defer removeTeam(t, teamID)
-	defer removeGlobalUser(t, userID)
-
 	team := initTeamTest(t)
 	teamToCreate := &types.CreateOrUpdateTeam{Name: "my_team", Email: "john.doe@my-company.com"}
-	teamID, _ = team.Create(teamToCreate)
+	teamID, _ := team.Create(teamToCreate)
 
 	//create user before binding it to the team
 	admin := initAdminTest(t)
 	user := &types.AdminCreateUserForm{Email: "jdoe@compagny.com", Login: "jdoe", Password: "jdoe", Name: "John Doe"}
 	userResponse, _ := admin.CreateUser(user)
-	userID = userResponse.ID
+	userID := userResponse.ID
 
 	//binding
 	err := team.AddMembers(teamID, userID)
 	assert.Nil(t, err)
+
+	// clean test
+	removeTeam(t, teamID)
+	removeGlobalUser(t, userID)
 }
 
 func TestTeam_DeleteMembers(t *testing.T) {
@@ -162,20 +158,15 @@ func TestTeam_DeleteMembers(t *testing.T) {
 		return
 	}
 
-	//clean test
-	var userID, teamID int64
-	defer removeTeam(t, teamID)
-	defer removeGlobalUser(t, userID)
-
 	team := initTeamTest(t)
 	teamToCreate := &types.CreateOrUpdateTeam{Name: "my_team", Email: "john.doe@my-company.com"}
-	teamID, _ = team.Create(teamToCreate)
+	teamID, _ := team.Create(teamToCreate)
 
 	//create user before binding it to the team
 	admin := initAdminTest(t)
 	user := &types.AdminCreateUserForm{Email: "jdoe@compagny.com", Login: "jdoe", Password: "jdoe", Name: "John Doe"}
 	userResponse, _ := admin.CreateUser(user)
-	userID = userResponse.ID
+	userID := userResponse.ID
 
 	//binding
 	team.AddMembers(teamID, userResponse.ID)
@@ -183,6 +174,10 @@ func TestTeam_DeleteMembers(t *testing.T) {
 	//delete the user in the team
 	err := team.DeleteMembers(teamID, userResponse.ID)
 	assert.Nil(t, err)
+
+	//clean test
+	removeTeam(t, teamID)
+	removeGlobalUser(t, userID)
 }
 
 func TestTeam_GetMembers(t *testing.T) {
@@ -192,20 +187,15 @@ func TestTeam_GetMembers(t *testing.T) {
 		return
 	}
 
-	//clean test
-	var userID, teamID int64
-	defer removeTeam(t, teamID)
-	defer removeGlobalUser(t, userID)
-
 	team := initTeamTest(t)
 	teamToCreate := &types.CreateOrUpdateTeam{Name: "my_team", Email: "john.doe@my-company.com"}
-	teamID, _ = team.Create(teamToCreate)
+	teamID, _ := team.Create(teamToCreate)
 
 	//create user before binding it to the team
 	admin := initAdminTest(t)
 	user := &types.AdminCreateUserForm{Email: "jdoe@compagny.com", Login: "jdoe", Password: "jdoe", Name: "John Doe"}
 	userResponse, _ := admin.CreateUser(user)
-	userID = userResponse.ID
+	userID := userResponse.ID
 
 	//binding
 	team.AddMembers(teamID, userResponse.ID)
@@ -218,6 +208,10 @@ func TestTeam_GetMembers(t *testing.T) {
 	assert.Equal(t, "jdoe", teamMembers[0].Login)
 	assert.Equal(t, userResponse.ID, teamMembers[0].UserId)
 	assert.Equal(t, teamID, teamMembers[0].TeamId)
+
+	//clean test
+	removeTeam(t, teamID)
+	removeGlobalUser(t, userID)
 }
 
 func initTeamTest(t *testing.T) TeamInterface {
