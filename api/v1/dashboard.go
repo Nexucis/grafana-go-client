@@ -109,7 +109,7 @@ func (c *dashboard) GetVersion(dashboardID int64) ([]*types.DashboardVersion, er
 		SetSubPath("/id/:dashboardId/versions").
 		SetPathParam("dashboardId", strconv.FormatInt(dashboardID, 10)).
 		Do().
-		SaveAsObj(result)
+		SaveAsObj(&result)
 	return result, err
 }
 
@@ -146,7 +146,7 @@ func (c *dashboard) GetPermissions(dashboardID int64) ([]*types.FolderOrDashboar
 		SetSubPath("/id/:dashboardId/permissions").
 		SetPathParam("dashboardId", strconv.FormatInt(dashboardID, 10)).
 		Do().
-		SaveAsObj(result)
+		SaveAsObj(&result)
 	return result, err
 }
 

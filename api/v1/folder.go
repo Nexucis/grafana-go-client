@@ -53,7 +53,7 @@ func (c *folder) Get(limit int) ([]*types.SimpleFolder, error) {
 	err := c.client.Get(folderAPI).
 		AddQueryParam("limit", strconv.Itoa(limit)).
 		Do().
-		SaveAsObj(result)
+		SaveAsObj(&result)
 	return result, err
 }
 
@@ -116,7 +116,7 @@ func (c *folder) GetPermissions(uid string) ([]*types.FolderOrDashboardPermissio
 		SetSubPath("/:uid/permissions").
 		SetPathParam("uid", uid).
 		Do().
-		SaveAsObj(result)
+		SaveAsObj(&result)
 	return result, err
 }
 

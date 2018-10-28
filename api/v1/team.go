@@ -23,14 +23,14 @@ import (
 const teamAPI = "/api/teams"
 
 type TeamInterface interface {
-	Get(*QueryParameterTeams) (*types.SearchTeam, error)
-	GetByID(int64) (*types.Team, error)
-	GetMembers(int64) ([]*types.TeamMember, error)
-	Create(*types.CreateOrUpdateTeam) (*types.Team, error)
-	Update(int64, *types.CreateOrUpdateTeam) error
-	AddMembers(int64, int64) error
-	Delete(int64) error
-	DeleteMembers(int64, int64) error
+	Get(query *QueryParameterTeams) (*types.SearchTeam, error)
+	GetByID(teamID int64) (*types.Team, error)
+	GetMembers(teamID int64) ([]*types.TeamMember, error)
+	Create(team *types.CreateOrUpdateTeam) (int64, error)
+	Update(teamID int64, team *types.CreateOrUpdateTeam) error
+	AddMembers(teamID int64, userID int64) error
+	Delete(teamID int64) error
+	DeleteMembers(teamID int64, userID int64) error
 }
 
 func newTeam(client *http.RESTClient) TeamInterface {
@@ -60,7 +60,7 @@ func (c *team) GetByID(teamID int64) (*types.Team, error) {
 	response := &types.Team{}
 	err := c.client.Get(teamAPI).
 		SetSubPath("/:teamId").
-		SetPathParam("/:teamId", strconv.FormatInt(teamID, 10)).
+		SetPathParam("teamId", strconv.FormatInt(teamID, 10)).
 		Do().
 		SaveAsObj(response)
 	return response, err
@@ -72,17 +72,19 @@ func (c *team) GetMembers(teamID int64) ([]*types.TeamMember, error) {
 		SetSubPath("/:teamId/members").
 		SetPathParam("teamId", strconv.FormatInt(teamID, 10)).
 		Do().
-		SaveAsObj(response)
+		SaveAsObj(&response)
 	return response, err
 }
 
-func (c *team) Create(team *types.CreateOrUpdateTeam) (*types.Team, error) {
-	response := &types.Team{}
+func (c *team) Create(team *types.CreateOrUpdateTeam) (int64, error) {
+	response := &struct {
+		TeamID int64 `json:"teamId"`
+	}{}
 	err := c.client.Post(teamAPI).
 		Body(team).
 		Do().
 		SaveAsObj(response)
-	return response, err
+	return response.TeamID, err
 }
 
 func (c *team) Update(teamID int64, team *types.CreateOrUpdateTeam) error {
@@ -109,7 +111,7 @@ func (c *team) AddMembers(teamID int64, userID int64) error {
 }
 
 func (c *team) Delete(teamID int64) error {
-	return c.client.Delete(adminAPI).
+	return c.client.Delete(teamAPI).
 		SetSubPath("/:teamId").
 		SetPathParam("teamId", strconv.FormatInt(teamID, 10)).
 		Do().
@@ -117,7 +119,7 @@ func (c *team) Delete(teamID int64) error {
 }
 
 func (c *team) DeleteMembers(teamID int64, userID int64) error {
-	return c.client.Delete(adminAPI).
+	return c.client.Delete(teamAPI).
 		SetSubPath("/:teamId/members/:userId").
 		SetPathParam("teamId", strconv.FormatInt(teamID, 10)).
 		SetPathParam("userId", strconv.FormatInt(userID, 10)).

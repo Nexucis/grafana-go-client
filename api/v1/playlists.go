@@ -50,7 +50,7 @@ func (c *playlist) Search(query *QueryParameterPlaylist) ([]*types.SimplePlaylis
 	setQueryParamPlaylist(request, query)
 
 	err := request.Do().
-		SaveAsObj(result)
+		SaveAsObj(&result)
 
 	return result, err
 }
@@ -82,7 +82,7 @@ func (c *playlist) GetItems(playlistID int64) ([]*types.PlaylistItem, error) {
 		SetSubPath("/:id/items").
 		SetPathParam("id", strconv.FormatInt(playlistID, 10)).
 		Do().
-		SaveAsObj(result)
+		SaveAsObj(&result)
 
 	return result, err
 }
@@ -93,7 +93,7 @@ func (c *playlist) GetDashboards(playlistID int64) ([]*types.PlaylistDashboard, 
 		SetSubPath("/:id/dashboards").
 		SetPathParam("id", strconv.FormatInt(playlistID, 10)).
 		Do().
-		SaveAsObj(result)
+		SaveAsObj(&result)
 
 	return result, err
 }
