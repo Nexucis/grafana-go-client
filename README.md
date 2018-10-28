@@ -100,7 +100,7 @@ This command only run the unit test which basically only the test in the http pa
 If you want to launch the unit test, you need to have a local grafana instance which must be accessible through the url http://localhost:3000. A simply way to launch it, is to start the [corresponding container](https://hub.docker.com/r/grafana/grafana/) : 
 
 ```bash
-docker run -d --name=grafana -p 3000:3000 grafana/grafana
+docker run -d --name=grafana -p 3000:3000 grafana/grafana:5.3.2
 ```
 
 Once ElasticSearch is up, you can run the following command :
