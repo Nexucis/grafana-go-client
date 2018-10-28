@@ -100,7 +100,7 @@ func (c *currentOrg) GetUsers() ([]*types.OrgUser, error) {
 	err := c.client.Get(currentOrgAPI).
 		SetSubPath("/users").
 		Do().
-		SaveAsObj(result)
+		SaveAsObj(&result)
 
 	return result, err
 }
@@ -127,7 +127,7 @@ func (c *currentOrg) GetInvites() ([]*types.TempOrgUser, error) {
 	err := c.client.Get(currentOrgAPI).
 		SetSubPath("/invites").
 		Do().
-		SaveAsObj(result)
+		SaveAsObj(&result)
 
 	return result, err
 }

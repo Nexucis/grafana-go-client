@@ -50,7 +50,7 @@ func (c *users) Get(query *QueryParameterUsers) ([]*types.UserSearchHit, error) 
 	setQueryParamUsers(request, query)
 
 	err := request.Do().
-		SaveAsObj(response)
+		SaveAsObj(&response)
 
 	return response, err
 }

@@ -44,7 +44,7 @@ func (c *search) Query(query *QueryParameterSearch) ([]*types.SearchResult, erro
 	setQueryParamSearch(request, query)
 
 	err := request.Do().
-		SaveAsObj(response)
+		SaveAsObj(&response)
 
 	return response, err
 }

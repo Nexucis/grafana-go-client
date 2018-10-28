@@ -75,7 +75,7 @@ func (c *orgs) Search(query *QueryParameterOrgs) ([]*types.SimpleOrg, error) {
 	setQueryParamOrgs(request, query)
 
 	err := request.Do().
-		SaveAsObj(response)
+		SaveAsObj(&response)
 
 	return response, err
 }
@@ -137,7 +137,7 @@ func (c *orgs) GetUsers(orgID int64) ([]*types.OrgUser, error) {
 		SetSubPath("/:orgId/users").
 		SetPathParam("orgId", strconv.FormatInt(orgID, 10)).
 		Do().
-		SaveAsObj(result)
+		SaveAsObj(&result)
 
 	return result, err
 }

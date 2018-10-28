@@ -48,7 +48,7 @@ func (c *alert) Get(query *QueryParamAlert) ([]*types.ResponseGetAlert, error) {
 	setQueryParamAlert(request, query)
 
 	err := request.Do().
-		SaveAsObj(response)
+		SaveAsObj(&response)
 
 	return response, err
 }
