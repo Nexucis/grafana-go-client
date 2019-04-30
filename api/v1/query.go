@@ -91,7 +91,7 @@ type QueryParamAlert struct {
 	// Limit response to alerts having a dashboard name like this value.
 	dashboardQuery string
 	// Return alerts with one or more of the alert states. You can specify multiple state
-	states [] types.AlertState
+	states []types.AlertState
 	// Limit response to alerts in specified dashboard(s). You can specify multiple dashboards
 	dashboardIds []int64
 	// Limit response to alerts of dashboards in specified folder(s).You can specify multiple folders

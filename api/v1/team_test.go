@@ -111,8 +111,6 @@ func TestTeam_Delete(t *testing.T) {
 		return
 	}
 
-
-
 	team := initTeamTest(t)
 	teamToCreate := &types.CreateOrUpdateTeam{Name: "my_team", Email: "john.doe@my-company.com"}
 	teamID, _ := team.Create(teamToCreate)

@@ -33,7 +33,7 @@ const (
 type PermissionType int
 
 const (
-	PermissionView  PermissionType = 1 << iota
+	PermissionView PermissionType = 1 << iota
 	PermissionEdit
 	PermissionAdmin
 )
