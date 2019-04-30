@@ -11,9 +11,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package v1
+package api
 
-import "github.com/nexucis/grafana-go-client/api/v1/types"
+import "github.com/nexucis/grafana-go-client/api/types"
 
 type QueryParamAnnotation struct {
 	// epoch datetime in milliseconds. Optional.

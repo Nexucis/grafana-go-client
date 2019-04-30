@@ -10,7 +10,7 @@ if [ -f profile.out ]; then
    rm profile.out
 fi
 
-go test -race -coverprofile=profile.out -covermode=atomic ./api/v1 -integration
+go test -race -coverprofile=profile.out -covermode=atomic ./api -integration
 
 if [ -f profile.out ]; then
    cat profile.out >> coverage.txt
