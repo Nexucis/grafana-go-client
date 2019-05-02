@@ -25,18 +25,18 @@ const (
 )
 
 type Org struct {
-	Id      int64   `json:"id"`
+	ID      int64   `json:"id"`
 	Name    string  `json:"name"`
 	Address Address `json:"address"`
 }
 
 type SimpleOrg struct {
-	Id   int64  `json:"id"`
+	ID   int64  `json:"id"`
 	Name string `json:"name"`
 }
 
 type OrgQuota struct {
-	OrgId  int64  `json:"org_id"`
+	OrgID  int64  `json:"org_id"`
 	Target string `json:"target"`
 	Limit  int64  `json:"limit"`
 	Used   int64  `json:"used"`
@@ -61,10 +61,10 @@ type Address struct {
 }
 
 type OrgUser struct {
-	OrgId         int64     `json:"orgId"`
-	UserId        int64     `json:"userId"`
+	OrgID         int64     `json:"orgId"`
+	UserID        int64     `json:"userId"`
 	Email         string    `json:"email"`
-	AvatarUrl     string    `json:"avatarUrl"`
+	AvatarURL     string    `json:"avatarUrl"`
 	Login         string    `json:"login"`
 	Role          string    `json:"role"`
 	LastSeenAt    time.Time `json:"lastSeenAt"`
@@ -72,8 +72,8 @@ type OrgUser struct {
 }
 
 type TempOrgUser struct {
-	Id             int64          `json:"id"`
-	OrgId          int64          `json:"orgId"`
+	ID             int64          `json:"id"`
+	OrgID          int64          `json:"orgId"`
 	Name           string         `json:"name"`
 	Email          string         `json:"email"`
 	Role           RoleType       `json:"role"`
@@ -82,7 +82,7 @@ type TempOrgUser struct {
 	InvitedByName  string         `json:"invitedByName"`
 	Code           string         `json:"code"`
 	Status         TempUserStatus `json:"status"`
-	Url            string         `json:"url"`
+	URL            string         `json:"url"`
 	EmailSent      bool           `json:"emailSent"`
 	EmailSentOn    time.Time      `json:"emailSentOn"`
 	Created        time.Time      `json:"createdOn"`

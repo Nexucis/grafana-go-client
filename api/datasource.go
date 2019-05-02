@@ -109,12 +109,12 @@ func (c *dataSource) GetByName(sourceName string) (*types.DataSource, error) {
 
 func (c *dataSource) GetIDByName(sourceName string) (int64, error) {
 	result := &struct {
-		Id int64 `json:"id"`
+		ID int64 `json:"id"`
 	}{}
 	err := c.client.Get(datasourceAPI).
 		SetSubPath("/id/:name").
 		SetPathParam("name", sourceName).
 		Do().
 		SaveAsObj(result)
-	return result.Id, err
+	return result.ID, err
 }

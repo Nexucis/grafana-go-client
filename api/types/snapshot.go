@@ -26,8 +26,8 @@ type DashboardSnapshot struct {
 type CreateSnaphostResponse struct {
 	Key       string `json:"key"`
 	DeleteKey string `json:"deleteKey"`
-	Url       string `json:"url"`
-	DeleteUrl string `json:"deleteUrl"`
+	URL       string `json:"url"`
+	DeleteURL string `json:"deleteUrl"`
 }
 
 type SharedOptionSnaphost struct {

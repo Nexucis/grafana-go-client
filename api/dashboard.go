@@ -37,7 +37,7 @@ type DashboardInterface interface {
 	GetVersionByID(int64, int) (*types.DashboardVersionMeta, error)
 	RestoreVersion(int64, int) (*types.SimpleDashboard, error)
 	GetPermissions(int64) ([]*types.FolderOrDashboardPermission, error)
-	UpdatePermissions(int64, []*types.DashboardAclUpdateItem) error
+	UpdatePermissions(int64, []*types.DashboardACLUpdateItem) error
 }
 
 func newDashboard(client *grafanahttp.RESTClient) DashboardInterface {
@@ -149,9 +149,9 @@ func (c *dashboard) GetPermissions(dashboardID int64) ([]*types.FolderOrDashboar
 	return result, err
 }
 
-func (c *dashboard) UpdatePermissions(dashboardID int64, items []*types.DashboardAclUpdateItem) error {
+func (c *dashboard) UpdatePermissions(dashboardID int64, items []*types.DashboardACLUpdateItem) error {
 	body := struct {
-		Items []*types.DashboardAclUpdateItem `json:"items"`
+		Items []*types.DashboardACLUpdateItem `json:"items"`
 	}{Items: items}
 
 	return c.client.Post(dashboardAPI).

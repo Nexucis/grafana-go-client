@@ -14,11 +14,11 @@
 package types
 
 type Team struct {
-	Id          int64  `json:"id"`
-	OrgId       int64  `json:"orgId"`
+	ID          int64  `json:"id"`
+	OrgID       int64  `json:"orgId"`
 	Name        string `json:"name"`
 	Email       string `json:"email"`
-	AvatarUrl   string `json:"avatarUrl"`
+	AvatarURL   string `json:"avatarUrl"`
 	MemberCount int64  `json:"memberCount"`
 }
 
@@ -30,12 +30,12 @@ type SearchTeam struct {
 }
 
 type TeamMember struct {
-	OrgId     int64  `json:"orgId"`
-	TeamId    int64  `json:"teamId"`
-	UserId    int64  `json:"userId"`
+	OrgID     int64  `json:"orgId"`
+	TeamID    int64  `json:"teamId"`
+	UserID    int64  `json:"userId"`
 	Email     string `json:"email"`
 	Login     string `json:"login"`
-	AvatarUrl string `json:"avatarUrl"`
+	AvatarURL string `json:"avatarUrl"`
 }
 
 type CreateOrUpdateTeam struct {

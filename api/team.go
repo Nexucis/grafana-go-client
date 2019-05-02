@@ -96,9 +96,9 @@ func (c *team) Update(teamID int64, team *types.CreateOrUpdateTeam) error {
 
 func (c *team) AddMembers(teamID int64, userID int64) error {
 	teamMember := &struct {
-		UserId int64 `json:"userId" binding:"Required"`
+		UserID int64 `json:"userId" binding:"Required"`
 	}{
-		UserId: userID,
+		UserID: userID,
 	}
 	return c.client.Post(teamAPI).
 		SetSubPath("/:teamId/members").

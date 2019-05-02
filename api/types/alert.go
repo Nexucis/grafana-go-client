@@ -29,24 +29,24 @@ const (
 )
 
 type ResponseGetAlert struct {
-	Id             int64       `json:"id"`
-	DashboardId    int64       `json:"dashboardId"`
-	DashboardUid   string      `json:"dashboardUid"`
+	ID             int64       `json:"id"`
+	DashboardID    int64       `json:"dashboardId"`
+	DashboardUID   string      `json:"dashboardUid"`
 	DashboardSlug  string      `json:"dashboardSlug"`
-	PanelId        int64       `json:"panelId"`
+	PanelID        int64       `json:"panelId"`
 	Name           string      `json:"name"`
 	State          AlertState  `json:"state"`
 	NewStateDate   time.Time   `json:"newStateDate"`
 	EvalDate       time.Time   `json:"evalDate"`
 	EvalData       interface{} `json:"evalData"`
 	ExecutionError string      `json:"executionError"`
-	Url            string      `json:"url"`
+	URL            string      `json:"url"`
 }
 
 type ResponseGetStatesForDashboard struct {
-	Id           int64      `json:"id"`
-	DashboardId  int64      `json:"dashboardId"`
-	PanelId      int64      `json:"panelId"`
+	ID           int64      `json:"id"`
+	DashboardID  int64      `json:"dashboardId"`
+	PanelID      int64      `json:"panelId"`
 	State        AlertState `json:"state"`
 	NewStateDate time.Time  `json:"newStateDate"`
 }
@@ -54,7 +54,7 @@ type ResponseGetStatesForDashboard struct {
 type PostAlertTest struct {
 	// Dashboard shall at least contains a key id with type int64
 	Dashboard interface{} `json:"dashboard" binding:"Required"`
-	PanelId   int64       `json:"panelId" binding:"Required"`
+	PanelID   int64       `json:"panelId" binding:"Required"`
 }
 
 type ResponsePostAlertTest struct {
@@ -85,6 +85,6 @@ type NullFloat64 struct {
 }
 
 type PostPauseAlert struct {
-	AlertId int64 `json:"alertId"`
+	AlertID int64 `json:"alertId"`
 	Paused  bool  `json:"paused"`
 }

@@ -155,11 +155,11 @@ func (r *Request) Do() *Response {
 }
 
 func (r *Request) prepareRequest() (*http.Request, error) {
-	finalUrl, err := r.url()
+	finalURL, err := r.url()
 	if err != nil {
 		return nil, err
 	}
-	httpRequest, err := http.NewRequest(r.method, finalUrl, r.body)
+	httpRequest, err := http.NewRequest(r.method, finalURL, r.body)
 
 	if err != nil {
 		return nil, err

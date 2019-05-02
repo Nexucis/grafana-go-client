@@ -39,26 +39,26 @@ const (
 )
 
 type FolderOrDashboardPermission struct {
-	OrgId          int64          `json:"-"`
-	DashboardId    int64          `json:"dashboardId,omitempty"`
-	FolderId       int64          `json:"folderId,omitempty"`
+	OrgID          int64          `json:"-"`
+	DashboardID    int64          `json:"dashboardId,omitempty"`
+	FolderID       int64          `json:"folderId,omitempty"`
 	Created        time.Time      `json:"created"`
 	Updated        time.Time      `json:"updated"`
-	UserId         int64          `json:"userId"`
+	UserID         int64          `json:"userId"`
 	UserLogin      string         `json:"userLogin"`
 	UserEmail      string         `json:"userEmail"`
-	UserAvatarUrl  string         `json:"userAvatarUrl"`
-	TeamId         int64          `json:"teamId"`
+	UserAvatarURL  string         `json:"userAvatarUrl"`
+	TeamID         int64          `json:"teamId"`
 	TeamEmail      string         `json:"teamEmail"`
-	TeamAvatarUrl  string         `json:"teamAvatarUrl"`
+	TeamAvatarURL  string         `json:"teamAvatarUrl"`
 	Team           string         `json:"team"`
 	Role           *RoleType      `json:"role,omitempty"`
 	Permission     PermissionType `json:"permission"`
 	PermissionName string         `json:"permissionName"`
-	Uid            string         `json:"uid"`
+	UID            string         `json:"uid"`
 	Title          string         `json:"title"`
 	Slug           string         `json:"slug"`
 	IsFolder       bool           `json:"isFolder"`
-	Url            string         `json:"url"`
+	URL            string         `json:"url"`
 	Inherited      bool           `json:"inherited"`
 }

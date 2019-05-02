@@ -21,21 +21,21 @@ const (
 )
 
 type SimplePlaylist struct {
-	Id       int64  `json:"id"`
+	ID       int64  `json:"id"`
 	Name     string `json:"name"`
 	Interval string `json:"interval"`
 }
 
 type Playlist struct {
-	Id       int64          `json:"id"`
+	ID       int64          `json:"id"`
 	Name     string         `json:"name"`
 	Interval string         `json:"interval"`
 	Items    []PlaylistItem `json:"items"`
 }
 
 type PlaylistItem struct {
-	Id         int64            `json:"id"`
-	PlaylistId int64            `json:"playlistid"`
+	ID         int64            `json:"id"`
+	PlaylistID int64            `json:"playlistid"`
 	Type       PlaylistItemType `json:"type"`
 	Title      string           `json:"title"`
 	Value      string           `json:"value"`
@@ -43,7 +43,7 @@ type PlaylistItem struct {
 }
 
 type PlaylistDashboard struct {
-	Id    int64  `json:"id"`
+	ID    int64  `json:"id"`
 	Slug  string `json:"slug"`
 	Title string `json:"title"`
 }

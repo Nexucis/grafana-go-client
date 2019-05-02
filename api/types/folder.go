@@ -16,11 +16,11 @@ package types
 import "time"
 
 type Folder struct {
-	Id        int64     `json:"id"`
-	Uid       string    `json:"uid"`
+	ID        int64     `json:"id"`
+	UID       string    `json:"uid"`
 	Title     string    `json:"title"`
-	Url       string    `json:"url"`
-	HasAcl    bool      `json:"hasAcl"`
+	URL       string    `json:"url"`
+	HasACL    bool      `json:"hasAcl"`
 	CanSave   bool      `json:"canSave"`
 	CanEdit   bool      `json:"canEdit"`
 	CanAdmin  bool      `json:"canAdmin"`
@@ -32,22 +32,22 @@ type Folder struct {
 }
 
 type SimpleFolder struct {
-	Id    int64  `json:"id"`
-	Uid   string `json:"uid"`
+	ID    int64  `json:"id"`
+	UID   string `json:"uid"`
 	Title string `json:"title"`
 }
 
 type UpdateFolder struct {
 	// Provide another unique identifier to change the unique identifier stored.
-	Uid       string `json:"uid"`
+	UID       string `json:"uid"`
 	Title     string `json:"title"`
 	Version   int    `json:"version"`
 	Overwrite bool   `json:"overwrite"`
 }
 
-type DashboardAclUpdateItem struct {
-	UserId     int64          `json:"userId"`
-	TeamId     int64          `json:"teamId"`
+type DashboardACLUpdateItem struct {
+	UserID     int64          `json:"userId"`
+	TeamID     int64          `json:"teamId"`
 	Role       *RoleType      `json:"role,omitempty"`
 	Permission PermissionType `json:"permission"`
 }

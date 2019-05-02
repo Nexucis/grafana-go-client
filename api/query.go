@@ -129,14 +129,14 @@ func (q *QueryParamAlert) GetValues() url.Values {
 	}
 
 	if len(q.DashboardIDs) > 0 {
-		for _, dashboardId := range q.DashboardIDs {
-			values["dashboardId"] = append(values["dashboardId"], strconv.FormatInt(dashboardId, 10))
+		for _, dashboardID := range q.DashboardIDs {
+			values["dashboardId"] = append(values["dashboardId"], strconv.FormatInt(dashboardID, 10))
 		}
 	}
 
 	if len(q.FolderIDs) > 0 {
-		for _, folderId := range q.FolderIDs {
-			values["folderId"] = append(values["folderId"], strconv.FormatInt(folderId, 10))
+		for _, folderID := range q.FolderIDs {
+			values["folderId"] = append(values["folderId"], strconv.FormatInt(folderID, 10))
 		}
 	}
 

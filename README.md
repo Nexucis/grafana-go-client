@@ -68,7 +68,7 @@ import (
 )
 
 func main() {
-	rest, err := grafanahttp.NewWithUrl("http://admin:admin@localhost:3000")
+	rest, err := grafanahttp.NewWithURL("http://admin:admin@localhost:3000")
 	if err != nil {
 		glog.Fatal(err)
 	}

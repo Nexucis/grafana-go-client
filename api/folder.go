@@ -29,7 +29,7 @@ type FolderInterface interface {
 	Update(string, *types.UpdateFolder) (*types.Folder, error)
 	Delete(string) error
 	GetPermissions(string) ([]*types.FolderOrDashboardPermission, error)
-	UpdatePermissions(string, []*types.DashboardAclUpdateItem) error
+	UpdatePermissions(string, []*types.DashboardACLUpdateItem) error
 }
 
 func newFolder(client *grafanahttp.RESTClient) FolderInterface {
@@ -79,8 +79,8 @@ func (c *folder) GetByUID(uid string) (*types.Folder, error) {
 func (c *folder) Create(title string, uid string) (*types.Folder, error) {
 	body := struct {
 		Title string `json:"title"`
-		Uid   string `json:"uid"`
-	}{Title: title, Uid: uid}
+		UID   string `json:"uid"`
+	}{Title: title, UID: uid}
 
 	result := &types.Folder{}
 	err := c.client.Post(folderAPI).
@@ -119,9 +119,9 @@ func (c *folder) GetPermissions(uid string) ([]*types.FolderOrDashboardPermissio
 	return result, err
 }
 
-func (c *folder) UpdatePermissions(uid string, items []*types.DashboardAclUpdateItem) error {
+func (c *folder) UpdatePermissions(uid string, items []*types.DashboardACLUpdateItem) error {
 	body := struct {
-		Items []*types.DashboardAclUpdateItem `json:"items"`
+		Items []*types.DashboardACLUpdateItem `json:"items"`
 	}{Items: items}
 
 	return c.client.Post(folderAPI).

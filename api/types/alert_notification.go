@@ -18,7 +18,7 @@ import (
 )
 
 type ResponseAlertNotification struct {
-	Id        int64       `json:"id"`
+	ID        int64       `json:"id"`
 	Name      string      `json:"name"`
 	Type      string      `json:"type"`
 	IsDefault bool        `json:"isDefault"`
@@ -41,7 +41,7 @@ type CreateTestAlertNotification struct {
 }
 
 type UpdateAlertNotification struct {
-	Id        int64       `json:"id"  binding:"Required"`
+	ID        int64       `json:"id"  binding:"Required"`
 	Name      string      `json:"name"  binding:"Required"`
 	Type      string      `json:"type"  binding:"Required"`
 	IsDefault bool        `json:"isDefault"`

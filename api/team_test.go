@@ -74,7 +74,7 @@ func TestTeam_Get(t *testing.T) {
 	response, err := team.Get(QueryParameterTeams{PerPage: 10})
 	assert.Nil(t, err)
 	assert.Equal(t, int64(1), response.TotalCount)
-	assert.Equal(t, teamID, response.Teams[0].Id)
+	assert.Equal(t, teamID, response.Teams[0].ID)
 	assert.Equal(t, "my_team", response.Teams[0].Name)
 	assert.Equal(t, "john.doe@my-company.com", response.Teams[0].Email)
 	assert.Equal(t, int64(0), response.Teams[0].MemberCount)
@@ -97,7 +97,7 @@ func TestTeam_GetByID(t *testing.T) {
 	teamInfo, err := team.GetByID(teamID)
 	assert.Nil(t, err)
 	assert.Equal(t, "my_team", teamInfo.Name)
-	assert.Equal(t, teamID, teamInfo.Id)
+	assert.Equal(t, teamID, teamInfo.ID)
 	assert.Equal(t, "john.doe@my-company.com", teamInfo.Email)
 
 	// clean test
@@ -204,8 +204,8 @@ func TestTeam_GetMembers(t *testing.T) {
 	assert.Equal(t, 1, len(teamMembers))
 	assert.Equal(t, "jdoe@compagny.com", teamMembers[0].Email)
 	assert.Equal(t, "jdoe", teamMembers[0].Login)
-	assert.Equal(t, userResponse.ID, teamMembers[0].UserId)
-	assert.Equal(t, teamID, teamMembers[0].TeamId)
+	assert.Equal(t, userResponse.ID, teamMembers[0].UserID)
+	assert.Equal(t, teamID, teamMembers[0].TeamID)
 
 	//clean test
 	removeTeam(t, teamID)

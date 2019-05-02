@@ -25,7 +25,7 @@ var (
 )
 
 func getRestClientWithBasicAuth() (*grafanahttp.RESTClient, error) {
-	return grafanahttp.NewWithUrl("http://admin:admin@localhost:3000")
+	return grafanahttp.NewWithURL("http://admin:admin@localhost:3000")
 }
 
 func TestMain(m *testing.M) {

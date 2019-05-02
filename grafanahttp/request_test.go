@@ -129,59 +129,59 @@ func TestRequest_SetSubPath(t *testing.T) {
 func TestRequest_URL(t *testing.T) {
 	testSuites := []struct {
 		title         string
-		baseUrl       url.URL
+		baseURL       url.URL
 		pathPrefix    string
 		subPath       string
 		pathParam     map[string]string
 		queryParams   map[string][]string
-		expectedUrl   string
+		expectedURL   string
 		expectedError bool
 	}{
 		{
 			title:         "Url returns as is",
-			baseUrl:       url.URL{Scheme: "http", Host: "localhost:8080"},
-			expectedUrl:   "http://localhost:8080",
+			baseURL:       url.URL{Scheme: "http", Host: "localhost:8080"},
+			expectedURL:   "http://localhost:8080",
 			expectedError: false,
 		},
 		{
 			title:         "Url with subpath",
-			baseUrl:       url.URL{Scheme: "http", Host: "localhost:8080"},
+			baseURL:       url.URL{Scheme: "http", Host: "localhost:8080"},
 			pathPrefix:    "/api",
 			subPath:       "/users",
-			expectedUrl:   "http://localhost:8080/api/users",
+			expectedURL:   "http://localhost:8080/api/users",
 			expectedError: false,
 		},
 		{
 			title:         "Url with subpath and path param",
-			baseUrl:       url.URL{Scheme: "http", Host: "localhost:8080"},
+			baseURL:       url.URL{Scheme: "http", Host: "localhost:8080"},
 			subPath:       "/api/dasboard/:dashboardID/snapshot",
 			pathParam:     map[string]string{"dashboardID": "15"},
-			expectedUrl:   "http://localhost:8080/api/dasboard/15/snapshot",
+			expectedURL:   "http://localhost:8080/api/dasboard/15/snapshot",
 			expectedError: false,
 		},
 		{
 			title:   "url with ascii query param",
-			baseUrl: url.URL{Scheme: "http", Host: "localhost:8080"},
+			baseURL: url.URL{Scheme: "http", Host: "localhost:8080"},
 			queryParams: map[string][]string{
 				"tags":  {"tag1", "tag2"},
 				"limit": {"100"},
 			},
-			expectedUrl:   "http://localhost:8080?limit=100&tags=tag1&tags=tag2",
+			expectedURL:   "http://localhost:8080?limit=100&tags=tag1&tags=tag2",
 			expectedError: false,
 		},
 		{
 			title:   "url with encoding query param",
-			baseUrl: url.URL{Scheme: "http", Host: "localhost:8080"},
+			baseURL: url.URL{Scheme: "http", Host: "localhost:8080"},
 			queryParams: map[string][]string{
 				"version": {"v1&v2", "v3"},
 				"filter":  {"表"},
 			},
-			expectedUrl:   "http://localhost:8080?filter=%E8%A1%A8&version=v1%26v2&version=v3",
+			expectedURL:   "http://localhost:8080?filter=%E8%A1%A8&version=v1%26v2&version=v3",
 			expectedError: false,
 		},
 		{
 			title:      "complete test",
-			baseUrl:    url.URL{Scheme: "http", Host: "localhost:8080"},
+			baseURL:    url.URL{Scheme: "http", Host: "localhost:8080"},
 			pathPrefix: "/api",
 			subPath:    "/dasboard/:dashboardID/snapshot",
 			pathParam:  map[string]string{"dashboardID": "15"},
@@ -191,7 +191,7 @@ func TestRequest_URL(t *testing.T) {
 				"version": {"v1&v2", "v3"},
 				"filter":  {"表"},
 			},
-			expectedUrl:   "http://localhost:8080/api/dasboard/15/snapshot?filter=%E8%A1%A8&limit=100&tags=tag1&tags=tag2&version=v1%26v2&version=v3",
+			expectedURL:   "http://localhost:8080/api/dasboard/15/snapshot?filter=%E8%A1%A8&limit=100&tags=tag1&tags=tag2&version=v1%26v2&version=v3",
 			expectedError: false,
 		},
 	}
@@ -199,7 +199,7 @@ func TestRequest_URL(t *testing.T) {
 	for _, testSuite := range testSuites {
 		info := fmt.Sprintf("test %s failed", testSuite.title)
 		request := &Request{
-			baseURL:    &testSuite.baseUrl,
+			baseURL:    &testSuite.baseURL,
 			pathPrefix: testSuite.pathPrefix,
 			subpath:    testSuite.subPath,
 			pathParam:  testSuite.pathParam,
@@ -207,6 +207,6 @@ func TestRequest_URL(t *testing.T) {
 		}
 		result, err := request.url()
 		assert.Equal(t, testSuite.expectedError, err != nil, info)
-		assert.Equal(t, testSuite.expectedUrl, result, info)
+		assert.Equal(t, testSuite.expectedURL, result, info)
 	}
 }

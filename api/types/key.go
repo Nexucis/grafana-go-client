@@ -14,7 +14,7 @@
 package types
 
 type GetAPIKeyResponse struct {
-	Id   int64    `json:"id"`
+	ID   int64    `json:"id"`
 	Name string   `json:"name"`
 	Role RoleType `json:"role"`
 }

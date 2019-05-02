@@ -58,11 +58,11 @@ func (c *alertNotification) CreateTest(body *types.CreateTestAlertNotification) 
 		Error()
 }
 
-func (c *alertNotification) Update(notificationId int64, body *types.UpdateAlertNotification) (*types.ResponseAlertNotification, error) {
+func (c *alertNotification) Update(notificationID int64, body *types.UpdateAlertNotification) (*types.ResponseAlertNotification, error) {
 	response := &types.ResponseAlertNotification{}
 	err := c.client.Put(alertNotificationAPI).
 		SetSubPath("/:notificationId").
-		SetPathParam("notificationId", strconv.FormatInt(notificationId, 10)).
+		SetPathParam("notificationId", strconv.FormatInt(notificationID, 10)).
 		Body(body).
 		Do().
 		SaveAsObj(response)
@@ -78,20 +78,20 @@ func (c *alertNotification) Get() ([]*types.ResponseAlertNotification, error) {
 	return result, err
 }
 
-func (c *alertNotification) GetByID(notificationId int64) (*types.ResponseAlertNotification, error) {
+func (c *alertNotification) GetByID(notificationID int64) (*types.ResponseAlertNotification, error) {
 	response := &types.ResponseAlertNotification{}
 	err := c.client.Get(alertNotificationAPI).
 		SetSubPath("/:notificationId").
-		SetPathParam("notificationId", strconv.FormatInt(notificationId, 10)).
+		SetPathParam("notificationId", strconv.FormatInt(notificationID, 10)).
 		Do().
 		SaveAsObj(response)
 	return response, err
 }
 
-func (c *alertNotification) Delete(notificationId int64) error {
+func (c *alertNotification) Delete(notificationID int64) error {
 	return c.client.Delete(alertNotificationAPI).
 		SetSubPath("/:notificationId").
-		SetPathParam("notificationId", strconv.FormatInt(notificationId, 10)).
+		SetPathParam("notificationId", strconv.FormatInt(notificationID, 10)).
 		Do().
 		Error()
 }

@@ -21,16 +21,16 @@ const (
 )
 
 type SearchResult struct {
-	Id          int64      `json:"id"`
-	Uid         string     `json:"uid"`
+	ID          int64      `json:"id"`
+	UID         string     `json:"uid"`
 	Title       string     `json:"title"`
-	Uri         string     `json:"uri"`
-	Url         string     `json:"url"`
+	URI         string     `json:"uri"`
+	URL         string     `json:"url"`
 	Type        SearchType `json:"type"`
 	Tags        []string   `json:"tags"`
 	IsStarred   bool       `json:"isStarred"`
-	FolderId    int64      `json:"folderId,omitempty"`
-	FolderUid   string     `json:"folderUid,omitempty"`
+	FolderID    int64      `json:"folderId,omitempty"`
+	FolderUID   string     `json:"folderUid,omitempty"`
 	FolderTitle string     `json:"folderTitle,omitempty"`
-	FolderUrl   string     `json:"folderUrl,omitempty"`
+	FolderURL   string     `json:"folderUrl,omitempty"`
 }

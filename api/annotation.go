@@ -66,7 +66,7 @@ func (c *annotation) CreateGraphite(annotations *types.PostGraphiteAnnotations) 
 func (c *annotation) Update(annotations *types.UpdateAnnotations) error {
 	return c.client.Put(annotationAPI).
 		SetSubPath("/:id").
-		SetPathParam("id", strconv.FormatInt(annotations.Id, 10)).
+		SetPathParam("id", strconv.FormatInt(annotations.ID, 10)).
 		Body(annotations).
 		Do().
 		Error()

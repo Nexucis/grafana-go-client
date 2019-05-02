@@ -16,21 +16,21 @@ package types
 import "time"
 
 type UserProfile struct {
-	Id             int64  `json:"id"`
+	ID             int64  `json:"id"`
 	Email          string `json:"email"`
 	Name           string `json:"name"`
 	Login          string `json:"login"`
 	Theme          string `json:"theme"`
-	OrgId          int64  `json:"orgId"`
+	OrgID          int64  `json:"orgId"`
 	IsGrafanaAdmin bool   `json:"isGrafanaAdmin"`
 }
 
 type UserSearchHit struct {
-	Id            int64     `json:"id"`
+	ID            int64     `json:"id"`
 	Name          string    `json:"name"`
 	Login         string    `json:"login"`
 	Email         string    `json:"email"`
-	AvatarUrl     string    `json:"avatarUrl"`
+	AvatarURL     string    `json:"avatarUrl"`
 	IsAdmin       bool      `json:"isAdmin"`
 	LastSeenAt    time.Time `json:"lastSeenAt"`
 	LastSeenAtAge string    `json:"lastSeenAtAge"`
@@ -51,7 +51,7 @@ type UpdateCurrentUser struct {
 }
 
 type UserQuota struct {
-	UserId int64  `json:"user_id"`
+	UserID int64  `json:"user_id"`
 	Target string `json:"target"`
 	Limit  int64  `json:"limit"`
 	Used   int64  `json:"used"`
@@ -60,7 +60,7 @@ type UserQuota struct {
 type UpdateUserQuota struct {
 	Target string `json:"target"`
 	Limit  int64  `json:"limit"`
-	UserId int64  `json:"-"`
+	UserID int64  `json:"-"`
 }
 
 type UserPreference struct {
@@ -70,13 +70,13 @@ type UserPreference struct {
 }
 
 type UserOrg struct {
-	OrgId int64    `json:"orgId"`
+	OrgID int64    `json:"orgId"`
 	Name  string   `json:"name"`
 	Role  RoleType `json:"role"`
 }
 
 type UserOrgList struct {
-	UserId int64
+	UserID int64
 	Result []*UserOrg
 }
 

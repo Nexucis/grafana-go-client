@@ -23,7 +23,7 @@ type SimpleDashboard struct {
 	UID     string `json:"uid"`
 	Status  string `json:"status"`
 	Slug    string `json:"slug"`
-	Url     string `json:"url"`
+	URL     string `json:"url"`
 }
 
 type Dashboard struct {
@@ -46,7 +46,7 @@ type DashboardTags struct {
 
 type DashboardVersion struct {
 	ID            int         `json:"id"`
-	DashboardId   int64       `json:"dashboardId"`
+	DashboardID   int64       `json:"dashboardId"`
 	ParentVersion int         `json:"parentVersion"`
 	RestoredFrom  int         `json:"restoredFrom"`
 	Version       int         `json:"version"`
@@ -71,17 +71,17 @@ type DashboardMeta struct {
 	CanAdmin    bool      `json:"canAdmin"`
 	CanStar     bool      `json:"canStar"`
 	Slug        string    `json:"slug"`
-	Url         string    `json:"url"`
+	URL         string    `json:"url"`
 	Expires     time.Time `json:"expires"`
 	Created     time.Time `json:"created"`
 	Updated     time.Time `json:"updated"`
 	UpdatedBy   string    `json:"updatedBy"`
 	CreatedBy   string    `json:"createdBy"`
 	Version     int       `json:"version"`
-	HasAcl      bool      `json:"hasAcl"`
+	HasACL      bool      `json:"hasAcl"`
 	IsFolder    bool      `json:"isFolder"`
-	FolderId    int64     `json:"folderId"`
+	FolderID    int64     `json:"folderId"`
 	FolderTitle string    `json:"folderTitle"`
-	FolderUrl   string    `json:"folderUrl"`
+	FolderURL   string    `json:"folderUrl"`
 	Provisioned bool      `json:"provisioned"`
 }

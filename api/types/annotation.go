@@ -21,8 +21,8 @@ const (
 )
 
 type PostAnnotations struct {
-	DashboardId int64       `json:"dashboardId"`
-	PanelId     int64       `json:"panelId"`
+	DashboardID int64       `json:"dashboardId"`
+	PanelID     int64       `json:"panelId"`
 	Time        int64       `json:"time"`
 	Text        string      `json:"text"`
 	Tags        []string    `json:"tags"`
@@ -32,7 +32,7 @@ type PostAnnotations struct {
 }
 
 type UpdateAnnotations struct {
-	Id       int64    `json:"id"`
+	ID       int64    `json:"id"`
 	Time     int64    `json:"time"`
 	Text     string   `json:"text"`
 	Tags     []string `json:"tags"`
@@ -41,11 +41,11 @@ type UpdateAnnotations struct {
 }
 
 type DeleteAnnotations struct {
-	AlertId      int64 `json:"alertId"`
-	DashboardId  int64 `json:"dashboardId"`
-	PanelId      int64 `json:"panelId"`
-	AnnotationId int64 `json:"annotationId"`
-	RegionId     int64 `json:"regionId"`
+	AlertID      int64 `json:"alertId"`
+	DashboardID  int64 `json:"dashboardId"`
+	PanelID      int64 `json:"panelId"`
+	AnnotationID int64 `json:"annotationId"`
+	RegionID     int64 `json:"regionId"`
 }
 
 type PostGraphiteAnnotations struct {
@@ -56,33 +56,33 @@ type PostGraphiteAnnotations struct {
 }
 
 type ResponseCreateAnnotation struct {
-	Id      int64  `json:"id"`
-	EndId   int64  `json:"endId"`
+	ID      int64  `json:"id"`
+	EndID   int64  `json:"endId"`
 	Message string `json:"message"`
 }
 
 type ResponseCreateGraphiteAnnotation struct {
-	Id      int64  `json:"id"`
+	ID      int64  `json:"id"`
 	Message string `json:"message"`
 }
 
 type ResponseGetAnnotation struct {
-	Id          int64       `json:"id"`
-	AlertId     int64       `json:"alertId"`
+	ID          int64       `json:"id"`
+	AlertID     int64       `json:"alertId"`
 	AlertName   string      `json:"alertName"`
-	DashboardId int64       `json:"dashboardId"`
-	PanelId     int64       `json:"panelId"`
-	UserId      int64       `json:"userId"`
+	DashboardID int64       `json:"dashboardId"`
+	PanelID     int64       `json:"panelId"`
+	UserID      int64       `json:"userId"`
 	NewState    string      `json:"newState"`
 	PrevState   string      `json:"prevState"`
 	Created     int64       `json:"created"`
 	Updated     int64       `json:"updated"`
 	Time        int64       `json:"time"`
 	Text        string      `json:"text"`
-	RegionId    int64       `json:"regionId"`
+	RegionID    int64       `json:"regionId"`
 	Tags        []string    `json:"tags"`
 	Login       string      `json:"login"`
 	Email       string      `json:"email"`
-	AvatarUrl   string      `json:"avatarUrl"`
+	AvatarURL   string      `json:"avatarUrl"`
 	Data        interface{} `json:"data"`
 }

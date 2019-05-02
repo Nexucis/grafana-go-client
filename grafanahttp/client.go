@@ -27,7 +27,7 @@ type RESTClient struct {
 	client *http.Client
 }
 
-func NewWithUrl(rawURL string) (*RESTClient, error) {
+func NewWithURL(rawURL string) (*RESTClient, error) {
 	u, err := url.Parse(rawURL)
 	if err != nil {
 		return nil, err
