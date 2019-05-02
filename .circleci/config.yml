@@ -54,9 +54,9 @@ workflows:
       - test:
           requires:
             - build
-     # - checkstyle:
-     #     requires:
-     #       - test
+      - checkstyle:
+          requires:
+            - test
       - checkformat:
           requires:
             - test
