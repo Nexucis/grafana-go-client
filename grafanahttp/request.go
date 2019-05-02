@@ -190,7 +190,7 @@ func (r *Request) url() (string, error) {
 	subPath, err := r.buildSubpath()
 
 	if err != nil {
-		return "", nil
+		return "", err
 	}
 
 	finalURL := &url.URL{}
