@@ -70,6 +70,7 @@ func NewFromConfig(config *RestConfigClient) (*RESTClient, error) {
 
 }
 
+// RESTClient defines an HTTP client designed for the HTTP request to a REST API.
 type RESTClient struct {
 	// the token used to be authenticated, not mandatory if it's used the basic authentication
 	Token string
@@ -79,22 +80,27 @@ type RESTClient struct {
 	Client *http.Client
 }
 
+// Get begins a GET request. Short for c.newRequest("GET")
 func (c *RESTClient) Get(pathPrefix string) *Request {
 	return c.newRequest(http.MethodGet, pathPrefix)
 }
 
+// Post begins a Post request. Short for c.newRequest("POST")
 func (c *RESTClient) Post(pathPrefix string) *Request {
 	return c.newRequest(http.MethodPost, pathPrefix)
 }
 
+// Put begins a Put request. Short for c.newRequest("PUT")
 func (c *RESTClient) Put(pathPrefix string) *Request {
 	return c.newRequest(http.MethodPut, pathPrefix)
 }
 
+// Patch begins a Patch request. Short for c.newRequest("PATCH")
 func (c *RESTClient) Patch(pathPrefix string) *Request {
 	return c.newRequest(http.MethodPatch, pathPrefix)
 }
 
+// Delete begins a Delete request. Short for c.newRequest("DELETE")
 func (c *RESTClient) Delete(pathPrefix string) *Request {
 	return c.newRequest(http.MethodDelete, pathPrefix)
 }
