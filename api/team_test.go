@@ -167,7 +167,7 @@ func TestTeam_DeleteMembers(t *testing.T) {
 	userID := userResponse.ID
 
 	//binding
-	team.AddMembers(teamID, userResponse.ID)
+	team.AddMembers(teamID, userResponse.ID) // nolint: errcheck
 
 	//delete the user in the team
 	err := team.DeleteMembers(teamID, userResponse.ID)
@@ -196,7 +196,7 @@ func TestTeam_GetMembers(t *testing.T) {
 	userID := userResponse.ID
 
 	//binding
-	team.AddMembers(teamID, userResponse.ID)
+	team.AddMembers(teamID, userResponse.ID) // nolint: errcheck
 
 	// get team member
 	teamMembers, err := team.GetMembers(teamID)
@@ -221,6 +221,6 @@ func initTeamTest(t *testing.T) TeamInterface {
 func removeTeam(t *testing.T, ids ...int64) {
 	teamClient := initTeamTest(t)
 	for _, id := range ids {
-		teamClient.Delete(id)
+		teamClient.Delete(id) // nolint: errcheck
 	}
 }

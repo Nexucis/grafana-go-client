@@ -81,7 +81,7 @@ func (c *alert) CreateTest(alertTest *types.PostAlertTest) (*types.ResponsePostA
 }
 
 func (c *alert) PauseAlert(alertID int64, paused bool) error {
-	body := &types.PostPauseAlert{AlertId: alertID, Paused: paused}
+	body := &types.PostPauseAlert{AlertID: alertID, Paused: paused}
 
 	return c.client.Post(alertAPI).
 		SetSubPath("/:alertId/pause").

@@ -14,6 +14,9 @@
 package types
 
 type DataSource struct {
+	BasicAuth   bool        `json:"basicAuth"`
+	IsDefault   bool        `json:"isDefault"`
+	ReadOnly    bool        `json:"readOnly"`
 	ID          int64       `json:"id"`
 	OrgID       int64       `json:"orgId"`
 	Name        string      `json:"name"`
@@ -24,14 +27,15 @@ type DataSource struct {
 	Password    string      `json:"password"`
 	User        string      `json:"user"`
 	Database    string      `json:"database"`
-	BasicAuth   bool        `json:"basicAuth"`
-	IsDefault   bool        `json:"isDefault"`
 	JSONData    interface{} `json:"jsonData,omitempty"`
-	ReadOnly    bool        `json:"readOnly"`
 }
 
 // Also acts as api DTO
 type AddDataSource struct {
+	BasicAuth         bool              `json:"basicAuth"`
+	WithCredentials   bool              `json:"withCredentials"`
+	IsDefault         bool              `json:"isDefault"`
+	ReadOnly          bool              `json:"readOnly"`
 	Name              string            `json:"name" binding:"Required"`
 	Type              string            `json:"type" binding:"Required"`
 	Access            string            `json:"access" binding:"Required"`
@@ -39,14 +43,10 @@ type AddDataSource struct {
 	Password          string            `json:"password"`
 	Database          string            `json:"database"`
 	User              string            `json:"user"`
-	BasicAuth         bool              `json:"basicAuth"`
 	BasicAuthUser     string            `json:"basicAuthUser"`
 	BasicAuthPassword string            `json:"basicAuthPassword"`
-	WithCredentials   bool              `json:"withCredentials"`
-	IsDefault         bool              `json:"isDefault"`
 	JSONData          interface{}       `json:"jsonData"`
 	SecureJSONData    map[string]string `json:"secureJsonData"`
-	ReadOnly          bool              `json:"readOnly"`
 }
 
 type WriteDataSourceResponse struct {
@@ -58,6 +58,11 @@ type WriteDataSourceResponse struct {
 
 // Also acts as api DTO
 type UpdateDataSource struct {
+	ReadOnly          bool              `json:"readOnly"`
+	WithCredentials   bool              `json:"withCredentials"`
+	IsDefault         bool              `json:"isDefault"`
+	BasicAuth         bool              `json:"basicAuth"`
+	Version           int               `json:"version"`
 	Name              string            `json:"name" binding:"Required"`
 	Type              string            `json:"type" binding:"Required"`
 	Access            string            `json:"access" binding:"Required"`
@@ -65,13 +70,8 @@ type UpdateDataSource struct {
 	Password          string            `json:"password"`
 	User              string            `json:"user"`
 	Database          string            `json:"database"`
-	BasicAuth         bool              `json:"basicAuth"`
 	BasicAuthUser     string            `json:"basicAuthUser"`
 	BasicAuthPassword string            `json:"basicAuthPassword"`
-	WithCredentials   bool              `json:"withCredentials"`
-	IsDefault         bool              `json:"isDefault"`
 	JSONData          interface{}       `json:"jsonData"`
 	SecureJSONData    map[string]string `json:"secureJsonData"`
-	Version           int               `json:"version"`
-	ReadOnly          bool              `json:"readOnly"`
 }

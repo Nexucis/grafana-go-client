@@ -39,6 +39,8 @@ const (
 )
 
 type FolderOrDashboardPermission struct {
+	IsFolder       bool           `json:"isFolder"`
+	Inherited      bool           `json:"inherited"`
 	OrgID          int64          `json:"-"`
 	DashboardID    int64          `json:"dashboardId,omitempty"`
 	FolderID       int64          `json:"folderId,omitempty"`
@@ -58,7 +60,5 @@ type FolderOrDashboardPermission struct {
 	UID            string         `json:"uid"`
 	Title          string         `json:"title"`
 	Slug           string         `json:"slug"`
-	IsFolder       bool           `json:"isFolder"`
 	URL            string         `json:"url"`
-	Inherited      bool           `json:"inherited"`
 }

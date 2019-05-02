@@ -65,11 +65,15 @@ type DashboardMeta struct {
 	IsStarred   bool      `json:"isStarred,omitempty"`
 	IsHome      bool      `json:"isHome,omitempty"`
 	IsSnapshot  bool      `json:"isSnapshot,omitempty"`
-	Type        string    `json:"type,omitempty"`
 	CanSave     bool      `json:"canSave"`
 	CanEdit     bool      `json:"canEdit"`
 	CanAdmin    bool      `json:"canAdmin"`
 	CanStar     bool      `json:"canStar"`
+	HasACL      bool      `json:"hasAcl"`
+	IsFolder    bool      `json:"isFolder"`
+	Provisioned bool      `json:"provisioned"`
+	Version     int       `json:"version"`
+	Type        string    `json:"type,omitempty"`
 	Slug        string    `json:"slug"`
 	URL         string    `json:"url"`
 	Expires     time.Time `json:"expires"`
@@ -77,11 +81,7 @@ type DashboardMeta struct {
 	Updated     time.Time `json:"updated"`
 	UpdatedBy   string    `json:"updatedBy"`
 	CreatedBy   string    `json:"createdBy"`
-	Version     int       `json:"version"`
-	HasACL      bool      `json:"hasAcl"`
-	IsFolder    bool      `json:"isFolder"`
 	FolderID    int64     `json:"folderId"`
 	FolderTitle string    `json:"folderTitle"`
 	FolderURL   string    `json:"folderUrl"`
-	Provisioned bool      `json:"provisioned"`
 }

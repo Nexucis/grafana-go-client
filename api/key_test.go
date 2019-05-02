@@ -87,6 +87,6 @@ func teardownKey(t *testing.T) {
 	keyClient := initKeyTest(t)
 	keys, _ := keyClient.Get()
 	for _, key := range keys {
-		keyClient.Delete(key.ID)
+		keyClient.Delete(key.ID) // nolint: errcheck
 	}
 }

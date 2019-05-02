@@ -139,6 +139,6 @@ func initAdminTest(t *testing.T) AdminInterface {
 func removeGlobalUser(t *testing.T, ids ...int64) {
 	adminClient := initAdminTest(t)
 	for _, id := range ids {
-		adminClient.DeleteUser(id)
+		adminClient.DeleteUser(id) // nolint: errcheck
 	}
 }

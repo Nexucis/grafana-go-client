@@ -77,7 +77,7 @@ func (c *admin) UpdateUserPassword(id int64, password string) error {
 }
 
 func (c *admin) UpdateUserPermissions(id int64, permission bool) error {
-	perm := &types.AdminUpdateUserPermissionsForm{permission}
+	perm := &types.AdminUpdateUserPermissionsForm{IsGrafanaAdmin: permission}
 	return c.client.Put(adminAPI).
 		SetSubPath("/users/:id/permissions").
 		SetPathParam("id", strconv.FormatInt(id, 10)).
