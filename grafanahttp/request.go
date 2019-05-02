@@ -59,14 +59,6 @@ func NewRequest(client *http.Client, method string, baseURL *url.URL, pathPrefix
 	}
 }
 
-func (r *Request) AddQueryParam(queryName string, value string) *Request {
-	if r.queryParam == nil {
-		r.queryParam = make(url.Values)
-	}
-	r.queryParam[queryName] = append(r.queryParam[queryName], value)
-	return r
-}
-
 func (r *Request) SetPathParam(pathName string, value string) *Request {
 	if r.pathParam == nil {
 		r.pathParam = make(map[string]string)
@@ -107,6 +99,14 @@ func (r *Request) Query(query QueryInterface) *Request {
 	for k, v := range query.GetValues() {
 		r.queryParam[k] = append(r.queryParam[k], v...)
 	}
+	return r
+}
+
+func (r *Request) AddQueryParam(queryName string, value string) *Request {
+	if r.queryParam == nil {
+		r.queryParam = make(url.Values)
+	}
+	r.queryParam[queryName] = append(r.queryParam[queryName], value)
 	return r
 }
 

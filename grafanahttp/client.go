@@ -14,27 +14,69 @@
 package grafanahttp
 
 import (
+	"crypto/tls"
+	"errors"
+	"net"
 	"net/http"
 	"net/url"
+	"time"
 )
 
-type RESTClient struct {
-	// the token used to be authenticated, not mandatory if it's used the basic authentication
-	token string
-	// base is the root URL for all invocations of the client
-	baseURL *url.URL
-	// Set specific behavior of the client.  If not set http.DefaultClient will be used.
-	client *http.Client
+const connectionTimeout = 30 * time.Second
+
+// RestConfigClient defines all parameter that can be set to customize the RESTClient
+type RestConfigClient struct {
+	InsecureTLS bool   `yaml:"insecure-tls"`
+	BaseURL     string `yaml:"baseURL"`
+	Token       string `yaml:"token"`
 }
 
 func NewWithURL(rawURL string) (*RESTClient, error) {
-	u, err := url.Parse(rawURL)
+	return NewFromConfig(&RestConfigClient{
+		BaseURL: rawURL,
+	})
+}
+
+// NewFromConfig create an instance of RESTClient using the config passed as parameter
+func NewFromConfig(config *RestConfigClient) (*RESTClient, error) {
+	if config == nil {
+		return nil, errors.New("configuration cannot be empty")
+	}
+	roundTripper := &http.Transport{
+		Proxy: http.ProxyFromEnvironment,
+		DialContext: (&net.Dialer{
+			Timeout:   connectionTimeout,
+			KeepAlive: 30 * time.Second,
+		}).DialContext,
+		TLSHandshakeTimeout: 10 * time.Second,
+		TLSClientConfig:     &tls.Config{InsecureSkipVerify: config.InsecureTLS}, // nolint: gas, gosec
+	}
+
+	httpClient := &http.Client{
+		Transport: roundTripper,
+		Timeout:   connectionTimeout,
+	}
+
+	u, err := url.Parse(config.BaseURL)
 	if err != nil {
 		return nil, err
 	}
+
 	return &RESTClient{
-		baseURL: u,
+		Token:   config.Token,
+		BaseURL: u,
+		Client:  httpClient,
 	}, nil
+
+}
+
+type RESTClient struct {
+	// the token used to be authenticated, not mandatory if it's used the basic authentication
+	Token string
+	// base is the root URL for all invocations of the client
+	BaseURL *url.URL
+	// Set specific behavior of the client.  If not set http.DefaultClient will be used.
+	Client *http.Client
 }
 
 func (c *RESTClient) Get(pathPrefix string) *Request {
@@ -58,5 +100,5 @@ func (c *RESTClient) Delete(pathPrefix string) *Request {
 }
 
 func (c *RESTClient) newRequest(method string, pathPrefix string) *Request {
-	return NewRequest(c.client, method, c.baseURL, pathPrefix, c.token)
+	return NewRequest(c.Client, method, c.BaseURL, pathPrefix, c.Token)
 }
