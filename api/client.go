@@ -14,11 +14,11 @@
 package api
 
 import (
-	"github.com/nexucis/grafana-go-client/http"
+	"github.com/nexucis/grafana-go-client/grafanahttp"
 )
 
 type ClientInterface interface {
-	RESTClient() *http.RESTClient
+	RESTClient() *grafanahttp.RESTClient
 	Admin() AdminInterface
 	Alerts() AlertInterface
 	AlertNotifications() AlertNotificationInterface
@@ -38,16 +38,16 @@ type ClientInterface interface {
 }
 
 type client struct {
-	restClient *http.RESTClient
+	restClient *grafanahttp.RESTClient
 }
 
-func NewWithClient(restClient *http.RESTClient) ClientInterface {
+func NewWithClient(restClient *grafanahttp.RESTClient) ClientInterface {
 	return &client{
 		restClient: restClient,
 	}
 }
 
-func (c *client) RESTClient() *http.RESTClient {
+func (c *client) RESTClient() *grafanahttp.RESTClient {
 	return c.restClient
 }
 

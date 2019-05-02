@@ -63,19 +63,19 @@ package main
 import (
 
 	"github.com/golang/glog"
-	"github.com/nexucis/grafana-go-client/http"
+	"github.com/nexucis/grafana-go-client/grafanahttp"
 	"github.com/nexucis/grafana-go-client/api"
 )
 
 func main() {
-	rest, err := http.NewWithUrl("http://admin:admin@localhost:3000")
+	rest, err := grafanahttp.NewWithUrl("http://admin:admin@localhost:3000")
 	if err != nil {
 		glog.Fatal(err)
 	}
 	
 	client := api.NewWithClient(rest)
 	
-	user,err := client.V1().CurrentUser().Get()
+	user,err := client.CurrentUser().Get()
 	
 	// do something with the information get from the api
 }

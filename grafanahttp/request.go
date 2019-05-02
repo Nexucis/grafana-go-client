@@ -11,7 +11,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package http
+package grafanahttp
 
 import (
 	"bytes"
@@ -26,6 +26,11 @@ import (
 	"strconv"
 	"strings"
 )
+
+// QueryInterface defines the interface that you can set in the Request
+type QueryInterface interface {
+	GetValues() url.Values
+}
 
 type Request struct {
 	client *http.Client
@@ -87,6 +92,20 @@ func (r *Request) Body(obj interface{}) *Request {
 		r.err = err
 	} else {
 		r.body = bytes.NewBuffer(data)
+	}
+	return r
+}
+
+// Query set all queryParameter contains in the query passed as a parameter
+func (r *Request) Query(query QueryInterface) *Request {
+	if query == nil {
+		return r
+	}
+	if r.queryParam == nil {
+		r.queryParam = make(url.Values)
+	}
+	for k, v := range query.GetValues() {
+		r.queryParam[k] = append(r.queryParam[k], v...)
 	}
 	return r
 }

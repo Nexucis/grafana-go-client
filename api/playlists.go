@@ -15,15 +15,14 @@ package api
 
 import (
 	"github.com/nexucis/grafana-go-client/api/types"
-	"github.com/nexucis/grafana-go-client/http"
-
+	"github.com/nexucis/grafana-go-client/grafanahttp"
 	"strconv"
 )
 
 const playlistAPI = "/api/playlists"
 
 type PlaylistInterface interface {
-	Search(*QueryParameterPlaylist) ([]*types.SimplePlaylist, error)
+	Search(QueryParameterPlaylist) ([]*types.SimplePlaylist, error)
 	Create(*types.Playlist) (*types.SimplePlaylist, error)
 	GetByID(int64) (*types.Playlist, error)
 	GetItems(int64) ([]*types.PlaylistItem, error)
@@ -32,7 +31,7 @@ type PlaylistInterface interface {
 	Update(int64, *types.Playlist) (*types.Playlist, error)
 }
 
-func newPlaylist(client *http.RESTClient) PlaylistInterface {
+func newPlaylist(client *grafanahttp.RESTClient) PlaylistInterface {
 	return &playlist{
 		client: client,
 	}
@@ -40,16 +39,14 @@ func newPlaylist(client *http.RESTClient) PlaylistInterface {
 
 type playlist struct {
 	PlaylistInterface
-	client *http.RESTClient
+	client *grafanahttp.RESTClient
 }
 
-func (c *playlist) Search(query *QueryParameterPlaylist) ([]*types.SimplePlaylist, error) {
+func (c *playlist) Search(query QueryParameterPlaylist) ([]*types.SimplePlaylist, error) {
 	var result []*types.SimplePlaylist
-	request := c.client.Get(playlistAPI)
-
-	setQueryParamPlaylist(request, query)
-
-	err := request.Do().
+	err := c.client.Get(playlistAPI).
+		Query(&query).
+		Do().
 		SaveAsObj(&result)
 
 	return result, err
@@ -116,15 +113,4 @@ func (c *playlist) Update(playlistID int64, playlist *types.Playlist) (*types.Pl
 		SaveAsObj(result)
 
 	return result, err
-}
-
-func setQueryParamPlaylist(request *http.Request, query *QueryParameterPlaylist) {
-
-	if len(query.query) > 0 {
-		request.AddQueryParam("query", query.query)
-	}
-
-	if query.limit > 0 {
-		request.AddQueryParam("limit", strconv.FormatInt(query.limit, 10))
-	}
 }

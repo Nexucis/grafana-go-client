@@ -15,18 +15,17 @@ package api
 
 import (
 	"flag"
+	"github.com/nexucis/grafana-go-client/grafanahttp"
 	"os"
 	"testing"
-
-	"github.com/nexucis/grafana-go-client/http"
 )
 
 var (
 	integration = flag.Bool("integration", false, "run integration tests")
 )
 
-func getRestClientWithBasicAuth() (*http.RESTClient, error) {
-	return http.NewWithUrl("http://admin:admin@localhost:3000")
+func getRestClientWithBasicAuth() (*grafanahttp.RESTClient, error) {
+	return grafanahttp.NewWithUrl("http://admin:admin@localhost:3000")
 }
 
 func TestMain(m *testing.M) {

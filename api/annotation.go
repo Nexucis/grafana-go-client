@@ -14,10 +14,10 @@
 package api
 
 import (
+	"github.com/nexucis/grafana-go-client/grafanahttp"
 	"strconv"
 
 	"github.com/nexucis/grafana-go-client/api/types"
-	"github.com/nexucis/grafana-go-client/http"
 )
 
 const annotationAPI = "/api/annotations"
@@ -28,10 +28,10 @@ type AnnotationInterface interface {
 	Update(*types.UpdateAnnotations) error
 	Delete(id int64) error
 	MassiveDelete(*types.DeleteAnnotations) error
-	Get(query *QueryParamAnnotation) (*types.ResponseGetAnnotation, error)
+	Get(query QueryParamAnnotation) (*types.ResponseGetAnnotation, error)
 }
 
-func newAnnotation(client *http.RESTClient) AnnotationInterface {
+func newAnnotation(client *grafanahttp.RESTClient) AnnotationInterface {
 	return &annotation{
 		client: client,
 	}
@@ -39,7 +39,7 @@ func newAnnotation(client *http.RESTClient) AnnotationInterface {
 
 type annotation struct {
 	AnnotationInterface
-	client *http.RESTClient
+	client *grafanahttp.RESTClient
 }
 
 func (c *annotation) Create(annotations *types.PostAnnotations) (*types.ResponseCreateAnnotation, error) {
@@ -88,55 +88,12 @@ func (c *annotation) MassiveDelete(annotations *types.DeleteAnnotations) error {
 		Error()
 }
 
-func (c *annotation) Get(queryParam *QueryParamAnnotation) (*types.ResponseGetAnnotation, error) {
+func (c *annotation) Get(queryParam QueryParamAnnotation) (*types.ResponseGetAnnotation, error) {
 	response := &types.ResponseGetAnnotation{}
-	request := c.client.Get(annotationAPI)
-
-	setQueryParamAnnotation(request, queryParam)
-
-	err := request.Do().
+	err := c.client.Get(annotationAPI).
+		Query(&queryParam).
+		Do().
 		SaveAsObj(response)
 
 	return response, err
-}
-
-func setQueryParamAnnotation(request *http.Request, query *QueryParamAnnotation) {
-	if query.from > 0 {
-		request.AddQueryParam("from", strconv.FormatInt(query.from, 10))
-	}
-
-	if query.to > 0 {
-		request.AddQueryParam("to", strconv.FormatInt(query.from, 10))
-	}
-
-	if query.userId > 0 {
-		request.AddQueryParam("userId", strconv.FormatInt(query.userId, 10))
-	}
-
-	if query.alertId > 0 {
-		request.AddQueryParam("alertId", strconv.FormatInt(query.alertId, 10))
-	}
-
-	if query.dashboardId > 0 {
-		request.AddQueryParam("dashboardId", strconv.FormatInt(query.dashboardId, 10))
-	}
-
-	if query.panelId > 0 {
-		request.AddQueryParam("panelId", strconv.FormatInt(query.panelId, 10))
-	}
-
-	if query.limit > 0 {
-		request.AddQueryParam("limit", strconv.FormatInt(query.limit, 10))
-	}
-
-	if len(query.annotationType) > 0 {
-		request.AddQueryParam("type", string(query.annotationType))
-	}
-
-	if query.tags != nil {
-		for _, tag := range query.tags {
-			request.AddQueryParam("tags", tag)
-		}
-	}
-
 }

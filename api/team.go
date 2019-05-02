@@ -15,15 +15,14 @@ package api
 
 import (
 	"github.com/nexucis/grafana-go-client/api/types"
-	"github.com/nexucis/grafana-go-client/http"
-
+	"github.com/nexucis/grafana-go-client/grafanahttp"
 	"strconv"
 )
 
 const teamAPI = "/api/teams"
 
 type TeamInterface interface {
-	Get(query *QueryParameterTeams) (*types.SearchTeam, error)
+	Get(query QueryParameterTeams) (*types.SearchTeam, error)
 	GetByID(teamID int64) (*types.Team, error)
 	GetMembers(teamID int64) ([]*types.TeamMember, error)
 	Create(team *types.CreateOrUpdateTeam) (int64, error)
@@ -33,7 +32,7 @@ type TeamInterface interface {
 	DeleteMembers(teamID int64, userID int64) error
 }
 
-func newTeam(client *http.RESTClient) TeamInterface {
+func newTeam(client *grafanahttp.RESTClient) TeamInterface {
 	return &team{
 		client: client,
 	}
@@ -41,16 +40,15 @@ func newTeam(client *http.RESTClient) TeamInterface {
 
 type team struct {
 	TeamInterface
-	client *http.RESTClient
+	client *grafanahttp.RESTClient
 }
 
-func (c *team) Get(query *QueryParameterTeams) (*types.SearchTeam, error) {
+func (c *team) Get(query QueryParameterTeams) (*types.SearchTeam, error) {
 	response := &types.SearchTeam{}
-	request := c.client.Get(teamAPI).SetSubPath("/search")
-
-	setQueryParamTeam(request, query)
-
-	err := request.Do().
+	err := c.client.Get(teamAPI).
+		SetSubPath("/search").
+		Query(&query).
+		Do().
 		SaveAsObj(response)
 
 	return response, err
@@ -125,22 +123,4 @@ func (c *team) DeleteMembers(teamID int64, userID int64) error {
 		SetPathParam("userId", strconv.FormatInt(userID, 10)).
 		Do().
 		Error()
-}
-
-func setQueryParamTeam(request *http.Request, query *QueryParameterTeams) {
-	if query.perPage > 0 {
-		request.AddQueryParam("perpage", strconv.FormatInt(query.perPage, 10))
-	}
-
-	if len(query.name) > 0 {
-		request.AddQueryParam("name", query.name)
-	}
-
-	if len(query.query) > 0 {
-		request.AddQueryParam("query", query.query)
-	}
-
-	if query.page > 0 {
-		request.AddQueryParam("page", strconv.FormatInt(query.page, 10))
-	}
 }

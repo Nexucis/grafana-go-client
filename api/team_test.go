@@ -71,7 +71,7 @@ func TestTeam_Get(t *testing.T) {
 	teamID, _ := team.Create(teamToCreate)
 
 	//Get team
-	response, err := team.Get((&QueryParameterTeams{}).PerPage(int64(10)))
+	response, err := team.Get(QueryParameterTeams{PerPage: 10})
 	assert.Nil(t, err)
 	assert.Equal(t, int64(1), response.TotalCount)
 	assert.Equal(t, teamID, response.Teams[0].Id)

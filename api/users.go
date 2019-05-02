@@ -15,16 +15,15 @@ package api
 
 import (
 	"github.com/nexucis/grafana-go-client/api/types"
-	"github.com/nexucis/grafana-go-client/http"
-
+	"github.com/nexucis/grafana-go-client/grafanahttp"
 	"strconv"
 )
 
 const usersAPI = "/api/users"
 
 type UsersInterface interface {
-	Get(*QueryParameterUsers) ([]*types.UserSearchHit, error)
-	GetWithPaging(*QueryParameterUsers) (*types.UserSearchWithPaging, error)
+	Get(QueryParameterUsers) ([]*types.UserSearchHit, error)
+	GetWithPaging(QueryParameterUsers) (*types.UserSearchWithPaging, error)
 	GetByID(int64) (*types.UserProfile, error)
 	GetByLoginOrEmail(string) (*types.UserProfile, error)
 	GetOrgs(int64) (*types.UserOrgList, error)
@@ -32,7 +31,7 @@ type UsersInterface interface {
 	UpdateUserActiveOrg(int64, int64) error
 }
 
-func newUsers(client *http.RESTClient) UsersInterface {
+func newUsers(client *grafanahttp.RESTClient) UsersInterface {
 	return &users{
 		client: client,
 	}
@@ -40,62 +39,59 @@ func newUsers(client *http.RESTClient) UsersInterface {
 
 type users struct {
 	UsersInterface
-	client *http.RESTClient
+	client *grafanahttp.RESTClient
 }
 
-func (c *users) Get(query *QueryParameterUsers) ([]*types.UserSearchHit, error) {
+func (c *users) Get(query QueryParameterUsers) ([]*types.UserSearchHit, error) {
 	var response []*types.UserSearchHit
-	request := c.client.Get(usersAPI)
-
-	setQueryParamUsers(request, query)
-
-	err := request.Do().
+	err := c.client.Get(usersAPI).
+		Query(&query).
+		Do().
 		SaveAsObj(&response)
 
 	return response, err
 }
 
-func (c *users) GetWithPaging(query *QueryParameterUsers) (*types.UserSearchWithPaging, error) {
-	var response *types.UserSearchWithPaging
-	request := c.client.Get(usersAPI).SetSubPath("/search")
-
-	setQueryParamUsers(request, query)
-
-	err := request.Do().
+func (c *users) GetWithPaging(query QueryParameterUsers) (*types.UserSearchWithPaging, error) {
+	response := &types.UserSearchWithPaging{}
+	err := c.client.Get(usersAPI).
+		SetSubPath("/search").
+		Query(&query).
+		Do().
 		SaveAsObj(response)
 
 	return response, err
 }
 
 func (c *users) GetByID(userID int64) (*types.UserProfile, error) {
-	result := &types.UserProfile{}
+	response := &types.UserProfile{}
 	err := c.client.Get(usersAPI).
 		SetSubPath("/:id").
 		SetPathParam("id", strconv.FormatInt(userID, 10)).
 		Do().
-		SaveAsObj(result)
+		SaveAsObj(response)
 
-	return result, err
+	return response, err
 }
 
 func (c *users) GetByLoginOrEmail(loginOrEmail string) (*types.UserProfile, error) {
-	result := &types.UserProfile{}
+	response := &types.UserProfile{}
 	err := c.client.Get(usersAPI).
 		SetSubPath("/lookup").
 		AddQueryParam("loginOrEmail", loginOrEmail).
 		Do().
-		SaveAsObj(result)
-	return result, err
+		SaveAsObj(response)
+	return response, err
 }
 
 func (c *users) GetOrgs(userID int64) (*types.UserOrgList, error) {
-	result := &types.UserOrgList{}
+	response := &types.UserOrgList{}
 	err := c.client.Get(usersAPI).
 		SetSubPath("/:d/orgs").
 		SetPathParam("id", strconv.FormatInt(userID, 10)).
 		Do().
-		SaveAsObj(result)
-	return result, err
+		SaveAsObj(response)
+	return response, err
 }
 
 func (c *users) Update(userID int64, user *types.UpdateCurrentUser) error {
@@ -114,18 +110,4 @@ func (c *users) UpdateUserActiveOrg(userID int64, orgID int64) error {
 		SetPathParam("orgId", strconv.FormatInt(orgID, 10)).
 		Do().
 		Error()
-}
-
-func setQueryParamUsers(request *http.Request, query *QueryParameterUsers) {
-	if query.page > 0 {
-		request.AddQueryParam("page", strconv.FormatInt(query.page, 10))
-	}
-
-	if query.perPage > 0 {
-		request.AddQueryParam("perpage", strconv.FormatInt(query.page, 10))
-	}
-
-	if len(query.query) > 0 {
-		request.AddQueryParam("query", query.query)
-	}
 }

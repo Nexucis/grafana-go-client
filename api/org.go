@@ -15,8 +15,7 @@ package api
 
 import (
 	"github.com/nexucis/grafana-go-client/api/types"
-	"github.com/nexucis/grafana-go-client/http"
-
+	"github.com/nexucis/grafana-go-client/grafanahttp"
 	"strconv"
 )
 
@@ -38,7 +37,7 @@ type CurrentOrgInterface interface {
 	UpdatePreferences(*types.OrgPrefs) error
 }
 
-func newCurrentOrg(client *http.RESTClient) CurrentOrgInterface {
+func newCurrentOrg(client *grafanahttp.RESTClient) CurrentOrgInterface {
 	return &currentOrg{
 		client: client,
 	}
@@ -46,7 +45,7 @@ func newCurrentOrg(client *http.RESTClient) CurrentOrgInterface {
 
 type currentOrg struct {
 	CurrentOrgInterface
-	client *http.RESTClient
+	client *grafanahttp.RESTClient
 }
 
 func (c *currentOrg) Get() (*types.Org, error) {

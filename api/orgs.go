@@ -15,8 +15,7 @@ package api
 
 import (
 	"github.com/nexucis/grafana-go-client/api/types"
-	"github.com/nexucis/grafana-go-client/http"
-
+	"github.com/nexucis/grafana-go-client/grafanahttp"
 	"strconv"
 )
 
@@ -24,7 +23,7 @@ const orgsAPI = "/api/orgs"
 
 type OrganisationsInterface interface {
 	Create(string) (int64, error)
-	Search(*QueryParameterOrgs) ([]*types.SimpleOrg, error)
+	Search(QueryParameterOrgs) ([]*types.SimpleOrg, error)
 	GetByID(int64) (*types.Org, error)
 	GetByName(string) (*types.Org, error)
 	Delete(int64) error
@@ -38,7 +37,7 @@ type OrganisationsInterface interface {
 	UpdateQuotas(int64, string, int64) error
 }
 
-func newOrgs(client *http.RESTClient) OrganisationsInterface {
+func newOrgs(client *grafanahttp.RESTClient) OrganisationsInterface {
 	return &orgs{
 		client: client,
 	}
@@ -46,7 +45,7 @@ func newOrgs(client *http.RESTClient) OrganisationsInterface {
 
 type orgs struct {
 	OrganisationsInterface
-	client *http.RESTClient
+	client *grafanahttp.RESTClient
 }
 
 func (c *orgs) Create(name string) (int64, error) {
@@ -68,13 +67,11 @@ func (c *orgs) Create(name string) (int64, error) {
 	return result.OrgID, err
 }
 
-func (c *orgs) Search(query *QueryParameterOrgs) ([]*types.SimpleOrg, error) {
+func (c *orgs) Search(query QueryParameterOrgs) ([]*types.SimpleOrg, error) {
 	var response []*types.SimpleOrg
-	request := c.client.Get(orgsAPI)
-
-	setQueryParamOrgs(request, query)
-
-	err := request.Do().
+	err := c.client.Get(orgsAPI).
+		Query(&query).
+		Do().
 		SaveAsObj(&response)
 
 	return response, err
@@ -192,15 +189,4 @@ func (c *orgs) UpdateQuotas(orgID int64, target string, limit int64) error {
 		Body(entity).
 		Do().
 		Error()
-}
-
-func setQueryParamOrgs(request *http.Request, query *QueryParameterOrgs) {
-
-	if len(query.query) > 0 {
-		request.AddQueryParam("query", query.query)
-	}
-
-	if len(query.name) > 0 {
-		request.AddQueryParam("name", query.name)
-	}
 }

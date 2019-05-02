@@ -14,10 +14,10 @@
 package api
 
 import (
+	"github.com/nexucis/grafana-go-client/grafanahttp"
 	"testing"
 
 	"github.com/nexucis/grafana-go-client/api/types"
-	"github.com/nexucis/grafana-go-client/http"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -32,8 +32,8 @@ func TestKey_CreateError(t *testing.T) {
 
 	_, err := key.Create(&types.APIKeyForm{Name: "test_key", Role: "admin"})
 
-	assert.Equal(t, 400, err.(*http.RequestError).StatusCode)
-	assert.Equal(t, "JSON validation error: invalid role value: admin", err.(*http.RequestError).Message)
+	assert.Equal(t, 400, err.(*grafanahttp.RequestError).StatusCode)
+	assert.Equal(t, "JSON validation error: invalid role value: admin", err.(*grafanahttp.RequestError).Message)
 	teardownKey(t)
 }
 

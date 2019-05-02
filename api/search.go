@@ -14,19 +14,17 @@
 package api
 
 import (
-	"strconv"
-
 	"github.com/nexucis/grafana-go-client/api/types"
-	"github.com/nexucis/grafana-go-client/http"
+	"github.com/nexucis/grafana-go-client/grafanahttp"
 )
 
 const searchAPI = "/api/search"
 
 type SearchInterface interface {
-	Query(*QueryParameterSearch) ([]*types.SearchResult, error)
+	Query(QueryParameterSearch) ([]*types.SearchResult, error)
 }
 
-func newSearch(client *http.RESTClient) SearchInterface {
+func newSearch(client *grafanahttp.RESTClient) SearchInterface {
 	return &search{
 		client: client,
 	}
@@ -34,56 +32,14 @@ func newSearch(client *http.RESTClient) SearchInterface {
 
 type search struct {
 	SearchInterface
-	client *http.RESTClient
+	client *grafanahttp.RESTClient
 }
 
-func (c *search) Query(query *QueryParameterSearch) ([]*types.SearchResult, error) {
+func (c *search) Query(query QueryParameterSearch) ([]*types.SearchResult, error) {
 	var response []*types.SearchResult
-	request := c.client.Get(searchAPI)
-
-	setQueryParamSearch(request, query)
-
-	err := request.Do().
+	err := c.client.Get(searchAPI).
+		Query(&query).
+		Do().
 		SaveAsObj(&response)
-
 	return response, err
-}
-
-func setQueryParamSearch(request *http.Request, query *QueryParameterSearch) {
-
-	if len(query.query) > 0 {
-		request.AddQueryParam("query", query.query)
-	}
-
-	if query.tags != nil {
-		for _, tag := range query.tags {
-			request.AddQueryParam("tag", string(tag))
-		}
-	}
-
-	if len(query.searchType) > 0 {
-		request.AddQueryParam("type", string(query.searchType))
-	}
-
-	if query.dashboardIds != nil {
-		for _, id := range query.dashboardIds {
-			request.AddQueryParam("dashboardIds", strconv.FormatInt(id, 10))
-		}
-	}
-
-	if query.folderIds != nil {
-		for _, id := range query.folderIds {
-			request.AddQueryParam("folderIds", strconv.FormatInt(id, 10))
-		}
-	}
-
-	request.AddQueryParam("starred", strconv.FormatBool(query.starred))
-
-	if query.limit > 0 {
-		request.AddQueryParam("limit", strconv.Itoa(query.limit))
-	}
-
-	if len(query.permission) > 0 {
-		request.AddQueryParam("permission", string(query.permission))
-	}
 }

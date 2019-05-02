@@ -15,8 +15,7 @@ package api
 
 import (
 	"github.com/nexucis/grafana-go-client/api/types"
-	"github.com/nexucis/grafana-go-client/http"
-
+	"github.com/nexucis/grafana-go-client/grafanahttp"
 	"strconv"
 )
 
@@ -37,7 +36,7 @@ type CurrentUserInterface interface {
 	UpdatePreference(*types.UserPreference) error
 }
 
-func newCurrentUser(client *http.RESTClient) CurrentUserInterface {
+func newCurrentUser(client *grafanahttp.RESTClient) CurrentUserInterface {
 	return &currentUser{
 		client: client,
 	}
@@ -45,7 +44,7 @@ func newCurrentUser(client *http.RESTClient) CurrentUserInterface {
 
 type currentUser struct {
 	CurrentUserInterface
-	client *http.RESTClient
+	client *grafanahttp.RESTClient
 }
 
 func (c *currentUser) Get() (*types.UserProfile, error) {

@@ -14,10 +14,10 @@
 package api
 
 import (
+	"github.com/nexucis/grafana-go-client/grafanahttp"
 	"strconv"
 
 	"github.com/nexucis/grafana-go-client/api/types"
-	"github.com/nexucis/grafana-go-client/http"
 )
 
 const keyAPI = "/api/auth/keys"
@@ -28,7 +28,7 @@ type KeyInterface interface {
 	Delete(int64) error
 }
 
-func newKey(client *http.RESTClient) KeyInterface {
+func newKey(client *grafanahttp.RESTClient) KeyInterface {
 	return &key{
 		client: client,
 	}
@@ -36,7 +36,7 @@ func newKey(client *http.RESTClient) KeyInterface {
 
 type key struct {
 	KeyInterface
-	client *http.RESTClient
+	client *grafanahttp.RESTClient
 }
 
 func (c *key) Get() ([]*types.GetAPIKeyResponse, error) {

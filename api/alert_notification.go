@@ -15,8 +15,7 @@ package api
 
 import (
 	"github.com/nexucis/grafana-go-client/api/types"
-	"github.com/nexucis/grafana-go-client/http"
-
+	"github.com/nexucis/grafana-go-client/grafanahttp"
 	"strconv"
 )
 
@@ -31,7 +30,7 @@ type AlertNotificationInterface interface {
 	Delete(int64) error
 }
 
-func newAlertNotification(client *http.RESTClient) AlertNotificationInterface {
+func newAlertNotification(client *grafanahttp.RESTClient) AlertNotificationInterface {
 	return &alertNotification{
 		client: client,
 	}
@@ -39,7 +38,7 @@ func newAlertNotification(client *http.RESTClient) AlertNotificationInterface {
 
 type alertNotification struct {
 	AlertNotificationInterface
-	client *http.RESTClient
+	client *grafanahttp.RESTClient
 }
 
 func (c *alertNotification) Create(body *types.CreateAlertNotification) (*types.ResponseAlertNotification, error) {

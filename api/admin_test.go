@@ -14,10 +14,10 @@
 package api
 
 import (
+	"github.com/nexucis/grafana-go-client/grafanahttp"
 	"testing"
 
 	"github.com/nexucis/grafana-go-client/api/types"
-	"github.com/nexucis/grafana-go-client/http"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -73,8 +73,8 @@ func TestAdmin_CreateUserError(t *testing.T) {
 	// if we recreate the same user, it should return an error
 	_, err = admin.CreateUser(user)
 	assert.NotNil(t, err)
-	assert.Equal(t, 500, err.(*http.RequestError).StatusCode)
-	assert.Equal(t, "failed to create user", err.(*http.RequestError).Message)
+	assert.Equal(t, 500, err.(*grafanahttp.RequestError).StatusCode)
+	assert.Equal(t, "failed to create user", err.(*grafanahttp.RequestError).Message)
 
 	removeGlobalUser(t, response.ID)
 }

@@ -15,8 +15,7 @@ package api
 
 import (
 	"github.com/nexucis/grafana-go-client/api/types"
-	"github.com/nexucis/grafana-go-client/http"
-
+	"github.com/nexucis/grafana-go-client/grafanahttp"
 	"strconv"
 )
 
@@ -41,7 +40,7 @@ type DashboardInterface interface {
 	UpdatePermissions(int64, []*types.DashboardAclUpdateItem) error
 }
 
-func newDashboard(client *http.RESTClient) DashboardInterface {
+func newDashboard(client *grafanahttp.RESTClient) DashboardInterface {
 	return &dashboard{
 		client: client,
 	}
@@ -49,7 +48,7 @@ func newDashboard(client *http.RESTClient) DashboardInterface {
 
 type dashboard struct {
 	DashboardInterface
-	client *http.RESTClient
+	client *grafanahttp.RESTClient
 }
 
 func (c *dashboard) GetByUID(string) {

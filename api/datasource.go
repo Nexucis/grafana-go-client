@@ -15,8 +15,7 @@ package api
 
 import (
 	"github.com/nexucis/grafana-go-client/api/types"
-	"github.com/nexucis/grafana-go-client/http"
-
+	"github.com/nexucis/grafana-go-client/grafanahttp"
 	"strconv"
 )
 
@@ -33,7 +32,7 @@ type DataSourceInterface interface {
 	GetIDByName(string) (int64, error)
 }
 
-func newDataSource(client *http.RESTClient) DataSourceInterface {
+func newDataSource(client *grafanahttp.RESTClient) DataSourceInterface {
 	return &dataSource{
 		client: client,
 	}
@@ -41,7 +40,7 @@ func newDataSource(client *http.RESTClient) DataSourceInterface {
 
 type dataSource struct {
 	DataSourceInterface
-	client *http.RESTClient
+	client *grafanahttp.RESTClient
 }
 
 func (c *dataSource) Get() ([]*types.DataSource, error) {

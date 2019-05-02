@@ -15,22 +15,21 @@ package api
 
 import (
 	"github.com/nexucis/grafana-go-client/api/types"
-	"github.com/nexucis/grafana-go-client/http"
-
+	"github.com/nexucis/grafana-go-client/grafanahttp"
 	"strconv"
 )
 
 const alertAPI = "/api/alerts"
 
 type AlertInterface interface {
-	Get(*QueryParamAlert) ([]*types.ResponseGetAlert, error)
+	Get(QueryParamAlert) ([]*types.ResponseGetAlert, error)
 	GetByID(int64) (*types.ResponseGetAlert, error)
 	GetStatesForDashboard(int64) (*types.ResponseGetStatesForDashboard, error)
 	CreateTest(*types.PostAlertTest) (*types.ResponsePostAlertTest, error)
 	PauseAlert(int64, bool) error
 }
 
-func newAlert(client *http.RESTClient) AlertInterface {
+func newAlert(client *grafanahttp.RESTClient) AlertInterface {
 	return &alert{
 		client: client,
 	}
@@ -38,16 +37,14 @@ func newAlert(client *http.RESTClient) AlertInterface {
 
 type alert struct {
 	AlertInterface
-	client *http.RESTClient
+	client *grafanahttp.RESTClient
 }
 
-func (c *alert) Get(query *QueryParamAlert) ([]*types.ResponseGetAlert, error) {
+func (c *alert) Get(query QueryParamAlert) ([]*types.ResponseGetAlert, error) {
 	var response []*types.ResponseGetAlert
-	request := c.client.Get(alertAPI)
-
-	setQueryParamAlert(request, query)
-
-	err := request.Do().
+	err := c.client.Get(alertAPI).
+		Query(&query).
+		Do().
 		SaveAsObj(&response)
 
 	return response, err
@@ -92,46 +89,4 @@ func (c *alert) PauseAlert(alertID int64, paused bool) error {
 		Body(body).
 		Do().
 		Error()
-}
-
-func setQueryParamAlert(request *http.Request, query *QueryParamAlert) {
-	if query.panelId > 0 {
-		request.AddQueryParam("panelId", strconv.FormatInt(query.panelId, 10))
-	}
-
-	if len(query.dashboardQuery) > 0 {
-		request.AddQueryParam("dashboardQuery", query.dashboardQuery)
-	}
-
-	if len(query.query) > 0 {
-		request.AddQueryParam("query", query.query)
-	}
-
-	if query.limit > 0 {
-		request.AddQueryParam("limit", strconv.FormatInt(query.limit, 10))
-	}
-
-	if query.states != nil {
-		for _, state := range query.states {
-			request.AddQueryParam("state", string(state))
-		}
-	}
-
-	if query.dashboardIds != nil {
-		for _, dashboardId := range query.dashboardIds {
-			request.AddQueryParam("dashboardId", strconv.FormatInt(dashboardId, 10))
-		}
-	}
-
-	if query.folderIds != nil {
-		for _, folderId := range query.folderIds {
-			request.AddQueryParam("folderId", strconv.FormatInt(folderId, 10))
-		}
-	}
-
-	if query.states != nil {
-		for _, dashboardTag := range query.dashboardTags {
-			request.AddQueryParam("dashboardTag", dashboardTag)
-		}
-	}
 }

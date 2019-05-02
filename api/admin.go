@@ -14,10 +14,10 @@
 package api
 
 import (
+	"github.com/nexucis/grafana-go-client/grafanahttp"
 	"strconv"
 
 	"github.com/nexucis/grafana-go-client/api/types"
-	"github.com/nexucis/grafana-go-client/http"
 )
 
 const adminAPI = "/api/admin"
@@ -34,7 +34,7 @@ type AdminInterface interface {
 	PauseAllAlerts(bool) (*types.PauseAllAlertsResponse, error)
 }
 
-func newAdmin(client *http.RESTClient) AdminInterface {
+func newAdmin(client *grafanahttp.RESTClient) AdminInterface {
 	return &admin{
 		client: client,
 	}
@@ -42,7 +42,7 @@ func newAdmin(client *http.RESTClient) AdminInterface {
 
 type admin struct {
 	AdminInterface
-	client *http.RESTClient
+	client *grafanahttp.RESTClient
 }
 
 func (c *admin) GetSettings() (*types.AdminSettings, error) {

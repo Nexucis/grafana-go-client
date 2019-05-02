@@ -13,262 +13,292 @@
 
 package api
 
-import "github.com/nexucis/grafana-go-client/api/types"
+import (
+	"github.com/nexucis/grafana-go-client/api/types"
+	"github.com/nexucis/grafana-go-client/grafanahttp"
+	"net/url"
+	"strconv"
+)
 
 type QueryParamAnnotation struct {
+	grafanahttp.QueryInterface
 	// epoch datetime in milliseconds. Optional.
-	from int64
+	From int64
 	// epoch datetime in milliseconds. Optional.
-	to int64
+	To int64
 	// number. Optional. Find annotations created by a specific user
-	userId int64
+	UserID int64
 	// number. Optional. Find annotations for a specified alert.
-	alertId int64
+	AlertID int64
 	// number. Optional. Find annotations that are scoped to a specific dashboard
-	dashboardId int64
+	DashboardID int64
 	// number. Optional. Find annotations that are scoped to a specific panel
-	panelId int64
+	PanelID int64
 	// string. Optional. Use this to filter global annotations. Global annotations are annotations from an annotation data source that are not connected specifically to a dashboard or panel
-	tags []string
+	Tags []string
 	// string. Optional. alert|annotation Return alerts or user created annotations
-	annotationType types.AnnotationQueryType
+	AnnotationType types.AnnotationQueryType
 	// number. Optional - default is 100. Max limit for results returned.
-	limit int64
+	Limit int64
 }
 
-func (q *QueryParamAnnotation) From(from int64) *QueryParamAnnotation {
-	q.from = from
-	return q
-}
+func (q *QueryParamAnnotation) GetValues() url.Values {
+	values := make(url.Values)
 
-func (q *QueryParamAnnotation) To(to int64) *QueryParamAnnotation {
-	q.to = to
-	return q
-}
+	if q.From > 0 {
+		values["from"] = append(values["from"], strconv.FormatInt(q.From, 10))
+	}
 
-func (q *QueryParamAnnotation) AlertID(alertID int64) *QueryParamAnnotation {
-	q.alertId = alertID
-	return q
-}
+	if q.To > 0 {
+		values["to"] = append(values["to"], strconv.FormatInt(q.To, 10))
+	}
 
-func (q *QueryParamAnnotation) UserID(userID int64) *QueryParamAnnotation {
-	q.userId = userID
-	return q
-}
+	if q.UserID > 0 {
+		values["userId"] = append(values["userId"], strconv.FormatInt(q.UserID, 10))
+	}
 
-func (q *QueryParamAnnotation) DashboardID(dashboardID int64) *QueryParamAnnotation {
-	q.dashboardId = dashboardID
-	return q
-}
+	if q.AlertID > 0 {
+		values["alertId"] = append(values["alertId"], strconv.FormatInt(q.AlertID, 10))
+	}
 
-func (q *QueryParamAnnotation) PanelID(panelID int64) *QueryParamAnnotation {
-	q.panelId = panelID
-	return q
-}
+	if q.DashboardID > 0 {
+		values["dashboardId"] = append(values["dashboardId"], strconv.FormatInt(q.DashboardID, 10))
+	}
 
-func (q *QueryParamAnnotation) AddTag(tag string) *QueryParamAnnotation {
-	q.tags = append(q.tags, tag)
-	return q
-}
+	if q.PanelID > 0 {
+		values["panelId"] = append(values["panelId"], strconv.FormatInt(q.PanelID, 10))
+	}
 
-func (q *QueryParamAnnotation) Type(queryType types.AnnotationQueryType) *QueryParamAnnotation {
-	q.annotationType = queryType
-	return q
-}
+	if q.Limit > 0 {
+		values["limit"] = append(values["limit"], strconv.FormatInt(q.Limit, 10))
+	}
 
-func (q *QueryParamAnnotation) Limit(limit int64) *QueryParamAnnotation {
-	q.limit = limit
-	return q
+	if len(q.AnnotationType) > 0 {
+		values["type"] = append(values["type"], string(q.AnnotationType))
+	}
+
+	if len(q.Tags) > 0 {
+		values["tags"] = append(values["tags"], q.Tags...)
+	}
+
+	return values
 }
 
 type QueryParamAlert struct {
+	grafanahttp.QueryInterface
 	// Limit response to alert for a specified panel on a dashboard.
-	panelId int64
+	PanelID int64
 	// Limit response to X number of alerts.
-	limit int64
+	Limit int64
 	// Limit response to alerts having a name like this value
-	query string
+	Query string
 	// Limit response to alerts having a dashboard name like this value.
-	dashboardQuery string
+	DashboardQuery string
 	// Return alerts with one or more of the alert states. You can specify multiple state
-	states []types.AlertState
+	States []types.AlertState
 	// Limit response to alerts in specified dashboard(s). You can specify multiple dashboards
-	dashboardIds []int64
+	DashboardIDs []int64
 	// Limit response to alerts of dashboards in specified folder(s).You can specify multiple folders
-	folderIds []int64
+	FolderIDs []int64
 	// Limit response to alerts of dashboards with specified tags. To do an “AND” filtering with multiple tags, specify the tags parameter multiple times.
-	dashboardTags []string
+	DashboardTags []string
 }
 
-func (q *QueryParamAlert) Query(query string) *QueryParamAlert {
-	q.query = query
-	return q
-}
+func (q *QueryParamAlert) GetValues() url.Values {
+	values := make(url.Values)
+	if q.PanelID > 0 {
+		values["panelId"] = append(values["panelId"], strconv.FormatInt(q.PanelID, 10))
+	}
 
-func (q *QueryParamAlert) PanelID(panelID int64) *QueryParamAlert {
-	q.panelId = panelID
-	return q
-}
+	if len(q.DashboardQuery) > 0 {
+		values["dashboardQuery"] = append(values["dashboardQuery"], q.DashboardQuery)
+	}
 
-func (q *QueryParamAlert) Limit(limit int64) *QueryParamAlert {
-	q.limit = limit
-	return q
-}
+	if len(q.Query) > 0 {
+		values["query"] = append(values["query"], q.Query)
+	}
 
-func (q *QueryParamAlert) AddAlertState(state types.AlertState) *QueryParamAlert {
-	q.states = append(q.states, state)
-	return q
-}
+	if q.Limit > 0 {
+		values["limit"] = append(values["limit"], strconv.FormatInt(q.Limit, 10))
+	}
 
-func (q *QueryParamAlert) AddDashboardTag(dashboardTag string) *QueryParamAlert {
-	q.dashboardTags = append(q.dashboardTags, dashboardTag)
-	return q
-}
+	if len(q.States) > 0 {
+		for _, state := range q.States {
+			values["state"] = append(values["state"], string(state))
+		}
+	}
 
-func (q *QueryParamAlert) AddDashboardID(dashboardID int64) *QueryParamAlert {
-	q.dashboardIds = append(q.dashboardIds, dashboardID)
-	return q
-}
+	if len(q.DashboardIDs) > 0 {
+		for _, dashboardId := range q.DashboardIDs {
+			values["dashboardId"] = append(values["dashboardId"], strconv.FormatInt(dashboardId, 10))
+		}
+	}
 
-func (q *QueryParamAlert) AddFolderID(folderId int64) *QueryParamAlert {
-	q.folderIds = append(q.folderIds, folderId)
-	return q
+	if len(q.FolderIDs) > 0 {
+		for _, folderId := range q.FolderIDs {
+			values["folderId"] = append(values["folderId"], strconv.FormatInt(folderId, 10))
+		}
+	}
+
+	if len(q.DashboardTags) > 0 {
+		values["dashboardTag"] = append(values["dashboardTag"], q.DashboardTags...)
+	}
+
+	return values
 }
 
 type QueryParameterUsers struct {
+	grafanahttp.QueryInterface
 	// The number of user per page
-	perPage int64
+	PerPage int64
 	// The number of the page querying
-	page int64
+	Page int64
 	// Limit response to user having a similar name, login or email like this value.
-	query string
+	Query string
 }
 
-func (q *QueryParameterUsers) Query(query string) *QueryParameterUsers {
-	q.query = query
-	return q
-}
+func (q *QueryParameterUsers) GetValues() url.Values {
+	values := make(url.Values)
 
-func (q *QueryParameterUsers) PerPage(perPage int64) *QueryParameterUsers {
-	q.perPage = perPage
-	return q
-}
+	if q.Page > 0 {
+		values["page"] = append(values["page"], strconv.FormatInt(q.Page, 10))
+	}
 
-func (q *QueryParameterUsers) Page(page int64) *QueryParameterUsers {
-	q.page = page
-	return q
+	if q.PerPage > 0 {
+		values["perpage"] = append(values["perpage"], strconv.FormatInt(q.PerPage, 10))
+	}
+
+	if len(q.Query) > 0 {
+		values["query"] = append(values["query"], q.Query)
+	}
+
+	return values
 }
 
 type QueryParameterTeams struct {
-	perPage int64
-	page    int64
-	query   string
-	name    string
+	grafanahttp.QueryInterface
+	PerPage int64
+	Page    int64
+	Query   string
+	Name    string
 }
 
-func (q *QueryParameterTeams) Query(query string) *QueryParameterTeams {
-	q.query = query
-	return q
-}
+func (q *QueryParameterTeams) GetValues() url.Values {
+	values := make(url.Values)
 
-func (q *QueryParameterTeams) Name(name string) *QueryParameterTeams {
-	q.name = name
-	return q
-}
+	if q.PerPage > 0 {
+		values["perpage"] = append(values["perpage"], strconv.FormatInt(q.PerPage, 10))
+	}
 
-func (q *QueryParameterTeams) PerPage(perPage int64) *QueryParameterTeams {
-	q.perPage = perPage
-	return q
-}
+	if len(q.Name) > 0 {
+		values["name"] = append(values["name"], q.Name)
+	}
 
-func (q *QueryParameterTeams) Page(page int64) *QueryParameterTeams {
-	q.page = page
-	return q
+	if len(q.Query) > 0 {
+		values["query"] = append(values["query"], q.Query)
+	}
+
+	if q.Page > 0 {
+		values["page"] = append(values["page"], strconv.FormatInt(q.Page, 10))
+	}
+
+	return values
 }
 
 type QueryParameterOrgs struct {
-	name  string
-	query string
+	grafanahttp.QueryInterface
+	Name  string
+	Query string
 }
 
-func (q *QueryParameterOrgs) Query(query string) *QueryParameterOrgs {
-	q.query = query
-	return q
-}
+func (q *QueryParameterOrgs) GetValues() url.Values {
+	values := make(url.Values)
 
-func (q *QueryParameterOrgs) Name(name string) *QueryParameterOrgs {
-	q.name = name
-	return q
+	if len(q.Query) > 0 {
+		values["query"] = append(values["query"], q.Query)
+	}
+
+	if len(q.Name) > 0 {
+		values["name"] = append(values["name"], q.Name)
+	}
+
+	return values
 }
 
 type QueryParameterPlaylist struct {
-	limit int64
-	query string
+	grafanahttp.QueryInterface
+	Limit int64
+	Query string
 }
 
-func (q *QueryParameterPlaylist) Query(query string) *QueryParameterPlaylist {
-	q.query = query
-	return q
-}
+func (q *QueryParameterPlaylist) GetValues() url.Values {
+	values := make(url.Values)
 
-func (q *QueryParameterPlaylist) Limit(limit int64) *QueryParameterPlaylist {
-	q.limit = limit
-	return q
+	if len(q.Query) > 0 {
+		values["query"] = append(values["query"], q.Query)
+	}
+
+	if q.Limit > 0 {
+		values["limit"] = append(values["limit"], strconv.FormatInt(q.Limit, 10))
+	}
+
+	return values
 }
 
 type QueryParameterSearch struct {
+	grafanahttp.QueryInterface
 	// search by title
-	query string
+	Query string
 	// List of tags to search
-	tags []string
+	Tags []string
 	//  Type to search for, dash-folder or dash-db
-	searchType types.SearchType
+	SearchType types.SearchType
 	// List of dashboard id’s to search
-	dashboardIds []int64
+	DashboardIDs []int64
 	// List of folder id’s to search in for dashboards
-	folderIds []int64
+	FolderIDs []int64
 	// Flag indicating if only starred Dashboards should be returned
-	starred    bool
-	limit      int
-	permission types.PermissionTypeAsString
+	Starred    bool
+	Limit      int
+	Permission types.PermissionTypeAsString
 }
 
-func (q *QueryParameterSearch) Query(query string) *QueryParameterSearch {
-	q.query = query
-	return q
-}
+func (q *QueryParameterSearch) GetValues() url.Values {
+	values := make(url.Values)
 
-func (q *QueryParameterSearch) Tag(tag string) *QueryParameterSearch {
-	q.tags = append(q.tags, tag)
-	return q
-}
+	if len(q.Query) > 0 {
+		values["query"] = append(values["query"], q.Query)
+	}
 
-func (q *QueryParameterSearch) Type(queryType types.SearchType) *QueryParameterSearch {
-	q.searchType = queryType
-	return q
-}
+	if q.Tags != nil {
+		values["tag"] = append(values["tag"], q.Tags...)
+	}
 
-func (q *QueryParameterSearch) DashboardIDS(id int64) *QueryParameterSearch {
-	q.dashboardIds = append(q.dashboardIds, id)
-	return q
-}
+	if len(q.SearchType) > 0 {
+		values["type"] = append(values["type"], string(q.SearchType))
+	}
 
-func (q *QueryParameterSearch) FolderIDS(id int64) *QueryParameterSearch {
-	q.folderIds = append(q.folderIds, id)
-	return q
-}
+	if len(q.DashboardIDs) > 0 {
+		for _, id := range q.DashboardIDs {
+			values["dashboardIds"] = append(values["dashboardIds"], strconv.FormatInt(id, 10))
+		}
+	}
 
-func (q *QueryParameterSearch) Starred(starred bool) *QueryParameterSearch {
-	q.starred = starred
-	return q
-}
+	if len(q.FolderIDs) > 0 {
+		for _, id := range q.FolderIDs {
+			values["folderIds"] = append(values["folderIds"], strconv.FormatInt(id, 10))
+		}
+	}
 
-func (q *QueryParameterSearch) Limit(limit int) *QueryParameterSearch {
-	q.limit = limit
-	return q
-}
+	values["starred"] = append(values["starred"], strconv.FormatBool(q.Starred))
 
-func (q *QueryParameterSearch) Permission(permission types.PermissionTypeAsString) *QueryParameterSearch {
-	q.permission = permission
-	return q
+	if q.Limit > 0 {
+		values["limit"] = append(values["limit"], strconv.Itoa(q.Limit))
+	}
+
+	if len(q.Permission) > 0 {
+		values["permission"] = append(values["permission"], string(q.Permission))
+	}
+
+	return values
 }

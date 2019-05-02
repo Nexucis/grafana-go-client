@@ -15,7 +15,7 @@ package api
 
 import (
 	"github.com/nexucis/grafana-go-client/api/types"
-	"github.com/nexucis/grafana-go-client/http"
+	"github.com/nexucis/grafana-go-client/grafanahttp"
 )
 
 const snapshotAPI = "/api/snapshots"
@@ -29,7 +29,7 @@ type SnapshotInterface interface {
 	DeleteByDeleteKey(string) error
 }
 
-func newSnapshot(client *http.RESTClient) SnapshotInterface {
+func newSnapshot(client *grafanahttp.RESTClient) SnapshotInterface {
 	return &snapshot{
 		client: client,
 	}
@@ -37,7 +37,7 @@ func newSnapshot(client *http.RESTClient) SnapshotInterface {
 
 type snapshot struct {
 	SnapshotInterface
-	client *http.RESTClient
+	client *grafanahttp.RESTClient
 }
 
 func (c *snapshot) Create(snapshot *types.DashboardSnapshot) (*types.CreateSnaphostResponse, error) {

@@ -15,8 +15,7 @@ package api
 
 import (
 	"github.com/nexucis/grafana-go-client/api/types"
-	"github.com/nexucis/grafana-go-client/http"
-
+	"github.com/nexucis/grafana-go-client/grafanahttp"
 	"strconv"
 )
 
@@ -33,7 +32,7 @@ type FolderInterface interface {
 	UpdatePermissions(string, []*types.DashboardAclUpdateItem) error
 }
 
-func newFolder(client *http.RESTClient) FolderInterface {
+func newFolder(client *grafanahttp.RESTClient) FolderInterface {
 	return &folder{
 		client: client,
 	}
@@ -41,7 +40,7 @@ func newFolder(client *http.RESTClient) FolderInterface {
 
 type folder struct {
 	FolderInterface
-	client *http.RESTClient
+	client *grafanahttp.RESTClient
 }
 
 func (c *folder) Get(limit int) ([]*types.SimpleFolder, error) {
