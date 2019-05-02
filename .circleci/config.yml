@@ -42,8 +42,8 @@ jobs:
     working_directory: /go/src/github.com/nexucis/grafana-go-client
     steps:
       - checkout
-      - run: go get -u gopkg.in/alecthomas/gometalinter.v2
-      - run: gometalinter.v2 --install
+      - run: curl -sfL https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | sh -s v1.16.0
+      - run: sudo cp ./bin/golangci-lint $GOPATH/bin/
       - run: make checkstyle
 
 workflows:
