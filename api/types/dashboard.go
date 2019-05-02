@@ -56,11 +56,6 @@ type DashboardVersion struct {
 	Data          interface{} `json:"data"`
 }
 
-type DashboardVersionMeta struct {
-	DashboardVersion
-	CreatedBy string `json:"createdBy"`
-}
-
 type DashboardMeta struct {
 	IsStarred   bool      `json:"isStarred,omitempty"`
 	IsHome      bool      `json:"isHome,omitempty"`

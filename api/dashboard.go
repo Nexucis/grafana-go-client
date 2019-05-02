@@ -34,7 +34,7 @@ type DashboardInterface interface {
 	GetTags() ([]*types.DashboardTags, error)
 	Import()
 	GetVersion(int64) ([]*types.DashboardVersion, error)
-	GetVersionByID(int64, int) (*types.DashboardVersionMeta, error)
+	GetVersionByID(int64, int) (*types.DashboardVersion, error)
 	RestoreVersion(int64, int) (*types.SimpleDashboard, error)
 	GetPermissions(int64) ([]*types.FolderOrDashboardPermission, error)
 	UpdatePermissions(int64, []*types.DashboardACLUpdateItem) error
@@ -112,8 +112,8 @@ func (c *dashboard) GetVersion(dashboardID int64) ([]*types.DashboardVersion, er
 	return result, err
 }
 
-func (c *dashboard) GetVersionByID(dashboardID int64, versionID int) (*types.DashboardVersionMeta, error) {
-	result := &types.DashboardVersionMeta{}
+func (c *dashboard) GetVersionByID(dashboardID int64, versionID int) (*types.DashboardVersion, error) {
+	result := &types.DashboardVersion{}
 	err := c.client.Get(dashboardAPI).
 		SetSubPath("/id/:dashboardId/versions/:id").
 		SetPathParam("dashboardId", strconv.FormatInt(dashboardID, 10)).
