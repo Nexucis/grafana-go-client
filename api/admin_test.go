@@ -14,10 +14,10 @@
 package api
 
 import (
-	"github.com/nexucis/grafana-go-client/grafanahttp"
 	"testing"
 
 	"github.com/nexucis/grafana-go-client/api/types"
+	"github.com/nexucis/grafana-go-client/grafanahttp"
 	"github.com/stretchr/testify/assert"
 )
 

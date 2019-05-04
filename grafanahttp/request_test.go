@@ -15,9 +15,10 @@ package grafanahttp
 
 import (
 	"fmt"
-	"github.com/stretchr/testify/assert"
 	"net/url"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestRequest_BuildSubPath(t *testing.T) {

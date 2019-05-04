@@ -14,10 +14,10 @@
 package api
 
 import (
-	"github.com/nexucis/grafana-go-client/grafanahttp"
 	"strconv"
 
 	"github.com/nexucis/grafana-go-client/api/types"
+	"github.com/nexucis/grafana-go-client/grafanahttp"
 )
 
 const adminAPI = "/api/admin"

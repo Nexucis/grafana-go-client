@@ -15,9 +15,10 @@ package api
 
 import (
 	"flag"
-	"github.com/nexucis/grafana-go-client/grafanahttp"
 	"os"
 	"testing"
+
+	"github.com/nexucis/grafana-go-client/grafanahttp"
 )
 
 var (

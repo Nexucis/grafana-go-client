@@ -14,10 +14,11 @@
 package api
 
 import (
-	"github.com/nexucis/grafana-go-client/api/types"
-	"github.com/nexucis/grafana-go-client/grafanahttp"
 	"net/url"
 	"strconv"
+
+	"github.com/nexucis/grafana-go-client/api/types"
+	"github.com/nexucis/grafana-go-client/grafanahttp"
 )
 
 type QueryParamAnnotation struct {

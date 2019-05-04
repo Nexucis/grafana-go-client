@@ -14,9 +14,10 @@
 package api
 
 import (
+	"strconv"
+
 	"github.com/nexucis/grafana-go-client/api/types"
 	"github.com/nexucis/grafana-go-client/grafanahttp"
-	"strconv"
 )
 
 const folderAPI = "/api/folders"
