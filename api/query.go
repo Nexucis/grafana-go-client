@@ -178,10 +178,14 @@ func (q *QueryParameterUsers) GetValues() url.Values {
 
 type QueryParameterTeams struct {
 	grafanahttp.QueryInterface
+	// The number of team per page
 	PerPage int64
-	Page    int64
-	Query   string
-	Name    string
+	// The number of the page querying
+	Page int64
+	// Limit response to team having a name like this value.
+	Query string
+	// Limit response to the team having a name that matches exactly this value
+	Name string
 }
 
 func (q *QueryParameterTeams) GetValues() url.Values {
@@ -228,7 +232,9 @@ func (q *QueryParameterOrgs) GetValues() url.Values {
 
 type QueryParameterPlaylist struct {
 	grafanahttp.QueryInterface
+	// Limit response to X number of playlist.
 	Limit int64
+	// Limit response to playlist having a name like this value.
 	Query string
 }
 
