@@ -63,19 +63,19 @@ package main
 import (
 
 	"github.com/golang/glog"
-	"github.com/nexucis/grafana-go-client/http"
+	"github.com/nexucis/grafana-go-client/grafanahttp"
 	"github.com/nexucis/grafana-go-client/api"
 )
 
 func main() {
-	rest, err := http.NewWithUrl("http://admin:admin@localhost:3000")
+	rest, err := grafanahttp.NewWithURL("http://admin:admin@localhost:3000")
 	if err != nil {
 		glog.Fatal(err)
 	}
 	
 	client := api.NewWithClient(rest)
 	
-	user,err := client.V1().CurrentUser().Get()
+	user,err := client.CurrentUser().Get()
 	
 	// do something with the information get from the api
 }
@@ -100,10 +100,10 @@ This command only run the unit test which basically only the test in the http pa
 If you want to launch the unit test, you need to have a local grafana instance which must be accessible through the url http://localhost:3000. A simply way to launch it, is to start the [corresponding container](https://hub.docker.com/r/grafana/grafana/) : 
 
 ```bash
-docker run -d --name=grafana -p 3000:3000 grafana/grafana:5.3.2
+docker run -d --name=grafana -p 3000:3000 grafana/grafana:5.4.3
 ```
 
-Once ElasticSearch is up, you can run the following command :
+Once Grafana is up, you can run the following command :
 
 ```bash
 make integration-test

@@ -1,20 +1,15 @@
 GO                         ?= go
-GOMETA                     ?= gometalinter.v2
+GOCI                       ?= golangci-lint
 GOFMT                      ?= $(GO)fmt
 pkgs                        = $$($(GO) list ./... | grep -v vendor)
 
 
-all: install-dep test
-
-.PHONY: install-dep
-install-dep:
-	@echo ">> install dependency"
-	dep ensure
+all: build test
 
 build:
 	@echo ">> build all package"
-	$(GO) build github.com/nexucis/grafana-go-client/http/...
-	$(GO) build github.com/nexucis/grafana-go-client/api/...
+	GO111MODULE=on $(GO) build -mod vendor github.com/nexucis/grafana-go-client/grafanahttp/...
+	GO111MODULE=on $(GO) build -mod vendor github.com/nexucis/grafana-go-client/api/...
 
 .PHONY: verify
 verify: checkformat checkstyle
@@ -22,7 +17,7 @@ verify: checkformat checkstyle
 .PHONY: checkstyle
 checkstyle:
 	@echo ">> checking code style"
-	$(GOMETA) ./... --deadline=120s --vendor
+	$(GOCI) run -E goconst -E unconvert -E gosec -E golint -E unparam -E maligned -E gocyclo
 
 .PHONY: checkformat
 checkformat:
@@ -32,14 +27,14 @@ checkformat:
 .PHONY: fmt
 fmt:
 	@echo ">> format code"
-	$(GO) fmt $(pkgs)
+	GO111MODULE=on $(GO) fmt $(pkgs)
 
 .PHONY: test
 test:
 	@echo ">> running all tests"
-	$(GO) test -v $(pkgs)
+	GO111MODULE=on $(GO) test -mod vendor -v $(pkgs)
 
 .PHONY: integration-test
 integration-test:
 	@echo ">> running all tests"
-	$(GO) test ./api/v1 -integration
+	GO111MODULE=on $(GO) test -mod vendor ./api/v1 -integration

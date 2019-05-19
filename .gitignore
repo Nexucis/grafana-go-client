@@ -1,6 +1,3 @@
 # IDEA
 .idea/
 *.iml
-
-# Go
-vendor/

@@ -5,7 +5,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/golang:1.10
+      - image: circleci/golang:1.12.4
 
     #### TEMPLATE_NOTE: go expects specific checkout path representing url
     #### expecting it in the form of
@@ -14,41 +14,21 @@ jobs:
     working_directory: /go/src/github.com/nexucis/grafana-go-client
     steps:
       - checkout
-      - restore_cache:
-          keys:
-          - dependency-cache-{{ checksum "./Gopkg.toml" }}
-          - dependency-cache-
-      - run: make install-dep
       - run: make build
-
-      - save_cache:
-          key: dependency-cache-{{ checksum "./Gopkg.toml" }}
-          paths:
-            - ./vendor
 
   test:
     docker:
-      - image: circleci/golang:1.10
-      - image: grafana/grafana:5.3.2
+      - image: circleci/golang:1.12.4
+      - image: grafana/grafana:5.4.3
 
     working_directory: /go/src/github.com/nexucis/grafana-go-client
     steps:
       - checkout
-      - restore_cache:
-          keys:
-          - dependency-cache-{{ checksum "./Gopkg.toml" }}
-          - dependency-cache-
-      - run: make install-dep
       - run: .circleci/go-test-ci.sh
-
-      - save_cache:
-          key: dependency-cache-{{ checksum "./Gopkg.toml" }}
-          paths:
-            - ./vendor
 
   checkformat:
     docker:
-      - image: circleci/golang:1.10
+      - image: circleci/golang:1.12.4
 
     working_directory: /go/src/github.com/nexucis/grafana-go-client
     steps:
@@ -57,23 +37,14 @@ jobs:
 
   checkstyle:
     docker:
-      - image: circleci/golang:1.10
+      - image: circleci/golang:1.12.4
 
     working_directory: /go/src/github.com/nexucis/grafana-go-client
     steps:
       - checkout
-      - restore_cache:
-          keys:
-          - dependency-cache-{{ checksum "./Gopkg.toml" }}
-          - dependency-cache-
-      - run: go get -u gopkg.in/alecthomas/gometalinter.v2
-      - run: gometalinter.v2 --install
+      - run: curl -sfL https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | sh -s v1.16.0
+      - run: sudo cp ./bin/golangci-lint $GOPATH/bin/
       - run: make checkstyle
-
-      - save_cache:
-          key: dependency-cache-{{ checksum "./Gopkg.toml" }}
-          paths:
-            - ./vendor
 
 workflows:
   version: 2
@@ -83,9 +54,9 @@ workflows:
       - test:
           requires:
             - build
-     # - checkstyle:
-     #     requires:
-     #       - test
-     # - checkformat:
-     #     requires:
-     #       - test
+      - checkstyle:
+          requires:
+            - test
+      - checkformat:
+          requires:
+            - test
