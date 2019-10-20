@@ -13,7 +13,7 @@ A go client for the [Grafana API](http://docs.grafana.org/http_api/)
 6. [License](#license)
 
 ## Overview
-For the moment, the client only covers the Grafana API in the version 5. There is no guarantee that the client is compatible with previous Grafana version
+For the moment, the client only covers the Grafana API in the version 5. There is no guarantee that the client is compatible with previous or latest Grafana version.
 
 ### Versioning
 This project uses the following version rules: 
@@ -66,6 +66,12 @@ If you use [dep](https://golang.github.io/dep/) as dependency manager, you fire 
 
 ```bash
 dep ensure -add github.com/nexucis/grafana-go-client
+```
+
+If you are using go mod instead, you can perform the following command:
+
+```bash
+go get github.com/nexucis/grafana-go-client
 ```
 
 ## Quickstart
