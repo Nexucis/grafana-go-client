@@ -44,10 +44,6 @@ Here is an overview of what is done and what is going to be done
    - [x] Manipulate User as admin
 - [x] Team
 
-#### Retro compatibility
-- [ ] Grafana v4
-- [ ] Grafana v3 (maybe)
-
 ## Installation
 If you use [dep](https://golang.github.io/dep/) as dependency manager, you fire the following command:
 
