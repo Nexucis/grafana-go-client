@@ -5,7 +5,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/golang:1.12.4
+      - image: circleci/golang:1.13
 
     #### TEMPLATE_NOTE: go expects specific checkout path representing url
     #### expecting it in the form of
@@ -28,7 +28,7 @@ jobs:
 
   checkformat:
     docker:
-      - image: circleci/golang:1.12.4
+      - image: circleci/golang:1.13
 
     working_directory: /go/src/github.com/nexucis/grafana-go-client
     steps:
@@ -37,7 +37,7 @@ jobs:
 
   checkstyle:
     docker:
-      - image: circleci/golang:1.12.4
+      - image: circleci/golang:1.13
 
     working_directory: /go/src/github.com/nexucis/grafana-go-client
     steps:
