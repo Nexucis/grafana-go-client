@@ -8,8 +8,8 @@ all: build test
 
 build:
 	@echo ">> build all package"
-	GO111MODULE=on $(GO) build -mod vendor github.com/nexucis/grafana-go-client/grafanahttp/...
-	GO111MODULE=on $(GO) build -mod vendor github.com/nexucis/grafana-go-client/api/...
+	GO111MODULE=on $(GO) build github.com/nexucis/grafana-go-client/grafanahttp/...
+	GO111MODULE=on $(GO) build github.com/nexucis/grafana-go-client/api/...
 
 .PHONY: verify
 verify: checkformat checkstyle
@@ -32,9 +32,9 @@ fmt:
 .PHONY: test
 test:
 	@echo ">> running all tests"
-	GO111MODULE=on $(GO) test -mod vendor -v $(pkgs)
+	GO111MODULE=on $(GO) test -v $(pkgs)
 
 .PHONY: integration-test
 integration-test:
 	@echo ">> running all tests"
-	GO111MODULE=on $(GO) test -mod vendor ./api/v1 -integration
+	GO111MODULE=on $(GO) test ./api/v1 -integration
