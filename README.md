@@ -5,17 +5,34 @@ Grafana-go-client
 A go client for the [Grafana API](http://docs.grafana.org/http_api/)
 
 
-1. [Current Status](#current-status) 
+1. [Current Status](#overview) 
 2. [Installation](#installation)
 3. [Quickstart](#quickstart)
 4. [Contributions](#contributions)
 5. [Development](#development)
 6. [License](#license)
 
-## Current Status
-:warning: this project is still under development. You can already use it, but you can encounter some bugs or problems
-
+## Overview
 For the moment, the client only covers the Grafana API in the version 5. There is no guarantee that the client is compatible with previous Grafana version
+
+### Versioning
+This project uses the following version rules: 
+
+```
+X.Y.Z
+```
+
+Where : 
+* X is the major version of Grafana supported by this project
+* Y is the major version of this client. Be careful with this rule, you can have some breaking changes between two **Y** number. (even if usually it won't happen)
+* Z is the minor version of this client. It will be increased when there are some bug fixes.
+
+### Supported Version
+
+| Grafana Version | Support Branch  |
+| --------------- | --------------- |
+| >= 5.0, < 6.0   | master          |
+
 
 ### Roadmap
 Here is an overview of what is done and what is going to be done
